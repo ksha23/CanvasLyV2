@@ -1,12 +1,15 @@
 import { Router } from 'express';
 import passport from 'passport';
+const useragent = require('express-useragent');
 
 const router = Router();
 
 router.get(
   '/google',
   passport.authenticate('google', {
-    scope: ['profile', 'email'],
+    scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar'],
+    prompt: 'select_account',
+    accessType: 'offline',
   }),
 );
 
@@ -20,9 +23,27 @@ router.get(
   }),
   (req, res) => {
     const token = req.user.generateJWT();
-    res.cookie('x-auth-cookie', token);
+
+    const isReactNative = req.header('x-react-native') && useragent.parse(req.headers['user-agent']).isMobile;
+    if (isReactNative) {
+      res.send(token);
+      return;
+    }
+
+    // if not react native, set cookie and redirect to client
+    res.cookie('x-auth-cookie', token, {
+      maxAge: 1000 * 60 * 60 * 12, // 6 hours
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+    });
     res.redirect(clientUrl);
   },
 );
+
+router.get('/logout', (req, res) => {
+  req.logout();
+  res.clearCookie('x-auth-cookie');
+  res.send(false);
+});
 
 export default router;

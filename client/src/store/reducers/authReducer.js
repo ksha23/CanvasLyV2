@@ -12,7 +12,6 @@ import {
 } from '../types';
 
 const initialState = {
-  token: localStorage.getItem('token'),
   isAuthenticated: false,
   isLoading: false,
   me: null,
@@ -43,7 +42,6 @@ export default function (state = initialState, { type, payload }) {
         ...state,
         isAuthenticated: true,
         isLoading: false,
-        token: payload.token,
         me: payload.me,
         error: null,
       };
@@ -57,7 +55,6 @@ export default function (state = initialState, { type, payload }) {
         appLoaded: true,
       };
     case ME_FAIL:
-      localStorage.removeItem('token');
       return {
         ...state,
         isAuthenticated: false,
@@ -68,10 +65,8 @@ export default function (state = initialState, { type, payload }) {
       };
     case LOGOUT_SUCCESS:
     case LOGIN_WITH_EMAIL_FAIL:
-      localStorage.removeItem('token');
       return {
         ...state,
-        token: null,
         me: null,
         isAuthenticated: false,
         isLoading: false,

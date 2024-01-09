@@ -5,22 +5,35 @@ import https from 'https';
 import { readFileSync } from 'fs';
 import { resolve, join } from 'path';
 import passport from 'passport';
-import all_routes from 'express-list-endpoints';
-
+// import all_routes from 'express-list-endpoints';
 import routes from './routes';
-import { seedDb } from './utils/seed';
+// import { seedDb } from './utils/seed';
+import cors from 'cors';
+// for token refresh
+import refresh from 'passport-oauth2-refresh';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
-// Bodyparser Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use(passport.initialize());
 require('./services/jwtStrategy');
-require('./services/facebookStrategy');
 require('./services/googleStrategy');
-require('./services/localStrategy');
+
+// For local and facebook auth
+// require('./services/localStrategy');
+// require('./services/facebookStrategy');
+
+app.use(
+  cors({
+    origin: `http://localhost:3000`,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Add the necessary methods
+  }),
+);
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -37,24 +50,24 @@ mongoose
   })
   .then(() => {
     console.log('MongoDB Connected...');
-    seedDb();
+    // seedDb();
   })
   .catch((err) => console.log(err));
 
 // Use Routes
 app.use('/', routes);
+
+// Serve images
 app.use('/public/images', express.static(join(__dirname, '../public/images')));
 
 // Serve static assets if in production
 if (isProduction) {
   // Set static folder
-  // nginx will handle this
-  // app.use(express.static(join(__dirname, '../../client/build')));
-
-  // app.get('*', (req, res) => {
-  //   // index is in /server/src so 2 folders up
-  //   res.sendFile(resolve(__dirname, '../..', 'client', 'build', 'index.html')); 
-  // });
+  app.use(express.static(join(__dirname, '../../client/build')));
+  app.get('*', (req, res) => {
+    // index is in /server/src so 2 folders up
+    res.sendFile(resolve(__dirname, '../..', 'client', 'build', 'index.html'));
+  });
 
   const port = process.env.PORT || 80;
   app.listen(port, () => console.log(`Server started on port ${port}`));
@@ -65,6 +78,8 @@ if (isProduction) {
     key: readFileSync(resolve(__dirname, '../security/cert.key')),
     cert: readFileSync(resolve(__dirname, '../security/cert.pem')),
   };
+
+  // app.listen(port, () => console.log(`Server started on port ${port}`));
 
   const server = https.createServer(httpsOptions, app).listen(port, () => {
     console.log('https server running at ' + port);

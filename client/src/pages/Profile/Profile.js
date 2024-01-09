@@ -2,10 +2,11 @@ import React, { useEffect, useState, useRef } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { useFormik } from 'formik';
-import moment from 'moment';
+// import moment from 'moment';
 import { withRouter } from 'react-router-dom';
 
 import { getProfile, editUser, deleteUser } from '../../store/actions/userActions';
+// import { getCalendars } from '../../store/actions/calendarActions';
 import { loadMe } from '../../store/actions/authActions';
 import Layout from '../../layout/Layout';
 import Loader from '../../components/Loader/Loader';
@@ -14,28 +15,9 @@ import { profileSchema } from './validation';
 
 import './styles.css';
 
-//// nema password za oauth usere ni na klijentu ni serveru
-// validacija na serveru i error handilng na clientu
-// css i html
-//// delete user i logika da ne brise seedovane
-//// admin ruta i hoc
-// error handling login register posto je zajednicki loading i error
-//// mongo atlas i heroku deploy package json i promenljive env i config
-//// avatar staza u bazu samo fajl
-//// gitignore za placeholder avatar
-//// delete profile ruta
-
-// hendlovanje staza za slike, default avatar za izbrisane sa heroku
-// readme
-//// posle edit user treba redirect na novi username url
-
-// fore
-// za facebook more https apsolutni callback url
-// FACEBOOK_CALLBACK_URL=https://mern-boilerplate-demo.herokuapp.com/auth/facebook/callback
-// da bi prihvatio fb domen mora dole da se poklapa sa siteurl
-
 const Profile = ({
   getProfile,
+  // getCalendars,
   user: { profile, isLoading, error },
   auth: { me },
   editUser,
@@ -52,6 +34,7 @@ const Profile = ({
 
   useEffect(() => {
     getProfile(matchUsername, history);
+    // getCalendars();
   }, [matchUsername]);
 
   // if changed his own username reload me, done in userActions
@@ -62,6 +45,7 @@ const Profile = ({
     setAvatar(event.target.files[0]);
   };
 
+  // handles initial population of form with profile data
   const handleClickEdit = () => {
     retryCount.current = 0;
     setIsEdit((oldIsEdit) => !oldIsEdit);
@@ -70,6 +54,10 @@ const Profile = ({
     formik.setFieldValue('id', profile.id);
     formik.setFieldValue('name', profile.name);
     formik.setFieldValue('username', profile.username);
+    formik.setFieldValue('calendarId', profile.calendarId);
+    formik.setFieldValue('dueDateWeight', profile.weights[0]);
+    formik.setFieldValue('difficultyWeight', profile.weights[1]);
+    formik.setFieldValue('typeWeight', profile.weights[2]);
   };
 
   const handleDeleteUser = (id, history) => {
@@ -83,6 +71,10 @@ const Profile = ({
       name: '',
       username: '',
       password: '',
+      dueDateWeight: 0,
+      difficultyWeight: 0,
+      typeWeight: 0,
+      calendarId: '',
     },
     validationSchema: profileSchema,
     onSubmit: (values) => {
@@ -90,6 +82,10 @@ const Profile = ({
       formData.append('avatar', avatar);
       formData.append('name', values.name);
       formData.append('username', values.username);
+      formData.append('calendarId', values.calendarId);
+      formData.append('dueDateWeight', parseInt(values.dueDateWeight));
+      formData.append('difficultyWeight', parseInt(values.difficultyWeight));
+      formData.append('typeWeight', parseInt(values.typeWeight));
       if (profile.provider === 'email') {
         formData.append('password', values.password);
       }
@@ -101,10 +97,9 @@ const Profile = ({
   return (
     <Layout>
       <div className="profile">
-        <h1>Profile page</h1>
+        <h1>Profile Settings</h1>
         <p>
-          This is the profile page. User can edit his own profile and Admin can edit any user's
-          profile. Only authenticated users can see this page.
+          This is your profile settings page. Here, you can see and edit your profile information.
         </p>
         {isLoading ? (
           <Loader />
@@ -112,14 +107,14 @@ const Profile = ({
           <div className="profile-info">
             <img src={image ? image : profile.avatar} className="avatar" />
             <div className="info-container">
-              <div>
+              {/* <div>
                 <span className="label">Provider: </span>
                 <span className="info">{profile.provider}</span>
-              </div>
-              <div>
+              </div> */}
+              {/* <div>
                 <span className="label">Role: </span>
                 <span className="info">{profile.role}</span>
-              </div>
+              </div> */}
               <div>
                 <span className="label">Name: </span>
                 <span className="info">{profile.name}</span>
@@ -132,12 +127,37 @@ const Profile = ({
                 <span className="label">Email: </span>
                 <span className="info">{profile.email}</span>
               </div>
-              <div>
+              {/* <div>
                 <span className="label">Joined: </span>
                 <span className="info">
                   {moment(profile.createdAt).format('dddd, MMMM Do YYYY, H:mm:ss')}
                 </span>
+              </div> */}
+              <div>
+                <span className="label">Calendar: </span>
+                <span className="info">
+                  {profile.calendars &&
+                    profile.calendars.find((calendar) => calendar.id === profile.calendarId)
+                      .summary}
+                </span>
               </div>
+              {profile.weights && (
+                <>
+                  <div>
+                    <span className="label">Due Date Weight: </span>
+                    <span className="info">{profile.weights[0]}</span>
+                  </div>
+                  <div>
+                    <span className="label">Difficulty Weight:</span>
+                    <span className="info">{profile.weights[1]}</span>
+                  </div>
+                  <div>
+                    <span className="label">Type Weight: </span>
+                    <span className="info">{profile.weights[2]}</span>
+                  </div>
+                </>
+              )}
+
               <div>
                 <button
                   className="btn"
@@ -145,7 +165,7 @@ const Profile = ({
                   onClick={handleClickEdit}
                   disabled={!(me?.username === profile.username || me?.role === 'ADMIN')}
                 >
-                  {isEdit ? 'Cancel' : 'Edit'}
+                  {isEdit ? 'Cancel' : 'Edit Profile'}
                 </button>
               </div>
             </div>
@@ -204,6 +224,84 @@ const Profile = ({
                   <p className="error">{formik.errors.username}</p>
                 ) : null}
               </div>
+              <div className="input-div">
+                <label>Calendar:</label>
+                <select
+                  name="calendarId"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.calendarId}
+                >
+                  <option value="">Choose a Calendar</option>
+                  {profile.calendars &&
+                    profile.calendars.map((calendar) => (
+                      <option key={calendar.id} value={calendar.id}>
+                        {calendar.summary}
+                      </option>
+                    ))}
+                </select>
+                {formik.errors.calendarId && formik.touched.calendarId && (
+                  <p className="error">{formik.errors.calendarId}</p>
+                )}
+              </div>
+              <div className="input-div">
+                <label>Due Date Weight:</label>
+                <select
+                  name="dueDateWeight"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.dueDateWeight}
+                >
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+                {formik.errors.dueDateWeight && formik.touched.dueDateWeight && (
+                  <p className="error">{formik.errors.dueDateWeight}</p>
+                )}
+              </div>
+              <div className="input-div">
+                <label>Difficulty Weight:</label>
+                <select
+                  name="difficultyWeight"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.difficultyWeight}
+                >
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+                {formik.errors.difficultyWeight && formik.touched.difficultyWeight && (
+                  <p className="error">{formik.errors.difficultyWeight}</p>
+                )}
+              </div>
+              <div className="input-div">
+                <label>Type Weight:</label>
+                <select
+                  name="typeWeight"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.typeWeight}
+                >
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+                {formik.errors.typeWeight && formik.touched.typeWeight && (
+                  <p className="error">{formik.errors.typeWeight}</p>
+                )}
+              </div>
+
               {profile.provider === 'email' && (
                 <div className="input-div">
                   <label>Password:</label>
@@ -229,7 +327,7 @@ const Profile = ({
                 type="button"
                 className="btn"
               >
-                Delete profile
+                Delete User
               </button>
             </form>
           </div>
@@ -247,5 +345,5 @@ const mapStateToProps = (state) => ({
 export default compose(
   requireAuth,
   withRouter,
-  connect(mapStateToProps, { getProfile, editUser, deleteUser, loadMe }),
+  connect(mapStateToProps, { getProfile, /*getCalendars,*/ editUser, deleteUser, loadMe }),
 )(Profile);

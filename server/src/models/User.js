@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs, { access } from 'fs';
 import { join } from 'path';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
@@ -54,11 +54,36 @@ const userSchema = new Schema(
       sparse: true,
     },
     messages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Message' }],
+    accessToken: {
+      type: String,
+    },
+    tokenExpiresAt: {
+      type: Date,
+    },
+    refreshToken: {
+      type: String,
+    },
+    calendarId: {
+      type: String,
+      default: '',
+    },
+    dueDateWeight: {
+      type: Number,
+      default: 0,
+    },
+    difficultyWeight: {
+      type: Number,
+      default: 0,
+    },
+    typeWeight: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true },
 );
 
-console.log(join(__dirname, '../..', IMAGES_FOLDER_PATH));
+// console.log(join(__dirname, '../..', IMAGES_FOLDER_PATH));
 
 userSchema.methods.toJSON = function () {
   // if not exists avatar1 default
@@ -79,6 +104,8 @@ userSchema.methods.toJSON = function () {
     role: this.role,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
+    weights: [this.dueDateWeight, this.difficultyWeight, this.typeWeight],
+    calendarId: this.calendarId,
   };
 };
 
@@ -143,6 +170,10 @@ export const validateUser = (user) => {
       .regex(/^[a-zA-Z0-9_]+$/)
       .required(),
     password: Joi.string().min(6).max(20).allow('').allow(null),
+    calendarId: Joi.string(),
+    dueDateWeight: Joi.number().min(0).max(10),
+    difficultyWeight: Joi.number().min(0).max(10),
+    typeWeight: Joi.number().min(0).max(10),
   };
 
   return Joi.validate(user, schema);

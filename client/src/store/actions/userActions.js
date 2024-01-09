@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { attachTokenToHeaders } from './authActions';
+// import { attachTokenToHeaders, attachTokenToHeadersWithFormData } from './authActions';
 import {
   GET_PROFILE_LOADING,
   GET_PROFILE_SUCCESS,
@@ -20,7 +20,12 @@ export const editUser = (id, formData, history) => async (dispatch, getState) =>
     type: EDIT_USER_LOADING,
   });
   try {
-    const options = attachTokenToHeaders(getState);
+    // const options = attachTokenToHeadersWithFormData(getState);
+    const options = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
     const response = await axios.put(`/api/users/${id}`, formData, options);
 
     dispatch({
@@ -43,14 +48,15 @@ export const getProfile = (username, history) => async (dispatch, getState) => {
     type: GET_PROFILE_LOADING,
   });
   try {
-    const options = attachTokenToHeaders(getState);
-    const response = await axios.get(`/api/users/${username}`, options);
+    // const options = attachTokenToHeaders(getState);
+    const response = await axios.get(`/api/users/${username}`);
 
     dispatch({
       type: GET_PROFILE_SUCCESS,
       payload: { profile: response.data.user },
     });
   } catch (err) {
+    console.error(err);
     if (err?.response.status === 404) {
       history.push('/notfound');
     }
@@ -67,8 +73,8 @@ export const deleteUser = (id, history) => async (dispatch, getState) => {
     payload: { id },
   });
   try {
-    const options = attachTokenToHeaders(getState);
-    const response = await axios.delete(`/api/users/${id}`, options);
+    // const options = attachTokenToHeaders(getState);
+    const response = await axios.delete(`/api/users/${id}`);
 
     //logout only if he deleted himself
     if (getState().auth.me.id === response.data.user.id) {

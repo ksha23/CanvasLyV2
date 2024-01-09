@@ -1,54 +1,90 @@
 import React from 'react';
 import { Link, withRouter, Redirect } from 'react-router-dom';
 
-import { useFormik } from 'formik';
+// import { useFormik } from 'formik';
 
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import { loginUserWithEmail } from '../../store/actions/authActions';
-import { FACEBOOK_AUTH_LINK, GOOGLE_AUTH_LINK } from '../../constants';
-import { loginSchema } from './validation';
+// import { FACEBOOK_AUTH_LINK, GOOGLE_AUTH_LINK } from '../../constants';
+// import { loginSchema } from './validation';
+import { useGoogleLogin } from '@react-oauth/google';
 import './styles.css';
 
 const Login = ({ auth, history, loginUserWithEmail }) => {
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: '',
+  // const formik = useFormik({
+  //   initialValues: {
+  //     email: '',
+  //     password: '',
+  //   },
+  //   validationSchema: loginSchema,
+  //   onSubmit: (values) => {
+  //     loginUserWithEmail(values, history);
+  //   },
+  // });
+
+  const loginWithGoogle = useGoogleLogin({
+    select_account: true,
+    onNonOAuthError: (response) => {
+      console.error('Login failed', response);
     },
-    validationSchema: loginSchema,
-    onSubmit: (values) => {
-      loginUserWithEmail(values, history);
+    onFailure: (response) => {
+      console.error('Login failed', response);
     },
+    ux_mode: 'redirect',
+    redirect_uri: `https://localhost:4000/auth/google/callback`,
+    flow: 'auth-code',
   });
+  // const loginWithGoogle = useGoogleLogin({
+  //   onSuccess: async (response) => {
+  //     console.log('Login succeeded with auth code', response.code);
+  //     // send code to backend to exchange for access token
+  //     const jwt = await fetch(
+  //       `https://localhost:4000/auth/google/callback?code=${response.code}&scope=email%20profile%20openid%20https://www.googleapis.com/auth/calendar%20https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/userinfo.email&authuser=0&prompt=consent`,
+  //       {
+  //         method: 'GET',
+  //       },
+  //     );
+
+  //     console.log(jwt);
+  //   },
+  //   onNonOAuthError: (response) => {
+  //     console.error('Login failed', response);
+  //   },
+  //   onFailure: (response) => {
+  //     console.error('Login failed', response);
+  //   },
+  //   ux_mode: 'popup',
+  //   // redirect_uri: `https://localhost:3000`,
+  //   flow: 'auth-code',
+  // });
 
   if (auth.isAuthenticated) return <Redirect to="/" />;
 
   return (
     <div className="login">
       <div className="container">
-        <h1>Log in page</h1>
+        <h1>Log in to CanvasLy</h1>
         <p>
           back to{' '}
           <Link className="bold" to="/">
             Home page
           </Link>
         </p>
-        <form onSubmit={formik.handleSubmit}>
-          <h2>Log in with social media</h2>
-          <a className="fb btn" href={FACEBOOK_AUTH_LINK}>
+        {/* <form onSubmit={formik.handleSubmit}> */}
+        {/* <a className="fb btn" href={FACEBOOK_AUTH_LINK}>
             <span className="login-text">
               <i className="fa fa-facebook fa-fw" /> Login with Facebook
             </span>
-          </a>
-          <a className="google btn" href={GOOGLE_AUTH_LINK}>
-            <span className="login-text">
-              <i className="fa fa-google fa-fw" /> Login with Google
-            </span>
-          </a>
-          <h2>Login with email address</h2>
+          </a> */}
+        <a className="google btn" onClick={() => loginWithGoogle()}>
+          <span className="login-text">
+            <i className="fa fa-google fa-fw" /> Sign in with Google
+          </span>
+        </a>
+        {/* <h2>Login with email address</h2>
           <p className="logins">Admin: email0@email.com 123456789</p>
           <p className="logins">User: email1@email.com 123456789</p>
           <div>
@@ -92,8 +128,8 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
             <Link className="bold" to="/register">
               Register
             </Link>
-          </div>
-        </form>
+          </div> */}
+        {/* </form> */}
       </div>
     </div>
   );

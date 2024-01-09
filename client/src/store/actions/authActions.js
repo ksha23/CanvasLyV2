@@ -21,8 +21,8 @@ export const loadMe = () => async (dispatch, getState) => {
   dispatch({ type: ME_LOADING });
 
   try {
-    const options = attachTokenToHeaders(getState);
-    const response = await axios.get('/api/users/me', options);
+    // const options = attachTokenToHeaders(getState);
+    const response = await axios.get('/api/users/me');
 
     dispatch({
       type: ME_SUCCESS,
@@ -43,7 +43,7 @@ export const loginUserWithEmail = (formData, history) => async (dispatch, getSta
 
     dispatch({
       type: LOGIN_WITH_EMAIL_SUCCESS,
-      payload: { token: response.data.token, me: response.data.me },
+      payload: { me: response.data.me },
     });
 
     dispatch(loadMe());
@@ -56,20 +56,20 @@ export const loginUserWithEmail = (formData, history) => async (dispatch, getSta
   }
 };
 
-export const logInUserWithOauth = (token) => async (dispatch, getState) => {
+export const logInUserWithOauth = () => async (dispatch, getState) => {
   dispatch({ type: LOGIN_WITH_OAUTH_LOADING });
 
   try {
-    const headers = {
-      'Content-Type': 'application/json',
-      'x-auth-token': token,
-    };
+    // const headers = {
+    //   'Content-Type': 'application/json',
+    //   'x-auth-token': token,
+    // };
 
-    const response = await axios.get('/api/users/me', { headers });
+    const response = await axios.get('/api/users/me');
 
     dispatch({
       type: LOGIN_WITH_OAUTH_SUCCESS,
-      payload: { me: response.data.me, token },
+      payload: { me: response.data.me },
     });
   } catch (err) {
     dispatch({
@@ -82,7 +82,7 @@ export const logInUserWithOauth = (token) => async (dispatch, getState) => {
 // Log user out
 export const logOutUser = (history) => async (dispatch) => {
   try {
-    deleteAllCookies();
+    // deleteAllCookies();
     //just to log user logut on the server
     await axios.get('/auth/logout');
 
@@ -113,16 +113,16 @@ export const reseedDatabase = () => async (dispatch, getState) => {
   }
 };
 
-function deleteAllCookies() {
-  var cookies = document.cookie.split(';');
+// function deleteAllCookies() {
+//   var cookies = document.cookie.split(';');
 
-  for (var i = 0; i < cookies.length; i++) {
-    var cookie = cookies[i];
-    var eqPos = cookie.indexOf('=');
-    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
-  }
-}
+//   for (var i = 0; i < cookies.length; i++) {
+//     var cookie = cookies[i];
+//     var eqPos = cookie.indexOf('=');
+//     var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+//     document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
+//   }
+// }
 
 export const attachTokenToHeaders = (getState) => {
   const token = getState().auth.token;
@@ -130,6 +130,22 @@ export const attachTokenToHeaders = (getState) => {
   const config = {
     headers: {
       'Content-type': 'application/json',
+    },
+  };
+
+  if (token) {
+    config.headers['x-auth-token'] = token;
+  }
+
+  return config;
+};
+
+export const attachTokenToHeadersWithFormData = (getState) => {
+  const token = getState().auth.token;
+
+  const config = {
+    headers: {
+      'Content-type': 'multipart/form-data',
     },
   };
 

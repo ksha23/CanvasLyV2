@@ -11,25 +11,26 @@ import Profile from './pages/Profile/Profile';
 import Users from './pages/Users/Users';
 import Admin from './pages/Admin/Admin';
 import NotFound from './pages/NotFound/NotFound';
+import Assignments from './pages/Assignments/Assignments';
 
 import Loader from './components/Loader/Loader';
 
 import { logInUserWithOauth, loadMe } from './store/actions/authActions';
+import PrivacyPolicyPage from './pages/PrivacyPolicy/PrivacyPolicy';
 
 const App = ({ logInUserWithOauth, auth, loadMe }) => {
   useEffect(() => {
     loadMe();
   }, [loadMe]);
 
-  //redosled hookova
   useEffect(() => {
     if (window.location.hash === '#_=_') window.location.hash = '';
 
-    const cookieJwt = Cookies.get('x-auth-cookie');
-    if (cookieJwt) {
-      Cookies.remove('x-auth-cookie');
-      logInUserWithOauth(cookieJwt);
-    }
+    // const cookieJwt = Cookies.get('x-auth-cookie');
+    // if (cookieJwt) {
+    //   Cookies.remove('x-auth-cookie');
+    //   logInUserWithOauth(cookieJwt);
+    // }
   }, []);
 
   useEffect(() => {
@@ -44,9 +45,13 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
         <Switch>
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
+
           <Route path="/users" component={Users} />
           <Route path="/notfound" component={NotFound} />
           <Route path="/admin" component={Admin} />
+          <Route path="/assignments" component={Assignments} />
+          <Route path="/privacy" component={PrivacyPolicyPage} />
+
           <Route exact path="/:username" component={Profile} />
           <Route exact path="/" component={Home} />
           <Route component={NotFound} />

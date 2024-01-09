@@ -1,8 +1,9 @@
 nav {
-  background-color: darkblue;
-  padding-left: 30px;
+  background-color: white;
+  padding-left: 10px;
   padding-right: 10px;
   height: 60px;
+  
 }
 
 .navbar {
@@ -13,13 +14,20 @@ nav {
 .logo {
   display: inline-block;
   color: white;
-  margin: 0;
+  height: 40px;
+  width: 40px;
+  margin: 0 15px;
   white-space: nowrap;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
 }
 
 .nav-links {
   list-style: none;
-  font-size: 20px;
+  font-size: 18px;
   display: flex;
   margin: 5px 0;
 }
@@ -30,27 +38,43 @@ nav {
 
 .nav-item a {
   display: inline-block;
-  padding: 10px 20px;
+  padding: 10px 15px;
   text-decoration: none;
-  color: white;
+  color: rgb(70, 70, 70);
   white-space: nowrap;
 }
 
-.nav-item:hover {
-  background-color: white;
+.nav-item:hover a {
+  color: black;
+  /* font-weight: bold; */
 }
 
-.nav-item:hover a {
-  color: darkblue;
+.logout-btn {
+  display: inline-block;
+  padding: 10px 15px;
+  padding-left: 5px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.logout-btn a {
+  color: rgb(70, 70, 70);
+  font-size: 18px;
+}
+
+.logout-btn:hover a {
+  color: black;
+  /* font-weight: bold; */
 }
 
 .flex-1 {
   flex: 1;
 }
 .navbar .avatar {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   align-self: center;
-  margin-right: 20px;
+  margin-right: 10px;
   object-fit: cover;
+  border-radius: 50%;
 }

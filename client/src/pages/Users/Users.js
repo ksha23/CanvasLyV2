@@ -7,7 +7,8 @@ import moment from 'moment';
 import { getUsers } from '../../store/actions/usersActions';
 import Layout from '../../layout/Layout';
 import Loader from '../../components/Loader/Loader';
-import requireAuth from '../../hoc/requireAuth';
+// import requireAuth from '../../hoc/requireAuth';
+import requireAdmin from '../../hoc/requireAdmin';
 
 import './styles.css';
 
@@ -19,10 +20,10 @@ const Users = ({ getUsers, users: { users, isLoading } }) => {
   return (
     <Layout>
       <div className="users">
-        <h1>Users page</h1>
+        <h1>Users</h1>
         <p>
           This is the Users page. Here are listed all of the users of the app. Click the avatar or
-          the username link to go to user's profile. Only authenticated users can see this page.
+          the username link to go to user's profile. Only admins can see this page.
         </p>
         <div className="list">
           {isLoading ? (
@@ -32,9 +33,9 @@ const Users = ({ getUsers, users: { users, isLoading } }) => {
               {users.map((user, index) => {
                 return (
                   <div key={index} className="profile">
-                    <Link to={`/${user.username}`}>
-                      <img src={user.avatar} className="avatar" />
-                    </Link>
+                    {/* <Link to={`/${user.username}`}> */}
+                    <img src={user.avatar} className="avatar" />
+                    {/* </Link> */}
                     <div className="info-container">
                       <div>
                         <span className="label">Provider: </span>
@@ -50,9 +51,9 @@ const Users = ({ getUsers, users: { users, isLoading } }) => {
                       </div>
                       <div>
                         <span className="label">Username: </span>
-                        <Link to={`/${user.username}`} className="info bold profile-link">
-                          {user.username}
-                        </Link>
+                        {/* <Link to={`/${user.username}`} className="info bold profile-link"> */}
+                        <span className="info">{user.username}</span>
+                        {/* </Link> */}
                       </div>
                       <div>
                         <span className="label">Email: </span>
@@ -80,4 +81,4 @@ const mapStateToProps = (state) => ({
   users: state.users,
 });
 
-export default compose(requireAuth, connect(mapStateToProps, { getUsers }))(Users);
+export default compose(requireAdmin, connect(mapStateToProps, { getUsers }))(Users);

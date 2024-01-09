@@ -6,3 +6,9 @@
   font-size: 20px;
   font-weight: bold;
 }
+
+.why-canvasly-list {
+  margin: 0;
+  padding: 0;
+  padding-left: 40px;
+}

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import App from './App';
 import './index.css';
@@ -24,11 +25,13 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
-      <Switch>
-        <Route path="/" component={App} />
-      </Switch>
-    </Router>
+    <GoogleOAuthProvider clientId="628732787503-gqfknfu4fmd33nj7pfkjrra2vfiksh0a.apps.googleusercontent.com">
+      <Router>
+        <Switch>
+          <Route path="/" component={App} />
+        </Switch>
+      </Router>
+    </GoogleOAuthProvider>
   </Provider>,
   document.getElementById('root'),
 );

@@ -3,11 +3,15 @@ import multer from 'multer';
 import { resolve } from 'path';
 
 import requireJwtAuth from '../../middleware/requireJwtAuth';
+import refreshTokenMiddleware from '../../middleware/refreshAccessToken';
 import User, { hashPassword, validateUser } from '../../models/User';
 import Message from '../../models/Message';
 import { seedDb } from '../../utils/seed';
 
 const router = Router();
+
+// integrate set setCalendarId, setWeights into route
+// all calendars can be fetched elsewhere
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -60,14 +64,25 @@ router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, n
       return res.status(400).json({ message: 'Username already taken.' });
     }
 
-    const updatedUser = { avatar: avatarPath, name: req.body.name, username: req.body.username, password };
+    const updatedUser = {
+      avatar: avatarPath,
+      name: req.body.name,
+      username: req.body.username,
+      password,
+      calendarId: req.body.calendarId,
+      dueDateWeight: req.body.dueDateWeight,
+      difficultyWeight: req.body.difficultyWeight,
+      typeWeight: req.body.typeWeight,
+    };
     // remove '', null, undefined
     Object.keys(updatedUser).forEach((k) => !updatedUser[k] && updatedUser[k] !== undefined && delete updatedUser[k]);
     // console.log(req.body, updatedUser);
+
     const user = await User.findByIdAndUpdate(tempUser.id, { $set: updatedUser }, { new: true });
 
     res.status(200).json({ user });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: 'Something went wrong.' });
   }
 });
@@ -82,17 +97,41 @@ router.get('/me', requireJwtAuth, (req, res) => {
   res.json({ me });
 });
 
-router.get('/:username', requireJwtAuth, async (req, res) => {
+router.get('/:username', requireJwtAuth, refreshTokenMiddleware, async (req, res) => {
   try {
     const user = await User.findOne({ username: req.params.username });
     if (!user) return res.status(404).json({ message: 'No user found.' });
-    res.json({ user: user.toJSON() });
+    user.refreshToken = undefined;
+    user.accessToken = undefined;
+
+    const response = await fetch('https://www.googleapis.com/calendar/v3/users/me/calendarList', {
+      headers: {
+        Authorization: `Bearer ${req.user.accessToken}`,
+      },
+    });
+    const data = await response.json();
+    const items = data.items;
+    const calendarData = items.map((item) => {
+      return {
+        id: item.id,
+        summary: item.summary,
+      };
+    });
+
+    const final = user.toJSON();
+    // add calendar data
+    final.calendars = calendarData;
+
+    // res.json({ user: user.toJSON() });
+    res.json({ user: final });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong.' });
   }
 });
 
 router.get('/', requireJwtAuth, async (req, res) => {
+  // verify user is admin
+  if (req.user.role !== 'ADMIN') return res.status(400).json({ message: 'You are not admin.' });
   try {
     const users = await User.find().sort({ createdAt: 'desc' });
 
@@ -127,3 +166,59 @@ router.delete('/:id', requireJwtAuth, async (req, res) => {
 });
 
 export default router;
+
+// FIX THIS
+/*
+
+
+// Set calendar ID
+const setCalendarId = async (req, res) => {
+  const { calendarId } = req.body;
+  try {
+    const user = await User.findOne({ _id: req.user._id });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    user.calendarId = calendarId;
+    await user.save();
+    res.json({ message: "Calendar ID updated" }); // Send the response here
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" }); // Handle errors and send appropriate responses
+  }
+};
+
+const getWeights = async (req, res) => {
+  // Get weights from user object
+  const user = await User.findOne({ _id: req.user._id });
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+  const { dueDateWeight, difficultyWeight, typeWeight } = user;
+  return res.json({ dueDateWeight, difficultyWeight, typeWeight });
+};
+
+const setWeights = async (req, res) => {
+  // Set all weights in user object
+  const user = await User.findOne({ _id: req.user._id });
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+  user.dueDateWeight = req.body.dueDateWeight;
+  user.difficultyWeight = req.body.difficultyWeight;
+  user.typeWeight = req.body.typeWeight;
+  await user.save();
+  return res.json({ message: "Weights updated" });
+};
+
+module.exports = {
+  getUserSimple,
+  setCalendarId,
+  getWeights,
+  setDueDateWeight,
+  setDifficultyWeight,
+  setTypeWeight,
+  setWeights,
+};
+
+*/

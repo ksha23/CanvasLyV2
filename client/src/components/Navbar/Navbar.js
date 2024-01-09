@@ -14,19 +14,26 @@ const Navbar = ({ auth, logOutUser, history }) => {
 
   return (
     <nav className="navbar">
-      <h2 className="logo">MERN Boilerplate</h2>
+      <Link to="/">
+        <img className="logo" src={`${process.env.PUBLIC_URL}/canvasly.svg`} />
+      </Link>
       <ul className="nav-links flex-1">
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <Link to="/">Home</Link>
-        </li>
+        </li> */}
         {auth.isAuthenticated ? (
           <>
             <li className="nav-item">
-              <Link to="/users">Users</Link>
+              <Link to="/assignments">Assignments</Link>
             </li>
             <li className="nav-item">
               <Link to={`/${auth.me.username}`}>Profile</Link>
             </li>
+            {auth.me?.role === 'ADMIN' && (
+              <li className="nav-item">
+                <Link to="/users">Users</Link>
+              </li>
+            )}
             {auth.me?.role === 'ADMIN' && (
               <li className="nav-item">
                 <Link to="/admin">Admin</Link>
@@ -34,12 +41,17 @@ const Navbar = ({ auth, logOutUser, history }) => {
             )}
             <li className="flex-1" />
             <img className="avatar" src={auth.me.avatar} />
-            <li className="nav-item" onClick={onLogOut}>
+            <li className="logout-btn" onClick={onLogOut}>
               <a href="#">Log out</a>
             </li>
           </>
         ) : (
           <>
+            <li className="nav-item">
+              <p>
+                <strong>CanvasLy</strong>
+              </p>
+            </li>
             <li className="flex-1" />
 
             <li className="nav-item">

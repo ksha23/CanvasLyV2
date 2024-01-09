@@ -1,5 +1,6 @@
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
+const refresh = require('passport-oauth2-refresh');
 
 import User from '../models/User';
 
@@ -13,12 +14,13 @@ const googleLogin = new GoogleStrategy(
     callbackURL: `${serverUrl}${process.env.GOOGLE_CALLBACK_URL}`,
     proxy: true,
   },
-  async (accessToken, refreshToken, profile, done) => {
-    // console.log(profile);
+  async (accessToken, refreshToken, params, profile, done) => {
     try {
       const oldUser = await User.findOne({ email: profile.email });
 
       if (oldUser) {
+        // remove refresh token from user object
+        oldUser.refreshToken = undefined;
         return done(null, oldUser);
       }
     } catch (err) {
@@ -33,7 +35,13 @@ const googleLogin = new GoogleStrategy(
         email: profile.email,
         name: profile.displayName,
         avatar: profile.picture,
+        accessToken,
+        refreshToken,
+        tokenExpiresAt: new Date().getTime() + params.expires_in * 1000,
       }).save();
+
+      // remove refresh token from user object
+      newUser.refreshToken = undefined;
       done(null, newUser);
     } catch (err) {
       console.log(err);
@@ -41,4 +49,5 @@ const googleLogin = new GoogleStrategy(
   },
 );
 
+refresh.use(googleLogin);
 passport.use(googleLogin);
