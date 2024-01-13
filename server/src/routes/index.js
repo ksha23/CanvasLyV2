@@ -1,12 +1,13 @@
 import { Router } from 'express';
-// import localAuthRoutes from './localAuth';
 import googleAuthRoutes from './googleAuth';
-// import facebookAuthRoutes from './facebookAuth';
+import googleAuthCodeRoutes from './googleAuthCode';
 import apiRoutes from './api';
 const router = Router();
 
 // router.use('/auth', localAuthRoutes);
 router.use('/auth', googleAuthRoutes);
+
+router.use('/auth', googleAuthCodeRoutes);
 // router.use('/auth', facebookAuthRoutes);
 router.use('/api', apiRoutes);
 // fallback 404

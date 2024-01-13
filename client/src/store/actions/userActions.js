@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-// import { attachTokenToHeaders, attachTokenToHeadersWithFormData } from './authActions';
 import {
   GET_PROFILE_LOADING,
   GET_PROFILE_SUCCESS,
@@ -8,9 +7,9 @@ import {
   EDIT_USER_LOADING,
   EDIT_USER_SUCCESS,
   EDIT_USER_FAIL,
-  DELETE_USER_LOADING,
-  DELETE_USER_SUCCESS,
-  DELETE_USER_FAIL,
+  // DELETE_USER_LOADING,
+  // DELETE_USER_SUCCESS,
+  // DELETE_USER_FAIL,
 } from '../types';
 
 import { logOutUser, loadMe } from './authActions';
@@ -20,7 +19,6 @@ export const editUser = (id, formData, history) => async (dispatch, getState) =>
     type: EDIT_USER_LOADING,
   });
   try {
-    // const options = attachTokenToHeadersWithFormData(getState);
     const options = {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -48,7 +46,6 @@ export const getProfile = (username, history) => async (dispatch, getState) => {
     type: GET_PROFILE_LOADING,
   });
   try {
-    // const options = attachTokenToHeaders(getState);
     const response = await axios.get(`/api/users/${username}`);
 
     dispatch({
@@ -67,28 +64,27 @@ export const getProfile = (username, history) => async (dispatch, getState) => {
   }
 };
 
-export const deleteUser = (id, history) => async (dispatch, getState) => {
-  dispatch({
-    type: DELETE_USER_LOADING,
-    payload: { id },
-  });
-  try {
-    // const options = attachTokenToHeaders(getState);
-    const response = await axios.delete(`/api/users/${id}`);
+// export const deleteUser = (id, history) => async (dispatch, getState) => {
+//   dispatch({
+//     type: DELETE_USER_LOADING,
+//     payload: { id },
+//   });
+//   try {
+//     const response = await axios.delete(`/api/users/${id}`);
 
-    //logout only if he deleted himself
-    if (getState().auth.me.id === response.data.user.id) {
-      dispatch(logOutUser(id, history));
-    }
-    history.push('/users');
-    dispatch({
-      type: DELETE_USER_SUCCESS,
-      payload: { message: response.data.user },
-    });
-  } catch (err) {
-    dispatch({
-      type: DELETE_USER_FAIL,
-      payload: { error: err?.response?.data.message || err.message },
-    });
-  }
-};
+//     //logout only if he deleted himself
+//     if (getState().auth.me.id === response.data.user.id) {
+//       dispatch(logOutUser(id, history));
+//     }
+//     history.push('/users');
+//     dispatch({
+//       type: DELETE_USER_SUCCESS,
+//       payload: { message: response.data.user },
+//     });
+//   } catch (err) {
+//     dispatch({
+//       type: DELETE_USER_FAIL,
+//       payload: { error: err?.response?.data.message || err.message },
+//     });
+//   }
+// };

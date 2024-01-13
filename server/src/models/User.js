@@ -115,7 +115,7 @@ const secretOrKey = isProduction ? process.env.JWT_SECRET_PROD : process.env.JWT
 userSchema.methods.generateJWT = function () {
   const token = jwt.sign(
     {
-      expiresIn: '12h',
+      expiresIn: '12h', // 12 hours
       id: this._id,
       provider: this.provider,
       email: this.email,

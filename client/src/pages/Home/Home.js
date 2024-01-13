@@ -1,52 +1,68 @@
 import React from 'react';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+// import Cookies from 'js-cookie';
 
-import Youtube from 'react-youtube';
+import YoutubeComponent from '../../components/YoutubeComponent/YoutubeComponent';
+import './Home.css';
 import Layout from '../../layout/Layout';
-import MessageList from '../../components/MessageList/MessageList';
-import MessageForm from '../../components/MessageForm/MessageForm';
-import { reseedDatabase } from '../../store/actions/authActions';
 
-import './styles.css';
+const Home = ({ auth }) => {
+  // const [cookies, setCookie, removeCookie] = useCookies(['x-auth-cookie']);
 
-// const ReseedMessage = ({ handleReseed }) => {
-//   return (
-//     <div>
-//       <span style={{ marginRight: '10px' }}>
-//         If the app has been vandalized just reseed the database by clicking this button
-//       </span>
-//       <button onClick={handleReseed} className="btn reseed-btn">
-//         Reseed Database
-//       </button>
-//     </div>
-//   );
-// };
-
-const Home = ({ auth, reseedDatabase }) => {
   // const handleReseed = () => {
   //   reseedDatabase();
   // };
 
+  // for mobile (testing)
+  // useEffect(() => {
+  //   // grab the code from the URL
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   const code = urlParams.get('code');
+  //   // clear the code from the URL
+  //   window.history.replaceState({}, null, '/');
+
+  //   if (code && !auth.isAuthenticated && code !== 'undefined') {
+  //     // exchange the code for a token
+  //     exchangeCodeForToken(code);
+  //   }
+  // }, []);
+
+  // for mobile (testing)
+  // const exchangeCodeForToken = async (code) => {
+  //   console.log('in exchangeCodeForToken');
+  //   const response = await fetch(`https://localhost:4000/auth/google/authcode`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({ code: code }),
+  //   });
+
+  //   const jwt = await response.json();
+
+  //   // store the token in cookies
+
+  //   Cookies.set('x-auth-cookie', jwt.token, { expires: 1 });
+  //   // reload the page
+  //   window.location.href = '/';
+  // };
+
   return (
     <Layout>
-      <div className="home-page">
+      <>
         {!auth.isAuthenticated ? (
           <div>
-            <div className="flex flex-col dark:bg-black dark:text-white min-h-screen">
-              <div className="flex-grow max-w-3xl mx-auto text-center p-10 pt-5">
-                <h1 className="text-4xl font-bold mb-4 text-purple-600">Welcome to CanvasLy</h1>
-                <p>
+            <div className="flex flex-col dark:bg-black dark:text-white">
+              <div className="max-w-3xl mx-auto text-center">
+                <h1 className="text-4xl font-bold mb-4">Welcome to CanvasLy</h1>
+                <p className="mb-5">
                   Login in with Google to get started:{' '}
                   <Link className="bold" to="/login">
                     Log in
-                  </Link>{' '}
-                  {/* or{' '} */}
-                  {/* <Link className="bold" to="/register">
-                Register
-              </Link> */}
+                  </Link>
                 </p>
                 {/* <ReseedMessage handleReseed={handleReseed} /> */}
                 <div className="mb-12">
@@ -74,7 +90,7 @@ const Home = ({ auth, reseedDatabase }) => {
                   </ol>
                   <div className="mt-8">
                     <div className="video-container">
-                      <Youtube videoId="5tayaNGT-F4" />
+                      <YoutubeComponent videoId="5tayaNGT-F4" />
                     </div>
                   </div>
                 </div>
@@ -83,11 +99,9 @@ const Home = ({ auth, reseedDatabase }) => {
           </div>
         ) : (
           <>
-            {/* <ReseedMessage handleReseed={handleReseed} /> */}
-            {/* <MessageForm /> */}
-            <div className="flex flex-col dark:bg-black dark:text-white min-h-screen">
-              <h1 className="text-4xl font-bold mb-4 text-purple-600">Welcome, {auth.me.name}</h1>
-              <div className="flex-grow max-w-3xl mx-auto text-center p-10 pt-5">
+            <div className="flex flex-col flex-grow dark:bg-black dark:text-white">
+              <h1 className="text-4xl font-bold mb-4 text-center">Welcome, {auth.me.name}</h1>
+              <div className="flex-grow max-w-3xl mx-auto text-center">
                 <div>
                   <h2 className="text-2xl font-bold mb-4 text-purple-600">
                     Need Help Getting Started?
@@ -104,7 +118,7 @@ const Home = ({ auth, reseedDatabase }) => {
 
                   <div className="mt-8">
                     <div className="video-container">
-                      <Youtube videoId="5tayaNGT-F4" />
+                      <YoutubeComponent videoId="5tayaNGT-F4" />
                     </div>
                   </div>
                 </div>
@@ -112,8 +126,7 @@ const Home = ({ auth, reseedDatabase }) => {
             </div>
           </>
         )}
-        {/* <MessageList /> */}
-      </div>
+      </>
     </Layout>
   );
 };
@@ -122,4 +135,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default compose(connect(mapStateToProps, { reseedDatabase }))(Home);
+export default compose(connect(mapStateToProps))(Home);

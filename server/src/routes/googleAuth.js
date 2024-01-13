@@ -24,16 +24,9 @@ router.get(
   (req, res) => {
     const token = req.user.generateJWT();
 
-    const isReactNative = req.header('x-react-native') && useragent.parse(req.headers['user-agent']).isMobile;
-    if (isReactNative) {
-      res.send(token);
-      return;
-    }
-
-    // if not react native, set cookie and redirect to client
     res.cookie('x-auth-cookie', token, {
-      maxAge: 1000 * 60 * 60 * 12, // 6 hours
-      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 12, // 12 hours
+      httpOnly: true, // very important
       secure: process.env.NODE_ENV === 'production',
     });
     res.redirect(clientUrl);
@@ -41,8 +34,8 @@ router.get(
 );
 
 router.get('/logout', (req, res) => {
-  req.logout();
-  res.clearCookie('x-auth-cookie');
+  req.logout(); // this is a passport function
+  res.clearCookie('x-auth-cookie'); // very important to clear the cookie
   res.send(false);
 });
 

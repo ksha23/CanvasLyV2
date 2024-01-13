@@ -7,137 +7,40 @@ const router = Router();
 // middleware to check if user is logged in and to refresh access token if needed
 import requireJwtAuth from '../../middleware/requireJwtAuth';
 import refreshTokenMiddleware from '../../middleware/refreshAccessToken';
+import { length } from 'joi/lib/types/array';
 
-// --------------------- Reminder Routes --------------------- //
+// --------------------- COMPLETE Assignment --------------------- //
 
-// add a reminder to an assignment by ID (/api/assignments/reminder/:id)
-router.put('reminder/:id', requireJwtAuth, async (req, res) => {
+// Complete or uncomplete assignment by ID (/api/assignments/complete/:id)
+router.put('/complete/:id', requireJwtAuth, async (req, res) => {
   const id = req.params.id;
-  const { reminder } = req.body;
   try {
-    const updatedAssignment = await Assignment.findByIdAndUpdate(id, { $push: { reminders: reminder } }, { new: true });
-    if (!updatedAssignment) {
-      console.error('Assignment not found');
-    }
-    res.status(200).json(updatedAssignment);
-  } catch (error) {
-    res.status(400).json(error);
-  }
-});
-
-// route to update an assignment reminder array by assignment id (/api/assignments/reminders/:id)
-router.put('/reminders/:id', requireJwtAuth, async (req, res) => {
-  const id = req.params.id;
-  const { reminders } = req.body;
-  try {
-    const updatedAssignment = await Assignment.findByIdAndUpdate(id, { reminders }, { new: true });
-    if (!updatedAssignment) {
-      console.error('Assignment not found');
-    }
-    res.status(200).json(updatedAssignment);
-  } catch (error) {
-    res.status(400).json(error);
-  }
-});
-
-// route to delete a reminder from an assignment by assignment id (/api/assignments/reminders/:id)
-router.delete('/reminder/:id', requireJwtAuth, async (req, res) => {
-  const id = req.params.id;
-  const { reminderIndex } = req.body;
-
-  try {
-    const updatedAssignment = await Assignment.findByIdAndUpdate(
-      id,
-      { $unset: { [`reminders.${reminderIndex}`]: 1 } }, // Using $unset to remove element by index
-      { new: true },
-    );
-
-    if (!updatedAssignment) {
+    const assignment = await Assignment.findById(id);
+    if (!assignment) {
       console.error('Assignment not found');
       return res.status(404).json({ error: 'Assignment not found' });
     }
 
-    // Remove null elements after using $unset
-    updatedAssignment.reminders = updatedAssignment.reminders.filter(Boolean);
-
-    await updatedAssignment.save();
-
-    res.status(200).json(updatedAssignment);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
-
-// --------------------- COMPLETE Assignment --------------------- //
-
-// Complete an assignment by ID (/api/assignments/complete/:id)
-router.put('/complete/:id', requireJwtAuth, async (req, res) => {
-  const id = req.params.id;
-  try {
-    const updatedAssignment = await Assignment.findByIdAndUpdate(id, { completed: true }, { new: true });
-    if (!updatedAssignment) {
-      console.error('Assignment not found');
-    }
+    assignment.completed = !assignment.completed; // Reverse the completed boolean
+    const updatedAssignment = await assignment.save();
     res.status(200).json(updatedAssignment);
   } catch (error) {
     res.status(400).json(error);
   }
 });
 
-// --------------------- Change Assignment --------------------- //
-
-// Change difficulty of an assignment by ID (/api/assignments/difficulty/:id)
-router.put('/difficulty/:id', requireJwtAuth, async (req, res) => {
+// confirm assignment completion by ID (/api/assignments/confirm/:id)
+router.put('/confirm/:id', requireJwtAuth, async (req, res) => {
   const id = req.params.id;
-  const { difficulty } = req.body;
   try {
-    const updatedAssignment = await Assignment.findByIdAndUpdate(id, { difficulty }, { new: true });
-    if (!updatedAssignment) {
+    const assignment = await Assignment.findById(id);
+    if (!assignment) {
       console.error('Assignment not found');
+      return res.status(404).json({ error: 'Assignment not found' });
     }
-    res.status(200).json(updatedAssignment);
-  } catch (error) {
-    res.status(400).json(error);
-  }
-});
 
-// Change type of an assignment by ID (/api/assignments/type/:id)
-router.put('/type/:id', requireJwtAuth, async (req, res) => {
-  const id = req.params.id;
-  const type = req.body.type;
-
-  // validate type
-  const validTypes = ['Assignment', 'Exam', 'Quiz', 'Project', 'Other'];
-  if (!validTypes.includes(type)) {
-    return res.status(400).json({ message: 'Invalid type' });
-  }
-  try {
-    const updatedAssignment = await Assignment.findByIdAndUpdate(id, { type }, { new: true });
-    if (!updatedAssignment) {
-      console.error('Assignment not found');
-    }
-    res.status(200).json(updatedAssignment);
-  } catch (error) {
-    res.status(400).json(error);
-  }
-});
-
-// change type and difficulty of an assignment by ID (/api/assignments/typeAndDifficulty/:id)
-router.put('/typeAndDifficulty/:id', requireJwtAuth, async (req, res) => {
-  const id = req.params.id;
-  const { type, difficulty } = req.body;
-
-  // validate type
-  const validTypes = ['Assignment', 'Exam', 'Quiz', 'Project', 'Other'];
-  if (!validTypes.includes(type)) {
-    return res.status(400).json({ message: 'Invalid type' });
-  }
-
-  try {
-    const updatedAssignment = await Assignment.findByIdAndUpdate(id, { type, difficulty }, { new: true });
-    if (!updatedAssignment) {
-      console.error('Assignment not found');
-    }
+    assignment.confirmedCompleted = true;
+    const updatedAssignment = await assignment.save();
     res.status(200).json(updatedAssignment);
   } catch (error) {
     res.status(400).json(error);
@@ -147,15 +50,23 @@ router.put('/typeAndDifficulty/:id', requireJwtAuth, async (req, res) => {
 // --------------------- Add Assignment --------------------- //
 
 // add an assignment to a calendar by calendar id (/api/assignments/add/:id)
-router.post('/add/:id', requireJwtAuth, async (req, res) => {
-  const calendarId = req.params.id;
-  const { name, dueDate, type, difficulty } = req.body;
+router.post('/add', requireJwtAuth, async (req, res) => {
+  const calendarId = req.user.calendarId;
+  const { name, dueDate, type, difficulty, reminders } = req.body;
+
+  let cleanedUpReminders;
+  if (reminders === undefined || reminders === null || reminders === '') {
+    cleanedUpReminders = [];
+  } else {
+    cleanedUpReminders = new Array(reminders);
+  }
   try {
     const newAssignment = await Assignment.create({
       name,
       dueDate,
       type,
       difficulty,
+      reminders: cleanedUpReminders,
     });
 
     // check if it was created in the db by searcfhing for it
@@ -175,6 +86,21 @@ router.post('/add/:id', requireJwtAuth, async (req, res) => {
     res.status(200).json(newAssignment);
   } catch (error) {
     console.error(error);
+    res.status(400).json(error);
+  }
+});
+
+// update entire assignment by ID (/api/assignments/update/:id)
+router.put('/update/:id', requireJwtAuth, async (req, res) => {
+  const id = req.params.id;
+  const { type, difficulty, reminders } = req.body.values;
+  try {
+    const updatedAssignment = await Assignment.findByIdAndUpdate(id, { type, difficulty, reminders }, { new: true });
+    if (!updatedAssignment) {
+      console.error('Assignment not found');
+    }
+    res.status(200).json(updatedAssignment);
+  } catch (error) {
     res.status(400).json(error);
   }
 });

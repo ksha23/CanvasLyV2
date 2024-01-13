@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -17,15 +17,15 @@ const store = createStore(
   initialState,
   compose(
     applyMiddleware(thunk),
-    (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ &&
-      window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__()) ||
-      compose,
+    window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f,
   ),
 );
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('root'));
+
+root.render(
   <Provider store={store}>
-    <GoogleOAuthProvider clientId="628732787503-gqfknfu4fmd33nj7pfkjrra2vfiksh0a.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}>
       <Router>
         <Switch>
           <Route path="/" component={App} />
@@ -33,5 +33,4 @@ ReactDOM.render(
       </Router>
     </GoogleOAuthProvider>
   </Provider>,
-  document.getElementById('root'),
 );

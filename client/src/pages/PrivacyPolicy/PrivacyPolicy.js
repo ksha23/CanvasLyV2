@@ -1,21 +1,15 @@
 import React, { useEffect } from 'react';
 import Layout from '../../layout/Layout';
 
-// import applyTheme from '../utils/colorThemeHandler';
-
 const PrivacyPolicyPage = () => {
-  //   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
-  //     applyTheme(); // Update the theme when the preference changes
-  //   });
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   return (
     <Layout>
-      <div className="flex flex-col dark:bg-black dark:text-white min-h-screen">
-        <div className="flex-grow max-w-3xl mx-auto p-10 pt-5">
+      <div className="flex flex-col dark:bg-black dark:text-white">
+        <div className="max-w-3xl mx-auto">
           <h1 className="text-4xl font-bold mb-8 text-center">Privacy Policy</h1>
 
           <section className="mb-8">

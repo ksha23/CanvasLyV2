@@ -1,18 +1,18 @@
 import React from 'react';
-
-import './styles.css';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <div className="footer">
-      <div className="footer-content">
-        <span className="footer-text">
-          © 2024 CanvasLy. All Rights Reserved. <Link to="/privacy">Privacy Policy</Link>
-        </span>
-        <span className="username"> </span>
+    <footer className="py-4 px-4 bg-zinc-200 dark:bg-zinc-800 bottom-0 w-full">
+      <div className="mx-auto flex justify-center items-center">
+        <p className="text-sm dark:text-zinc-200">
+          &copy; {new Date().getFullYear()} CanvasLy. All rights reserved.
+        </p>
+        <Link to="/privacy" className="ml-4 text-sm text-violet-600">
+          Privacy Policy
+        </Link>
       </div>
-    </div>
+    </footer>
   );
 };
 

@@ -1,40 +1,33 @@
+require('dotenv').config();
+const GoogleAuthCodeStrategy = require('passport-google-authcode').Strategy;
 import passport from 'passport';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
+import User from '../models/User';
 const refresh = require('passport-oauth2-refresh');
 
-import User from '../models/User';
-
-const serverUrl = process.env.NODE_ENV === 'production' ? process.env.SERVER_URL_PROD : process.env.SERVER_URL_DEV;
-
-// google strategy
-const googleLogin = new GoogleStrategy(
+const googleAuthCodeLogin = new GoogleAuthCodeStrategy(
   {
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: `${serverUrl}${process.env.GOOGLE_CALLBACK_URL}`,
-    proxy: true,
+    callbackURL: 'http://localhost:3000',
   },
-  async (accessToken, refreshToken, params, profile, done) => {
+  async (accessToken, refreshToken, profile, done) => {
+    // console.log('params', params);
     try {
-      const oldUser = await User.findOne({ email: profile.email });
+      const oldUser = await User.findOne({ email: profile._json.email });
 
       if (oldUser) {
         // remove refresh token from user object
         oldUser.refreshToken = undefined;
         return done(null, oldUser);
       }
-    } catch (err) {
-      console.log(err);
-    }
 
-    try {
       const newUser = await new User({
         provider: 'google',
         googleId: profile.id,
         username: `user${profile.id}`,
-        email: profile.email,
+        email: profile._json.email,
         name: profile.displayName,
-        avatar: profile.picture,
+        avatar: profile._json.picture,
         accessToken,
         refreshToken,
         tokenExpiresAt: new Date().getTime() + 3599 * 1000,
@@ -49,5 +42,5 @@ const googleLogin = new GoogleStrategy(
   },
 );
 
-refresh.use(googleLogin);
-passport.use(googleLogin);
+passport.use(googleAuthCodeLogin);
+refresh.use(googleAuthCodeLogin);

@@ -53,6 +53,11 @@ export default function (state = initialState, { type, payload }) {
         profile: {},
         error: payload.error,
       };
+    case 'RESET_USER_REDUCER':
+      console.log('reset user reducer');
+      return {
+        initialState,
+      };
     default:
       return state;
   }

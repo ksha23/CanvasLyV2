@@ -8,9 +8,11 @@ import './styles.css';
 const Layout = ({ children }) => {
   return (
     <>
-      <Navbar />
-      <div className="container">{children}</div>
-      <Footer />
+      <div className="min-h-screen dark:bg-black flex flex-col justify-between w-full">
+        <Navbar />
+        <div className="p-10 pt-3 flex justify-center flex-grow">{children}</div>
+        <Footer />
+      </div>
     </>
   );
 };

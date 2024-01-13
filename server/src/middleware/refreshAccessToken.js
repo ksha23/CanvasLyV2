@@ -6,8 +6,7 @@ const refreshTokenMiddleware = async (req, res, next) => {
   const tokenExpirationBuffer = 60000; // 1 minute buffer for token expiration
 
   if (req.user && req.user.tokenExpiresAt && new Date(req.user.tokenExpiresAt) - tokenExpirationBuffer < Date.now()) {
-    console.log('Refreshing token...');
-    refresh.requestNewAccessToken('google', req.user.refreshToken, async (err, accessToken, refreshToken) => {
+    refresh.requestNewAccessToken('google-authcode', req.user.refreshToken, async (err, accessToken, refreshToken) => {
       if (err) {
         console.error('Error refreshing token:', err);
         return next(err);
@@ -33,7 +32,6 @@ const refreshTokenMiddleware = async (req, res, next) => {
         req.user.accessToken = accessToken; // Update the access token in the user object immediately
         req.user.tokenExpiresAt = userForUpdate.tokenExpiresAt; // Update the token expiration time in the user object immediately
         req.user.refreshToken = refreshToken || req.user.refreshToken; // Update the refresh token in the user object immediately
-        console.log('Token refreshed successfully.');
         next();
       } catch (updateErr) {
         console.error('Error updating user:', updateErr);

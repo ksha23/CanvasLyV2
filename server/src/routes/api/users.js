@@ -5,8 +5,6 @@ import { resolve } from 'path';
 import requireJwtAuth from '../../middleware/requireJwtAuth';
 import refreshTokenMiddleware from '../../middleware/refreshAccessToken';
 import User, { hashPassword, validateUser } from '../../models/User';
-import Message from '../../models/Message';
-import { seedDb } from '../../utils/seed';
 
 const router = Router();
 
@@ -87,10 +85,10 @@ router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, n
   }
 });
 
-router.get('/reseed', async (req, res) => {
-  await seedDb();
-  res.json({ message: 'Database reseeded successfully.' });
-});
+// router.get('/reseed', async (req, res) => {
+//   await seedDb();
+//   res.json({ message: 'Database reseeded successfully.' });
+// });
 
 router.get('/me', requireJwtAuth, (req, res) => {
   const me = req.user.toJSON();
@@ -145,25 +143,25 @@ router.get('/', requireJwtAuth, async (req, res) => {
   }
 });
 
-router.delete('/:id', requireJwtAuth, async (req, res) => {
-  try {
-    const tempUser = await User.findById(req.params.id);
-    if (!tempUser) return res.status(404).json({ message: 'No such user.' });
-    if (!(tempUser.id === req.user.id || req.user.role === 'ADMIN'))
-      return res.status(400).json({ message: 'You do not have privilegies to delete that user.' });
+// router.delete('/:id', requireJwtAuth, async (req, res) => {
+//   try {
+//     const tempUser = await User.findById(req.params.id);
+//     if (!tempUser) return res.status(404).json({ message: 'No such user.' });
+//     if (!(tempUser.id === req.user.id || req.user.role === 'ADMIN'))
+//       return res.status(400).json({ message: 'You do not have privilegies to delete that user.' });
 
-    // if (['email0@email.com', 'email1@email.com'].includes(tempUser.email))
-    //   return res.status(400).json({ message: 'You can not delete seeded user.' });
+//     // if (['email0@email.com', 'email1@email.com'].includes(tempUser.email))
+//     //   return res.status(400).json({ message: 'You can not delete seeded user.' });
 
-    //delete all messages from that user
-    await Message.deleteMany({ user: tempUser.id });
-    //delete user
-    const user = await User.findByIdAndRemove(tempUser.id);
-    res.status(200).json({ user });
-  } catch (err) {
-    res.status(500).json({ message: 'Something went wrong.' });
-  }
-});
+//     //delete all messages from that user
+//     await Message.deleteMany({ user: tempUser.id });
+//     //delete user
+//     const user = await User.findByIdAndRemove(tempUser.id);
+//     res.status(200).json({ user });
+//   } catch (err) {
+//     res.status(500).json({ message: 'Something went wrong.' });
+//   }
+// });
 
 export default router;
 

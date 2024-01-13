@@ -65,12 +65,17 @@ export default function (state = initialState, { type, payload }) {
       };
     case LOGOUT_SUCCESS:
     case LOGIN_WITH_EMAIL_FAIL:
+    case LOGIN_WITH_OAUTH_FAIL:
       return {
         ...state,
         me: null,
         isAuthenticated: false,
         isLoading: false,
         error: null, //payload message ovde i razdvoj logout i fail
+      };
+    case 'RESET_AUTH_REDUCER':
+      return {
+        initialState,
       };
     default:
       return state;

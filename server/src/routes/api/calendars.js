@@ -128,12 +128,12 @@ const postProcess = async (data, googleId, timeZone, calendarId) => {
   const assignments = await getAssignmentsByCalendarId(calendarId);
 
   // filter out completed assignments
-  const filteredAssignments = assignments.filter((assignment) => !assignment.completed);
+  // const filteredAssignments = assignments.filter((assignment) => !assignment.completed);
 
   // add any other filters here!!!!!
 
   // sends back _id, name, dueDate, completed, and reminders array
-  return filteredAssignments;
+  return assignments;
 };
 
 //------------------------- CALENDAR ROUTES --------------------------
@@ -141,16 +141,16 @@ const postProcess = async (data, googleId, timeZone, calendarId) => {
 // Gets all calendars from Google Calendar API (/api/calendars/data)
 // use requireJWT and refreshAccessToken middlewares to ensure user is authenticated
 
-router.get('/calendarData', requireJwtAuth, refreshTokenMiddleware, async (req, res) => {
-  const response = await fetch('https://www.googleapis.com/calendar/v3/users/me/calendarList', {
-    headers: {
-      Authorization: `Bearer ${req.user.accessToken}`,
-    },
-  });
-  if (!response) return res.status(200).json([]);
-  const data = await response.json();
-  return res.status(200).json(data.items);
-});
+// router.get('/calendarData', requireJwtAuth, refreshTokenMiddleware, async (req, res) => {
+//   const response = await fetch('https://www.googleapis.com/calendar/v3/users/me/calendarList', {
+//     headers: {
+//       Authorization: `Bearer ${req.user.accessToken}`,
+//     },
+//   });
+//   if (!response) return res.status(200).json([]);
+//   const data = await response.json();
+//   return res.status(200).json(data.items);
+// });
 
 // THIS IS A HELPER FUNCTION FOR GETTING EVENTS
 // Get events from Google Calendar API
@@ -185,6 +185,7 @@ router.get('/events', requireJwtAuth, refreshTokenMiddleware, async (req, res) =
       const data = await response.json();
       timeZone = data.timeZone;
       const postProcessedData = await postProcess(data.items, req.user.googleId, timeZone, req.user.calendarId);
+
       return res.status(200).json(postProcessedData);
     }
   } catch (error) {

@@ -5,34 +5,55 @@ import Message from '../Message/Message';
 import Loader from '../Loader/Loader';
 
 import { getMessages } from '../../store/actions/messageActions';
-import './styles.css';
 
-const MessageList = ({ getMessages, message: { messages, isLoading, error } }) => {
+const MessageList = ({ getMessages, messages, isLoading, error }) => {
   useEffect(() => {
-    getMessages();
+    if (!messages || messages.length == 0) {
+      console.log('getting messages');
+      getMessages();
+    }
+
+    // get messages every 30 seconds
   }, []);
 
   return (
-    <div className="message-list">
-      <h2>Messages:</h2>
-      {error && <div className="error-center">{error}</div>}
-      <div className="list">
+    <div className="justify-center w-full max-w-4xl">
+      <>
         {isLoading ? (
-          <Loader />
+          <div className="flex justify-center w-full max-w-4xl">
+            <Loader />
+          </div>
+        ) : error ? (
+          <div className="text-center">{error}</div>
         ) : (
-          <>
-            {messages.map((message, index) => {
-              return <Message key={index} message={message} />;
-            })}
-          </>
+          <div>
+            {/* map through only assignments/messages that are not completed*/}
+            {messages &&
+              messages.length > 1 &&
+              messages.map((message, index) => {
+                if (message.completed === false && message.confirmedCompleted === false) {
+                  return <Message key={index} message={message} />;
+                }
+              })}
+            {/* map through only assignments/messages that are completed*/}
+            {messages &&
+              messages.length > 1 &&
+              messages.map((message, index) => {
+                if (message.completed === true && message.confirmedCompleted === false) {
+                  return <Message key={index} message={message} />;
+                }
+              })}
+          </div>
         )}
-      </div>
+      </>
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
-  message: state.message,
+  messages: state.message.messages, // Access messages directly
+  isLoading: state.message.isLoading,
+  error: state.message.error,
 });
 
 export default connect(mapStateToProps, { getMessages })(MessageList);

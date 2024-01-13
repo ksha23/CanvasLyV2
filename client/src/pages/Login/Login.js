@@ -1,17 +1,14 @@
 import React from 'react';
 import { Link, withRouter, Redirect } from 'react-router-dom';
 
-// import { useFormik } from 'formik';
-
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import { loginUserWithEmail } from '../../store/actions/authActions';
-// import { FACEBOOK_AUTH_LINK, GOOGLE_AUTH_LINK } from '../../constants';
+import { GOOGLE_AUTH_LINK } from '../../constants';
 // import { loginSchema } from './validation';
 import { useGoogleLogin } from '@react-oauth/google';
-import './styles.css';
 
 const Login = ({ auth, history, loginUserWithEmail }) => {
   // const formik = useFormik({
@@ -25,66 +22,77 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
   //   },
   // });
 
-  const loginWithGoogle = useGoogleLogin({
-    select_account: true,
-    onNonOAuthError: (response) => {
-      console.error('Login failed', response);
-    },
-    onFailure: (response) => {
-      console.error('Login failed', response);
-    },
-    ux_mode: 'redirect',
-    redirect_uri: `https://localhost:4000/auth/google/callback`,
-    flow: 'auth-code',
-  });
+  // alternative login (web)
   // const loginWithGoogle = useGoogleLogin({
-  //   onSuccess: async (response) => {
-  //     console.log('Login succeeded with auth code', response.code);
-  //     // send code to backend to exchange for access token
-  //     const jwt = await fetch(
-  //       `https://localhost:4000/auth/google/callback?code=${response.code}&scope=email%20profile%20openid%20https://www.googleapis.com/auth/calendar%20https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/userinfo.email&authuser=0&prompt=consent`,
-  //       {
-  //         method: 'GET',
-  //       },
-  //     );
-
-  //     console.log(jwt);
-  //   },
+  //   select_account: true,
   //   onNonOAuthError: (response) => {
   //     console.error('Login failed', response);
   //   },
   //   onFailure: (response) => {
   //     console.error('Login failed', response);
   //   },
-  //   ux_mode: 'popup',
-  //   // redirect_uri: `https://localhost:3000`,
+  //   ux_mode: 'redirect',
+  //   redirect_uri: `https://localhost:4000/auth/google/callback`,
+  //   flow: 'auth-code',
+  // });
+
+  // mobile login (testing)
+  // const loginWithGoogle = useGoogleLogin({
+  //   select_account: true,
+  //   onNonOAuthError: (response) => {
+  //     console.error('Login failed', response);
+  //   },
+  //   onFailure: (response) => {
+  //     console.error('Login failed', response);
+  //   },
+  //   ux_mode: 'redirect',
+  //   redirect_uri: `http://localhost:3000`,
   //   flow: 'auth-code',
   // });
 
   if (auth.isAuthenticated) return <Redirect to="/" />;
 
   return (
-    <div className="login">
-      <div className="container">
-        <h1>Log in to CanvasLy</h1>
-        <p>
-          back to{' '}
-          <Link className="bold" to="/">
+    <div className="h-screen flex justify-center items-center dark:bg-black dark:text-white">
+      <div className="text-center">
+        <h1 className="text-3xl font-bold mb-4">Log in to CanvasLy</h1>
+        <p className="mb-4">
+          Go back to{' '}
+          <a className="font-bold underline" href="/">
             Home page
-          </Link>
+          </a>
         </p>
-        {/* <form onSubmit={formik.handleSubmit}> */}
-        {/* <a className="fb btn" href={FACEBOOK_AUTH_LINK}>
+        <a
+          className="bg-red-600 px-4 py-2 text-white rounded flex items-center justify-center"
+          href={GOOGLE_AUTH_LINK}
+        >
+          <i className="fa fa-google fa-fw mr-2" />
+          <span>Sign in with Google</span>
+        </a>
+      </div>
+    </div>
+  );
+};
+
+{
+  /* <form onSubmit={formik.handleSubmit}> */
+}
+{
+  /* <a className="fb btn" href={FACEBOOK_AUTH_LINK}>
             <span className="login-text">
               <i className="fa fa-facebook fa-fw" /> Login with Facebook
             </span>
-          </a> */}
-        <a className="google btn" onClick={() => loginWithGoogle()}>
+          </a> */
+}
+{
+  /* <a className="google btn" onClick={() => loginWithGoogle()}>
           <span className="login-text">
-            <i className="fa fa-google fa-fw" /> Sign in with Google
+            <i className="fa fa-google fa-fw" /> TEST! Sign in with Google Mobile TEST!
           </span>
-        </a>
-        {/* <h2>Login with email address</h2>
+        </a> */
+}
+{
+  /* <h2>Login with email address</h2>
           <p className="logins">Admin: email0@email.com 123456789</p>
           <p className="logins">User: email1@email.com 123456789</p>
           <div>
@@ -128,12 +136,12 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
             <Link className="bold" to="/register">
               Register
             </Link>
-          </div> */}
-        {/* </form> */}
-      </div>
-    </div>
-  );
-};
+          </div> */
+}
+{
+  /* </form> */
+}
+// </div>
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
