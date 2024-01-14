@@ -35,7 +35,9 @@ const App = ({ auth, loadMe }) => {
           <Route exact path="/" component={Home} />
           <Route component={NotFound} />
         </Switch>
-      ) : null}
+      ) : (
+        <div className="bg-white dark:bg-black"></div>
+      )}
     </>
   );
 };

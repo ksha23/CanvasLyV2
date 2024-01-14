@@ -7,7 +7,7 @@ import Footer from '../components/Footer/Footer';
 const Layout = ({ children }) => {
   return (
     <>
-      <div className="min-h-screen dark:bg-black flex flex-col justify-between w-full">
+      <div className="bg-white min-h-screen dark:bg-black flex flex-col justify-between w-full">
         <Navbar />
         <div className="p-10 pt-3 lg:pt-1 flex justify-center flex-grow">{children}</div>
         <Footer />
