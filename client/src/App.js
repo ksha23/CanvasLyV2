@@ -21,6 +21,12 @@ const App = ({ auth, loadMe }) => {
     }
   }, [auth.isAuthenticated, loadMe, auth.isLoading, auth.appLoaded]);
 
+  useEffect(() => {
+    if (auth.error) {
+      window.location.href = '/login';
+    }
+  }, [auth.error]);
+
   return (
     <>
       {auth.appLoaded ? (
