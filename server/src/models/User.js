@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 import Joi from 'joi';
 import { isValidUrl } from '../utils/utils';
 import { IMAGES_FOLDER_PATH } from '../utils/constants';
+import { required } from 'joi/lib/types/lazy';
 
 const { Schema } = mongoose;
 
@@ -62,6 +63,7 @@ const userSchema = new Schema(
     },
     refreshToken: {
       type: String,
+      required: true,
     },
     calendarId: {
       type: String,
