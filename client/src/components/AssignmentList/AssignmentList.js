@@ -8,7 +8,10 @@ import { getAssignments, refreshAssignments } from '../../store/actions/assignme
 
 const AssignmentList = ({ getAssignments, refreshAssignments, assignments, isLoading, error }) => {
   useLayoutEffect(() => {
-    getAssignments();
+    if (!assignments || assignments.length === 0) {
+      getAssignments();
+    }
+    refreshAssignments();
     // refresh data every every 30 seconds
     const interval = setInterval(() => {
       refreshAssignments();
