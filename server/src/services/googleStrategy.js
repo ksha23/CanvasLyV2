@@ -14,7 +14,9 @@ const googleLogin = new GoogleStrategy(
     callbackURL: `${serverUrl}${process.env.GOOGLE_CALLBACK_URL}`,
     proxy: true,
   },
-  async (accessToken, refreshToken, params, profile, done) => {
+  async (accessToken, refreshToken, profile, done) => {
+    console.log('accessToken', accessToken);
+    console.log('refreshToken', refreshToken);
     try {
       const oldUser = await User.findOne({ email: profile.email });
 
@@ -39,6 +41,8 @@ const googleLogin = new GoogleStrategy(
         refreshToken,
         tokenExpiresAt: new Date().getTime() + 3599 * 1000,
       }).save();
+
+      console.log('this is the new user', newUser);
 
       // remove refresh token from user object
       // newUser.refreshToken = undefined;

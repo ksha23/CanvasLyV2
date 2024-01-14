@@ -13,6 +13,8 @@ const googleAuthCodeLogin = new GoogleAuthCodeStrategy(
     callbackURL: `${serverUrl}${process.env.GOOGLE_CALLBACK_URL}`,
   },
   async (accessToken, refreshToken, profile, done) => {
+    console.log('accessToken', accessToken);
+    console.log('refreshToken', refreshToken);
     // console.log('params', params);
     try {
       const oldUser = await User.findOne({ email: profile._json.email });
@@ -34,6 +36,8 @@ const googleAuthCodeLogin = new GoogleAuthCodeStrategy(
         refreshToken,
         tokenExpiresAt: new Date().getTime() + 3599 * 1000,
       }).save();
+
+      console.log('this is the new user', newUser);
 
       // remove refresh token from user object
       // newUser.refreshToken = undefined;

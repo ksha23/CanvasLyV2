@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import passport from 'passport';
-const useragent = require('express-useragent');
+// const useragent = require('express-useragent');
 
 const router = Router();
 
