@@ -82,7 +82,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
         <div className="flex justify-between items-center mb-2">
           <h1 className="text-xl md:text-2xl font-bold">New Assignment</h1>
           <button
-            className="px-3 py-1 text-lg rounded-full text-zinc-700 dark:text-zinc-400"
+            className="px-3 py-1 text-xl md:text-lg rounded-full text-zinc-700 dark:text-zinc-400"
             onClick={closeForm}
             disabled={isSubmiting}
           >
