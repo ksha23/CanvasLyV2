@@ -20,7 +20,7 @@ const googleLogin = new GoogleStrategy(
 
       if (oldUser) {
         // remove refresh token from user object
-        oldUser.refreshToken = undefined;
+        // oldUser.refreshToken = undefined;
         return done(null, oldUser);
       }
     } catch (err) {
