@@ -12,7 +12,7 @@ import { assignmentFormSchema } from './validation';
 import lodash from 'lodash';
 import Slider from '@mui/material/Slider';
 import Loader from '../Loader/Loader';
-import LoadingOverlay from 'react-loading-overlay';
+import LoadingOverlay from 'react-loading-overlay-ts';
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material/styles';
