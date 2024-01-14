@@ -78,7 +78,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
 
   return (
     <div className="mt-2 dark:text-white max-w-2xl w-full">
-      <div className="p-6 rounded-md bg-zinc-100 dark:bg-zinc-900">
+      <div className="p-6 pt-3 md:pt-6 rounded-md bg-zinc-100 dark:bg-zinc-900">
         <div className="flex justify-between items-center mb-2">
           <h1 className="text-xl md:text-2xl font-bold">New Assignment</h1>
           <button
