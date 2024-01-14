@@ -153,7 +153,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
               <div className="mx-4">
                 <Slider
                   name="difficulty"
-                  className="mt-2 text-zinc-700 dark:text-white"
+                  className={`mt-2 text-blue-600`}
                   value={formik.values.difficulty}
                   onChange={formik.handleChange}
                   disabled={isSubmiting}

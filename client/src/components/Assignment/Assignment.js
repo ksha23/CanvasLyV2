@@ -226,7 +226,20 @@ const Assignment = ({
                 )}
               </div>
             </div>
-            <p className="mb-2 w-full text-sm md:text-lg">{'Due: ' + dateTime}</p>
+            <div className="flex justify-start space-x-2 items-center">
+              <svg
+                className={`w-5 h-5 ${
+                  assignment.completed ? 'text-zinc-400 dark:text-zinc-700' : 'text-blue-600'
+                }`}
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm14-7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z" />
+              </svg>
+              <p className="w-full text-sm md:text-lg">{'Due: ' + dateTime}</p>
+            </div>
             <form onSubmit={formik.handleSubmit}>
               <div className="flex justify-between items-center">
                 <select
@@ -253,9 +266,7 @@ const Assignment = ({
                     <Slider
                       name="difficulty"
                       className={`${
-                        assignment.completed
-                          ? 'text-zinc-300 dark:text-zinc-700'
-                          : 'text-zinc-600 dark:text-white'
+                        assignment.completed ? 'text-zinc-300 dark:text-zinc-600' : 'text-blue-600'
                       }`}
                       value={formik.values.difficulty}
                       onChange={handleFieldChange}

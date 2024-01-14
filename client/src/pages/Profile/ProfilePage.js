@@ -160,13 +160,23 @@ const Profile = ({
                   <span className="font-bold">Username: </span>
                   <span className="info">{profile.username}</span>
                 </div>
-                <div>
+                {/* <div>
                   <span className="font-bold">Email: </span>
                   <span className="info">{profile.email}</span>
-                </div>
-                <div>
-                  <span className="font-bold">Calendar: </span>
-                  <span className="info">
+                </div> */}
+                <div className="flex items-center space-x-2">
+                  <span>
+                    <svg
+                      class="w-4 h-4 text-gray-800 dark:text-white"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm14-7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z" />
+                    </svg>
+                  </span>
+                  <span>
                     {profile.calendars &&
                       profile.calendarId !== '' &&
                       profile.calendars.find((calendar) => calendar.id === profile.calendarId)
@@ -281,7 +291,7 @@ const Profile = ({
                       min={1}
                       max={10}
                       valueLabelDisplay="off"
-                      className="w-full max-w-xl text-zinc-700 dark:text-white"
+                      className="w-full max-w-xl text-blue-600"
                     />
                   </div>
                   <div className="mt-4 flex flex-col justify-center items-center w-full">
@@ -296,7 +306,7 @@ const Profile = ({
                       min={1}
                       max={10}
                       valueLabelDisplay="off"
-                      className="w-full max-w-xl text-zinc-700 dark:text-white"
+                      className="w-full max-w-xl text-blue-600"
                     />
                   </div>
                   <div className="mt-4 flex flex-col justify-center items-center w-full">
@@ -311,7 +321,7 @@ const Profile = ({
                       min={1}
                       max={10}
                       valueLabelDisplay="off"
-                      className="w-full max-w-xl text-zinc-700 dark:text-white"
+                      className="w-full max-w-xl text-blue-600"
                     />
                     {formik.errors.typeWeight && formik.touched.typeWeight && (
                       <p className="error">{formik.errors.typeWeight}</p>
