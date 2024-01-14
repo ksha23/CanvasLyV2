@@ -142,7 +142,7 @@ export const confirmComplete = (id) => async (dispatch, getState) => {
   }
 };
 
-export const clearMessageError = (id) => ({
+export const clearAssignmentError = (id) => ({
   type: CLEAR_ASSIGNMENT_ERROR,
   payload: { id },
 });

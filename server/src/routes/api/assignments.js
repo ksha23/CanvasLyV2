@@ -7,7 +7,6 @@ const router = Router();
 // middleware to check if user is logged in and to refresh access token if needed
 import requireJwtAuth from '../../middleware/requireJwtAuth';
 import refreshTokenMiddleware from '../../middleware/refreshAccessToken';
-import { length } from 'joi/lib/types/array';
 
 // --------------------- COMPLETE Assignment --------------------- //
 

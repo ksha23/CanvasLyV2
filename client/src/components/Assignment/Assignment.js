@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import {
   completeAssignment,
   editAssignment,
-  clearMessageError,
+  clearAssignmentError,
   confirmComplete,
 } from '../../store/actions/assignmentActions';
 import { assignmentFormSchema } from './validation';
@@ -59,7 +59,7 @@ const Assignment = ({
   assignment,
   completeAssignment,
   editAssignment,
-  clearMessageError,
+  clearAssignmentError,
   confirmComplete,
 }) => {
   const formik = useFormik({
@@ -326,7 +326,7 @@ const Assignment = ({
                     <button
                       onClick={() => {
                         // setIsEdit((oldIsEdit) => !oldIsEdit);
-                        clearMessageError(assignment._id);
+                        clearAssignmentError(assignment._id);
                         // refill fields with original values
                         fillOriginalValues();
                       }}
@@ -354,6 +354,6 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   completeAssignment,
   editAssignment,
-  clearMessageError,
+  clearAssignmentError,
   confirmComplete,
 })(Assignment);

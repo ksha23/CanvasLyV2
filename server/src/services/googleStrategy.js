@@ -15,7 +15,6 @@ const googleLogin = new GoogleStrategy(
     proxy: true,
   },
   async (accessToken, refreshToken, profile, done) => {
-    console.log('refreshToken', refreshToken);
     try {
       const oldUser = await User.findOne({ email: profile.email });
 
