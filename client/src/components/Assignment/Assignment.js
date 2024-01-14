@@ -275,11 +275,11 @@ const Assignment = ({
                 )}
                 {formik.values.reminders.map((reminder, index) => {
                   return (
-                    <div key={index} className="flex items-center w-full space-x-2">
+                    <div key={index} className="flex items-center w-full space-x-2 mb-2">
                       <span className="text-2xl font-bold">•</span>
                       <TextareaAutosize
                         name={`reminders.${index}`}
-                        className={`p-2 mb-2 w-full rounded-md border border-zinc-200 dark:${
+                        className={`p-2 w-full rounded-md border border-zinc-200 dark:${
                           assignment.completed ? 'text-zinc-700' : 'text-white'
                         } dark:bg-transparent dark:border-zinc-600`}
                         onChange={(e) => {
