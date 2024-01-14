@@ -79,14 +79,14 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
   return (
     <div className="mt-10 dark:text-white max-w-2xl w-full">
       <div className="p-8 rounded-md bg-zinc-100 dark:bg-zinc-900">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-2">
           <h1 className="text-xl md:text-2xl font-bold">New Assignment</h1>
           <button
-            className="bg-red-700 px-3 py-1 text-sm rounded-full text-white"
+            className="px-3 py-1 text-lg rounded-full text-zinc-400"
             onClick={closeForm}
             disabled={isSubmiting}
           >
-            X
+            ✕
           </button>
         </div>
         <form onSubmit={formik.handleSubmit}>
@@ -113,7 +113,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
                   <DateTimePicker
                     name="dueDate"
                     type="dateTime-local"
-                    className="p-2 bg-gray-200 dark:bg-zinc-800 rounded w-full"
+                    className="bg-gray-200 dark:bg-zinc-800 rounded w-full"
                     value={formik.values.dueDate}
                     onChange={(newValue) => {
                       formik.setFieldValue('dueDate', newValue);
@@ -150,18 +150,20 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
 
             <div className="mb-4">
               <label htmlFor="difficulty">Difficulty:</label>
-              <Slider
-                name="difficulty"
-                className="mt-2"
-                value={formik.values.difficulty}
-                onChange={formik.handleChange}
-                disabled={isSubmiting}
-                step={1}
-                marks={marks}
-                min={1}
-                max={5}
-                valueLabelDisplay="off"
-              />
+              <div className="mx-4">
+                <Slider
+                  name="difficulty"
+                  className="mt-2 text-white"
+                  value={formik.values.difficulty}
+                  onChange={formik.handleChange}
+                  disabled={isSubmiting}
+                  step={1}
+                  marks={marks}
+                  min={1}
+                  max={5}
+                  valueLabelDisplay="off"
+                />
+              </div>
               {formik.touched.difficulty && formik.errors.difficulty ? (
                 <p className="text-red-600">{formik.errors.difficulty}</p>
               ) : null}

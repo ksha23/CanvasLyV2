@@ -281,7 +281,7 @@ const Profile = ({
                       min={1}
                       max={10}
                       valueLabelDisplay="off"
-                      className="w-full max-w-xl"
+                      className="w-full max-w-xl text-white"
                     />
                   </div>
                   <div className="mt-4 flex flex-col justify-center items-center w-full">
@@ -296,7 +296,7 @@ const Profile = ({
                       min={1}
                       max={10}
                       valueLabelDisplay="off"
-                      className="w-full max-w-xl"
+                      className="w-full max-w-xl text-white"
                     />
                   </div>
                   <div className="mt-4 flex flex-col justify-center items-center w-full">
@@ -311,7 +311,7 @@ const Profile = ({
                       min={1}
                       max={10}
                       valueLabelDisplay="off"
-                      className="w-full max-w-xl"
+                      className="w-full max-w-xl text-white"
                     />
                     {formik.errors.typeWeight && formik.touched.typeWeight && (
                       <p className="error">{formik.errors.typeWeight}</p>

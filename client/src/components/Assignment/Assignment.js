@@ -77,10 +77,21 @@ const Assignment = ({
     },
   });
 
-  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+  const [theme, setTheme] = useState(
+    assignment.completed
+      ? (localStorage.getItem('theme') || 'light') === 'light'
+        ? 'dark'
+        : 'light'
+      : localStorage.getItem('theme') || 'light',
+  );
   window.addEventListener('themeChange', handleThemeChange);
 
   function handleThemeChange() {
+    if (assignment.completed) {
+      const currentTheme = localStorage.getItem('theme') || 'light';
+      setTheme(currentTheme === 'light' ? 'dark' : 'light');
+      return;
+    }
     const currentTheme = localStorage.getItem('theme') || 'light';
     setTheme(currentTheme);
   }
@@ -179,9 +190,10 @@ const Assignment = ({
             <div className="flex justify-between items-center space-x-2 mb-2">
               <h3
                 className={
-                  dateObject < new Date()
+                  dateObject < new Date() && !assignment.completed
                     ? 'text-red-700 text-xl md:text-2xl font-bold'
-                    : dateObject.toDateString() === new Date().toDateString()
+                    : dateObject.toDateString() === new Date().toDateString() &&
+                      !assignment.completed
                     ? 'text-yellow-600 text-xl md:text-2xl font-bold'
                     : assignment.completed
                     ? 'text-zinc-400 dark:text-zinc-700 text-xl md:text-2xl font-bold'
@@ -209,7 +221,7 @@ const Assignment = ({
                     type="button"
                     disabled={assignment.confirmedCompleted || !assignment.completed}
                   >
-                    X
+                    ✕
                   </button>
                 )}
               </div>
@@ -240,7 +252,11 @@ const Assignment = ({
                   <div className="ml-8 mb-2 w-1/2 mr-4">
                     <Slider
                       name="difficulty"
-                      className=""
+                      className={`${
+                        assignment.completed
+                          ? 'text-zinc-300 dark:text-zinc-700'
+                          : 'text-zinc-600 dark:text-white'
+                      }`}
                       value={formik.values.difficulty}
                       onChange={handleFieldChange}
                       disabled={assignment.isLoading || assignment.completed}

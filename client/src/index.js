@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { StyledEngineProvider } from '@mui/material';
 
 import App from './App';
 import './index.css';
@@ -26,11 +27,13 @@ const root = createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
     <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}>
-      <Router>
-        <Switch>
-          <Route path="/" component={App} />
-        </Switch>
-      </Router>
+      <StyledEngineProvider injectFirst>
+        <Router>
+          <Switch>
+            <Route path="/" component={App} />
+          </Switch>
+        </Router>
+      </StyledEngineProvider>
     </GoogleOAuthProvider>
   </Provider>,
 );
