@@ -5,41 +5,21 @@ import { connect } from 'react-redux';
 
 import Login from './pages/Login/Login';
 import Home from './pages/Home/Home';
-import Profile from './pages/Profile/Profile';
+import ProfilePage from './pages/Profile/ProfilePage';
 import Users from './pages/Users/Users';
 import Admin from './pages/Admin/Admin';
 import NotFound from './pages/NotFound/NotFound';
 import Assignments from './pages/Assignments/Assignments';
 
-import { logInUserWithOauth, loadMe } from './store/actions/authActions';
+import { loadMe } from './store/actions/authActions';
 import PrivacyPolicyPage from './pages/PrivacyPolicy/PrivacyPolicy';
 
-const App = ({ logInUserWithOauth, auth, users, message, loadMe }) => {
+const App = ({ auth, loadMe }) => {
   useEffect(() => {
-    loadMe();
-  }, [loadMe]);
-
-  useEffect(() => {
-    if (window.location.hash === '#_=_') window.location.hash = '';
-    // const cookieJwt = Cookies.get('x-auth-cookie');
-    // if (cookieJwt) {
-    //   Cookies.remove('x-auth-cookie');
-    logInUserWithOauth();
-    // }
-  }, []);
-
-  useEffect(() => {
-    if (!auth.appLoaded && !auth.isLoading && auth.token && !auth.isAuthenticated) {
+    if (!auth.appLoaded && !auth.isLoading && !auth.isAuthenticated) {
       loadMe();
     }
-  }, [auth.isAuthenticated, auth.token, loadMe, auth.isLoading, auth.appLoaded]);
-
-  // redirect to home if we're in error state
-  useEffect(() => {
-    if (auth.error || message.messages.error || users.error) {
-      window.location.href = '/';
-    }
-  }, [auth.error, message.messages.error, users.error]);
+  }, [auth.isAuthenticated, loadMe, auth.isLoading, auth.appLoaded]);
 
   return (
     <>
@@ -51,7 +31,7 @@ const App = ({ logInUserWithOauth, auth, users, message, loadMe }) => {
           <Route path="/admin" component={Admin} />
           <Route path="/assignments" component={Assignments} />
           <Route path="/privacy" component={PrivacyPolicyPage} />
-          <Route exact path="/:username" component={Profile} />
+          <Route exact path="/:username" component={ProfilePage} />
           <Route exact path="/" component={Home} />
           <Route component={NotFound} />
         </Switch>
@@ -62,8 +42,6 @@ const App = ({ logInUserWithOauth, auth, users, message, loadMe }) => {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  message: state.message,
-  users: state.users,
 });
 
-export default compose(connect(mapStateToProps, { logInUserWithOauth, loadMe }))(App);
+export default compose(connect(mapStateToProps, { loadMe }))(App);

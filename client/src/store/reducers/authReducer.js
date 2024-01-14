@@ -1,14 +1,11 @@
 import {
-  LOGIN_WITH_OAUTH_LOADING,
-  LOGIN_WITH_OAUTH_SUCCESS,
-  LOGIN_WITH_OAUTH_FAIL,
   LOGOUT_SUCCESS,
-  LOGIN_WITH_EMAIL_LOADING,
-  LOGIN_WITH_EMAIL_SUCCESS,
-  LOGIN_WITH_EMAIL_FAIL,
   ME_LOADING,
   ME_SUCCESS,
   ME_FAIL,
+  RELOAD_ME_LOADING,
+  RELOAD_ME_SUCCESS,
+  RELOAD_ME_FAIL,
 } from '../types';
 
 const initialState = {
@@ -26,23 +23,6 @@ export default function (state = initialState, { type, payload }) {
         ...state,
         isLoading: true,
         appLoaded: false,
-        error: null,
-      };
-    case LOGIN_WITH_EMAIL_LOADING:
-    case LOGIN_WITH_OAUTH_LOADING:
-      return {
-        ...state,
-        isLoading: true,
-        error: null,
-      };
-    case LOGIN_WITH_EMAIL_SUCCESS:
-    case LOGIN_WITH_OAUTH_SUCCESS:
-      localStorage.setItem('token', payload.token);
-      return {
-        ...state,
-        isAuthenticated: true,
-        isLoading: false,
-        me: payload.me,
         error: null,
       };
     case ME_SUCCESS:
@@ -63,19 +43,37 @@ export default function (state = initialState, { type, payload }) {
         error: null,
         appLoaded: true,
       };
+    case RELOAD_ME_LOADING:
+      return {
+        ...state,
+        isLoading: true,
+        error: null,
+      };
+    case RELOAD_ME_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        me: payload.me,
+        error: null,
+        isAuthenticated: true,
+        appLoaded: true,
+      };
+    case RELOAD_ME_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        isAuthenticated: true,
+        me: null,
+        error: "Can't reload user",
+        appLoaded: true,
+      };
     case LOGOUT_SUCCESS:
-    case LOGIN_WITH_EMAIL_FAIL:
-    case LOGIN_WITH_OAUTH_FAIL:
       return {
         ...state,
         me: null,
         isAuthenticated: false,
         isLoading: false,
-        error: null, //payload message ovde i razdvoj logout i fail
-      };
-    case 'RESET_AUTH_REDUCER':
-      return {
-        initialState,
+        error: null,
       };
     default:
       return state;

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { reloadMe } from './authActions';
 
 import {
   GET_PROFILE_LOADING,
@@ -7,12 +8,7 @@ import {
   EDIT_USER_LOADING,
   EDIT_USER_SUCCESS,
   EDIT_USER_FAIL,
-  // DELETE_USER_LOADING,
-  // DELETE_USER_SUCCESS,
-  // DELETE_USER_FAIL,
 } from '../types';
-
-import { logOutUser, loadMe } from './authActions';
 
 export const editUser = (id, formData, history) => async (dispatch, getState) => {
   dispatch({
@@ -31,7 +27,11 @@ export const editUser = (id, formData, history) => async (dispatch, getState) =>
       payload: { user: response.data.user },
     });
     // edited him self, reload me
-    if (getState().auth.me?.id === response.data.user.id) dispatch(loadMe());
+    // if (getState().auth.me?.id === response.data.user.id) dispatch(loadMe());
+    if (getState().auth.me?.id === response.data.user.id) {
+      dispatch(getProfile(response.data.user.username, history));
+      dispatch(reloadMe());
+    }
     history.push(`/${response.data.user.username}`);
   } catch (err) {
     dispatch({
@@ -63,28 +63,3 @@ export const getProfile = (username, history) => async (dispatch, getState) => {
     });
   }
 };
-
-// export const deleteUser = (id, history) => async (dispatch, getState) => {
-//   dispatch({
-//     type: DELETE_USER_LOADING,
-//     payload: { id },
-//   });
-//   try {
-//     const response = await axios.delete(`/api/users/${id}`);
-
-//     //logout only if he deleted himself
-//     if (getState().auth.me.id === response.data.user.id) {
-//       dispatch(logOutUser(id, history));
-//     }
-//     history.push('/users');
-//     dispatch({
-//       type: DELETE_USER_SUCCESS,
-//       payload: { message: response.data.user },
-//     });
-//   } catch (err) {
-//     dispatch({
-//       type: DELETE_USER_FAIL,
-//       payload: { error: err?.response?.data.message || err.message },
-//     });
-//   }
-// };

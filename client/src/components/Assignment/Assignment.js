@@ -3,17 +3,31 @@ import { connect } from 'react-redux';
 import { useFormik } from 'formik';
 
 import {
-  deleteMessage,
-  editMessage,
+  completeAssignment,
+  editAssignment,
   clearMessageError,
   confirmComplete,
-} from '../../store/actions/messageActions';
-import { messageFormSchema } from './validation';
+} from '../../store/actions/assignmentActions';
+import { assignmentFormSchema } from './validation';
 import lodash from 'lodash';
 import Slider from '@mui/material/Slider';
 import Loader from '../Loader/Loader';
 import LoadingOverlay from 'react-loading-overlay';
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
+import { ThemeProvider } from '@emotion/react';
+import { createTheme } from '@mui/material/styles';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
+
+const lightTheme = createTheme({
+  palette: {
+    mode: 'light',
+  },
+});
 
 LoadingOverlay.propTypes = undefined;
 
@@ -41,34 +55,41 @@ const marks = [
 ];
 
 // auth is not used here
-const Message = ({
-  message,
-  auth,
-  deleteMessage,
-  editMessage,
+const Assignment = ({
+  assignment,
+  completeAssignment,
+  editAssignment,
   clearMessageError,
   confirmComplete,
 }) => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      difficulty: parseInt(message.difficulty),
-      type: message.type,
-      reminders: [...message.reminders],
+      difficulty: parseInt(assignment.difficulty),
+      type: assignment.type,
+      reminders: [...assignment.reminders],
     },
-    validationSchema: messageFormSchema,
+    validationSchema: assignmentFormSchema,
     onSubmit: (values, { resetForm }) => {
-      editMessage(message._id, { values });
+      editAssignment(assignment._id, { values });
       setIsEdit(false);
       // resetForm();
     },
   });
 
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+  window.addEventListener('themeChange', handleThemeChange);
+
+  function handleThemeChange() {
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    setTheme(currentTheme);
+  }
+
   const [isEdit, setIsEdit] = useState(false);
 
   const handleDelete = (e, id) => {
     e.preventDefault();
-    deleteMessage(id);
+    completeAssignment(id);
   };
 
   const handleFieldChange = (e) => {
@@ -78,20 +99,20 @@ const Message = ({
     valuesCopy[e.target.name] = e.target.value;
 
     // check if any of the values are different from the original
-    if (valuesCopy.type !== message.type) {
+    if (valuesCopy.type !== assignment.type) {
       setIsEdit(true);
       return;
     }
-    if (parseInt(valuesCopy.difficulty) !== message.difficulty) {
+    if (parseInt(valuesCopy.difficulty) !== assignment.difficulty) {
       setIsEdit(true);
       return;
     }
-    for (let i = 0; i < Math.max(valuesCopy.reminders.length, message.reminders.length); i++) {
-      if (valuesCopy.reminders[i] === undefined || message.reminders[i] === undefined) {
+    for (let i = 0; i < Math.max(valuesCopy.reminders.length, assignment.reminders.length); i++) {
+      if (valuesCopy.reminders[i] === undefined || assignment.reminders[i] === undefined) {
         setIsEdit(true);
         return;
       }
-      if (valuesCopy.reminders[i] !== message.reminders[i]) {
+      if (valuesCopy.reminders[i] !== assignment.reminders[i]) {
         setIsEdit(true);
         return;
       }
@@ -106,26 +127,26 @@ const Message = ({
 
   const addReminder = () => {
     formik.setFieldValue('reminders', [...formik.values.reminders, '']); // Append an empty reminder
-    setIsEdit(!lodash.isEqual([...formik.values.reminders, ''], [...message.reminders]));
+    setIsEdit(!lodash.isEqual([...formik.values.reminders, ''], [...assignment.reminders]));
   };
 
   const deleteReminder = (indexToDelete) => {
     const updatedReminders = formik.values.reminders.filter((_, index) => index !== indexToDelete);
     formik.setFieldValue('reminders', updatedReminders);
-    setIsEdit(!lodash.isEqual(updatedReminders, message.reminders));
+    setIsEdit(!lodash.isEqual(updatedReminders, assignment.reminders));
   };
 
   // dont reset form if there is an error
   useEffect(() => {
-    if (!message.error && !message.isLoading) formik.resetForm();
-  }, [message.error, message.isLoading]);
+    if (!assignment.error && !assignment.isLoading) formik.resetForm();
+  }, [assignment.error, assignment.isLoading]);
 
   // keep edit open if there is an error
   useEffect(() => {
-    if (message.error) setIsEdit(true);
-  }, [message.error]);
+    if (assignment.error) setIsEdit(true);
+  }, [assignment.error]);
 
-  const dateObject = new Date(message.dueDate);
+  const dateObject = new Date(assignment.dueDate);
   const dateTime = dateObject.toLocaleString('en-US', {
     weekday: 'short',
     month: 'short',
@@ -139,7 +160,7 @@ const Message = ({
 
   return (
     <LoadingOverlay
-      active={message.isLoading}
+      active={assignment.isLoading}
       spinner={<Loader />}
       text="Updating..."
       className="rounded-md"
@@ -147,11 +168,11 @@ const Message = ({
       <div className="dark:text-white w-full">
         <div
           className={
-            message.completed
-              ? 'p-5 mt-5 border rounded-md border-gray-200 text-zinc-400 dark:border-gray-800 dark:text-zinc-700 dark:border'
+            assignment.completed
+              ? 'p-5 mt-5 rounded-md bg-zinc-100 text-zinc-400 dark:bg-zinc-900 dark:text-zinc-700'
               : isEdit
-              ? 'p-5 mt-5 border-2 border-red-600 rounded-md'
-              : 'p-5 mt-5 border border-gray-400 dark:border-gray-600 rounded-md'
+              ? 'p-5 mt-5 border-2 bg-zinc-100 dark:bg-zinc-900 border-red-600 rounded-md'
+              : 'p-5 mt-5 bg-zinc-100 dark:bg-zinc-900 rounded-md'
           }
         >
           <div>
@@ -159,54 +180,54 @@ const Message = ({
               <h3
                 className={
                   dateObject < new Date()
-                    ? 'text-red-700 text-xl font-bold'
+                    ? 'text-red-700 text-xl md:text-2xl font-bold'
                     : dateObject.toDateString() === new Date().toDateString()
-                    ? 'text-yellow-600 text-xl font-bold'
-                    : 'test-black dark:text-white text-xl font-bold'
+                    ? 'text-yellow-600 text-xl md:text-2xl font-bold'
+                    : assignment.completed
+                    ? 'text-zinc-400 dark:text-zinc-700 text-xl md:text-2xl font-bold'
+                    : 'text-xl md:text-2xl font-bold'
                 }
               >
-                {message.name}
+                {assignment.name}
               </h3>
               <div className="flex">
                 <button
                   className={`px-4 ${
-                    message.completed ? 'bg-green-600 dark:bg-green-700' : 'bg-green-600'
-                  } text-white rounded-md py-2 ml-2`}
-                  onClick={(e) => handleDelete(e, message._id)}
+                    assignment.completed ? 'bg-green-600 dark:bg-green-700' : 'bg-green-600'
+                  } text-white rounded-md px-3 py-1 ml-2`}
+                  onClick={(e) => handleDelete(e, assignment._id)}
                   type="button"
                 >
-                  {message.completed ? '⇧' : '✓'}
+                  {assignment.completed ? '⇧' : '✓'}
                 </button>
-                {message.completed && (
+                {assignment.completed && (
                   <button
                     className={`px-4 ${
-                      message.completed ? 'ml-2 bg-red-600 dark:bg-red-700' : 'bg-green-600'
-                    } text-white rounded-md py-2`}
-                    onClick={() => confirmComplete(message._id)}
+                      assignment.completed ? 'ml-2 px-4 bg-red-600 dark:bg-red-700' : 'bg-green-600'
+                    } text-white rounded-md py-1`}
+                    onClick={() => confirmComplete(assignment._id)}
                     type="button"
-                    disabled={message.confirmedCompleted || !message.completed}
+                    disabled={assignment.confirmedCompleted || !assignment.completed}
                   >
                     X
                   </button>
                 )}
               </div>
             </div>
-            <p className="mb-2 w-full">{'Due Date: ' + dateTime}</p>
+            <p className="mb-2 w-full text-sm md:text-lg">{'Due: ' + dateTime}</p>
             <form onSubmit={formik.handleSubmit}>
               <div className="flex justify-between items-center">
                 <select
                   name="type"
                   className={`p-2 mb-2 w-1/2 rounded-md ${
-                    message.completed
-                      ? 'bg-zinc-100 dark:bg-zinc-900'
-                      : 'bg-zinc-200 dark:bg-zinc-700'
+                    assignment.completed ? 'bg-white dark:bg-zinc-900' : 'bg-white dark:bg-zinc-800'
                   }
                    dark:text-white"
                   name="type`}
                   onChange={handleFieldChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.type}
-                  disabled={message.isLoading || message.completed}
+                  disabled={assignment.isLoading || assignment.completed}
                 >
                   <option value="Assignment">Assignment</option>
                   <option value="Quiz">Quiz</option>
@@ -215,20 +236,22 @@ const Message = ({
                   <option value="Other">Other</option>
                 </select>
 
-                <div className="ml-8 mb-2 w-1/2">
-                  <Slider
-                    name="difficulty"
-                    className=""
-                    value={formik.values.difficulty}
-                    onChange={handleFieldChange}
-                    disabled={message.isLoading || message.completed}
-                    step={1}
-                    marks={marks}
-                    min={1}
-                    max={5}
-                    valueLabelDisplay="off"
-                  />
-                </div>
+                <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
+                  <div className="ml-8 mb-2 w-1/2 mr-4">
+                    <Slider
+                      name="difficulty"
+                      className=""
+                      value={formik.values.difficulty}
+                      onChange={handleFieldChange}
+                      disabled={assignment.isLoading || assignment.completed}
+                      step={1}
+                      marks={marks}
+                      min={1}
+                      max={5}
+                      valueLabelDisplay="off"
+                    />
+                  </div>
+                </ThemeProvider>
               </div>
               <div>
                 {formik.values.reminders && formik.values.reminders.length > 0 && (
@@ -241,23 +264,23 @@ const Message = ({
                       <TextareaAutosize
                         name={`reminders.${index}`}
                         className={`p-2 mb-2 w-full rounded-md border border-zinc-200 dark:${
-                          message.completed ? 'text-zinc-700' : 'text-white'
+                          assignment.completed ? 'text-zinc-700' : 'text-white'
                         } dark:bg-transparent dark:border-zinc-600`}
                         onChange={(e) => {
                           const updatedReminders = [...formik.values.reminders];
                           updatedReminders[index] = e.target.value;
                           formik.setFieldValue('reminders', updatedReminders);
-                          setIsEdit(!lodash.isEqual(updatedReminders, message.reminders));
+                          setIsEdit(!lodash.isEqual(updatedReminders, assignment.reminders));
                         }}
                         onBlur={formik.handleBlur}
                         value={formik.values.reminders[index] || ''} // Add a default value in case of undefined
-                        disabled={message.isLoading || message.completed}
+                        disabled={assignment.isLoading || assignment.completed}
                       />
 
                       <button
                         type="button"
                         onClick={() => deleteReminder(index)}
-                        disabled={message.isLoading || message.completed}
+                        disabled={assignment.isLoading || assignment.completed}
                       >
                         ⓧ
                       </button>
@@ -265,10 +288,10 @@ const Message = ({
                   );
                 })}
                 <button
-                  className="mb-2 underline text-zinc-500"
+                  className="mb-2 text-sm underline text-zinc-500"
                   type="button"
                   onClick={addReminder}
-                  disabled={message.isLoading || message.completed}
+                  disabled={assignment.isLoading || assignment.completed}
                 >
                   Add Reminder
                 </button>
@@ -280,20 +303,20 @@ const Message = ({
                     <button
                       type="submit"
                       className="px-4 mr-4 bg-green-600 text-white rounded-md py-2"
-                      disabled={message.isLoading}
+                      disabled={assignment.isLoading}
                     >
                       Update
                     </button>
                     <button
                       onClick={() => {
                         // setIsEdit((oldIsEdit) => !oldIsEdit);
-                        clearMessageError(message._id);
+                        clearMessageError(assignment._id);
                         // refill fields with original values
                         fillOriginalValues();
                       }}
                       type="button"
                       className="px-4 mr-4 bg-red-600 text-white rounded-md py-2"
-                      disabled={message.isLoading || message.completed}
+                      disabled={assignment.isLoading || assignment.completed}
                     >
                       Undo
                     </button>
@@ -313,8 +336,8 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  deleteMessage,
-  editMessage,
+  completeAssignment,
+  editAssignment,
   clearMessageError,
   confirmComplete,
-})(Message);
+})(Assignment);

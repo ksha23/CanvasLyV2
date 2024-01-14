@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 // import { Link } from 'react-router-dom';
@@ -11,7 +11,7 @@ import Loader from '../../components/Loader/Loader';
 import requireAdmin from '../../hoc/requireAdmin';
 
 const Users = ({ getUsers, users: { users, isLoading } }) => {
-  useEffect(() => {
+  useLayoutEffect(() => {
     getUsers();
   }, []);
 

@@ -1,54 +1,29 @@
-import React from 'react';
-// import { useEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-// import Cookies from 'js-cookie';
 
 import YoutubeComponent from '../../components/YoutubeComponent/YoutubeComponent';
 import './Home.css';
 import Layout from '../../layout/Layout';
+import HomePicture from '../../Assets/CanvaslyHome.png';
+import HomePictureLight from '../../Assets/CanvaslyHomeLight.png';
 
 const Home = ({ auth }) => {
-  // const [cookies, setCookie, removeCookie] = useCookies(['x-auth-cookie']);
+  const [darkMode, setDarkMode] = useState(localStorage.getItem('theme') === 'dark');
 
-  // const handleReseed = () => {
-  //   reseedDatabase();
-  // };
+  useLayoutEffect(() => {
+    if (localStorage.getItem('darkMode') === 'true') {
+      setDarkMode(true);
+    }
+  }, []);
 
-  // for mobile (testing)
-  // useEffect(() => {
-  //   // grab the code from the URL
-  //   const urlParams = new URLSearchParams(window.location.search);
-  //   const code = urlParams.get('code');
-  //   // clear the code from the URL
-  //   window.history.replaceState({}, null, '/');
+  window.addEventListener('themeChange', handleThemeChange);
 
-  //   if (code && !auth.isAuthenticated && code !== 'undefined') {
-  //     // exchange the code for a token
-  //     exchangeCodeForToken(code);
-  //   }
-  // }, []);
-
-  // for mobile (testing)
-  // const exchangeCodeForToken = async (code) => {
-  //   console.log('in exchangeCodeForToken');
-  //   const response = await fetch(`https://localhost:4000/auth/google/authcode`, {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({ code: code }),
-  //   });
-
-  //   const jwt = await response.json();
-
-  //   // store the token in cookies
-
-  //   Cookies.set('x-auth-cookie', jwt.token, { expires: 1 });
-  //   // reload the page
-  //   window.location.href = '/';
-  // };
+  function handleThemeChange() {
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    setDarkMode(currentTheme === 'dark');
+  }
 
   return (
     <Layout>
@@ -59,14 +34,14 @@ const Home = ({ auth }) => {
               <div className="max-w-3xl mx-auto text-center">
                 <h1 className="text-4xl font-bold mb-4">Welcome to CanvasLy</h1>
                 <p className="mb-5">
-                  Login in with Google to get started:{' '}
+                  Log in with Google to get started:{' '}
                   <Link className="bold" to="/login">
                     Log in
                   </Link>
                 </p>
                 {/* <ReseedMessage handleReseed={handleReseed} /> */}
                 <div className="mb-12">
-                  <h2 className="text-2xl font-bold mb-4 text-purple-600">Why Choose CanvasLy?</h2>
+                  <h2 className="text-2xl font-bold mb-4 text-blue-600">Why Choose CanvasLy?</h2>
                   <ul className="text-left list-disc ml-6 dark:text-slate-300 why-canvasly-list">
                     <li>Effortlessly manage upcoming assignments, quizzes, projects, and exams</li>
                     <li>
@@ -76,9 +51,22 @@ const Home = ({ auth }) => {
                     <li>Never miss another assignment again!</li>
                   </ul>
                 </div>
-
+                {darkMode && (
+                  <div className="mb-12">
+                    <img src={HomePicture} alt="Canvasly Home" className="mx-auto" />
+                  </div>
+                )}
+                {!darkMode && (
+                  <div className="mb-12">
+                    <img
+                      src={darkMode == true ? HomePicture : HomePictureLight}
+                      alt="Canvasly Home"
+                      className="mx-auto"
+                    />
+                  </div>
+                )}
                 <div>
-                  <h2 className="text-2xl font-bold mb-4 text-purple-600">How to Get Started:</h2>
+                  <h2 className="text-2xl font-bold mb-4 text-blue-600">How to Get Started:</h2>
                   <ol className="text-left list-decimal ml-6 dark:text-slate-300">
                     <li>Access "Canvas Calendar" in the Canvas side menu</li>
                     <li>Locate "Calendar Feed" and copy the URL</li>
@@ -103,7 +91,7 @@ const Home = ({ auth }) => {
               <h1 className="text-4xl font-bold mb-4 text-center">Welcome, {auth.me.name}</h1>
               <div className="flex-grow max-w-3xl mx-auto text-center">
                 <div>
-                  <h2 className="text-2xl font-bold mb-4 text-purple-600">
+                  <h2 className="text-2xl font-bold mb-4 text-blue-600">
                     Need Help Getting Started?
                   </h2>
                   <ol className="text-left list-decimal ml-6 dark:text-slate-300">

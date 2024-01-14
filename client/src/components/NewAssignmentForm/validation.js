@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-export const messageFormSchema = Yup.object({
+export const assignmentFormSchema = Yup.object({
   name: Yup.string()
     .min(1, 'Must be 1 character at minimum')
     .max(100, 'Must be 100 characters or less')

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { useFormik } from 'formik';
@@ -11,6 +11,20 @@ import Loader from '../../components/Loader/Loader';
 import requireAuth from '../../hoc/requireAuth';
 import { profileSchema } from './validation';
 import Slider from '@mui/material/Slider';
+import { ThemeProvider } from '@emotion/react';
+import { createTheme } from '@mui/material/styles';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
+
+const lightTheme = createTheme({
+  palette: {
+    mode: 'light',
+  },
+});
 
 const marks = [
   {
@@ -64,7 +78,6 @@ const Profile = ({
   user: { profile, isLoading, error },
   auth: { me },
   editUser,
-  deleteUser,
   loadMe,
   history,
   match,
@@ -73,14 +86,26 @@ const Profile = ({
   const [avatar, setAvatar] = useState('');
   const matchUsername = match.params.username;
 
-  useEffect(() => {
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+  window.addEventListener('themeChange', handleThemeChange);
+
+  function handleThemeChange() {
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    setTheme(currentTheme);
+  }
+
+  useLayoutEffect(() => {
     getProfile(matchUsername, history);
   }, [matchUsername]);
 
   const onChange = (event) => {
     formik.setFieldValue('image', event.currentTarget.files[0]);
-    setImage(URL.createObjectURL(event.target.files[0]));
-    setAvatar(event.target.files[0]);
+    try {
+      setImage(URL.createObjectURL(event.target.files[0]));
+      setAvatar(event.target.files[0]);
+    } catch (err) {
+      // expected
+    }
   };
 
   const formik = useFormik({
@@ -119,9 +144,9 @@ const Profile = ({
       {error && <p className="error">{error}</p>}
 
       <div className="dark:text-white w-full">
-        <h1 className="text-3xl font-bold mb-4 text-center">Profile</h1>
+        <p className="text-4xl font-bold text-center mb-4">Profile: {profile.name}</p>
         {isLoading ? (
-          <div className="flex justify-center">
+          <div className="flex justify-center items-center">
             <Loader />
           </div>
         ) : (
@@ -131,10 +156,6 @@ const Profile = ({
                 <img src={image ? image : profile.avatar} className="object-cover w-full h-full" />
               </div>
               <div>
-                <div>
-                  <span className="font-bold">Name: </span>
-                  <span className="">{profile.name}</span>
-                </div>
                 <div>
                   <span className="font-bold">Username: </span>
                   <span className="info">{profile.username}</span>
@@ -177,7 +198,7 @@ const Profile = ({
                 <div className="mt-2 flex flex-col justify-center items-center w-full">
                   <label className="font-bold text-lg mt-4 mb-1">Avatar: </label>
                   <input
-                    className="px-4 py-2 ml-2 rounded-md bg-zinc-200 dark:bg-zinc-700 w-full max-w-xl text-center"
+                    className="bg-zinc-200 dark:bg-zinc-700 rounded-md justify-center text-zinc-600 dark:text-zinc-200 file:bg-blue-600 file: file:text-white file:px-4 file:py-2 file:rounded-md file:border-none file:mr-4  w-full max-w-xl"
                     name="image"
                     type="file"
                     onChange={onChange}
@@ -247,59 +268,61 @@ const Profile = ({
                     <p className="error">{formik.errors.calendarId}</p>
                   )}
                 </div>
-                <div className="mt-4 flex flex-col justify-center items-center w-full">
-                  <label className="font-bold text-lg mb-1">Due Date Weight: </label>
+                <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+                  <div className="mt-4 flex flex-col justify-center items-center w-full">
+                    <label className="font-bold text-lg mb-1">Due Date Weight: </label>
+                    <Slider
+                      name="dueDateWeight"
+                      value={formik.values.dueDateWeight}
+                      onChange={formik.handleChange}
+                      // onBlur={formik.handleBlur}
+                      step={1}
+                      marks={marks}
+                      min={1}
+                      max={10}
+                      valueLabelDisplay="off"
+                      className="w-full max-w-xl"
+                    />
+                  </div>
+                  <div className="mt-4 flex flex-col justify-center items-center w-full">
+                    <label className="font-bold text-lg mb-1">Difficulty Weight: </label>
+                    <Slider
+                      name="difficultyWeight"
+                      value={formik.values.difficultyWeight}
+                      onChange={formik.handleChange}
+                      // onBlur={formik.handleBlur}
+                      step={1}
+                      marks={marks}
+                      min={1}
+                      max={10}
+                      valueLabelDisplay="off"
+                      className="w-full max-w-xl"
+                    />
+                  </div>
+                  <div className="mt-4 flex flex-col justify-center items-center w-full">
+                    <label className="font-bold text-lg mb-1">Type Weight: </label>
+                    <Slider
+                      name="typeWeight"
+                      value={formik.values.typeWeight}
+                      onChange={formik.handleChange}
+                      // onBlur={formik.handleBlur}
+                      step={1}
+                      marks={marks}
+                      min={1}
+                      max={10}
+                      valueLabelDisplay="off"
+                      className="w-full max-w-xl"
+                    />
+                    {formik.errors.typeWeight && formik.touched.typeWeight && (
+                      <p className="error">{formik.errors.typeWeight}</p>
+                    )}
+                  </div>
+                </ThemeProvider>
 
-                  <Slider
-                    name="dueDateWeight"
-                    value={formik.values.dueDateWeight}
-                    onChange={formik.handleChange}
-                    // onBlur={formik.handleBlur}
-                    step={1}
-                    marks={marks}
-                    min={1}
-                    max={10}
-                    valueLabelDisplay="off"
-                    className="w-full max-w-xl"
-                  />
-                </div>
-                <div className="mt-4 flex flex-col justify-center items-center w-full">
-                  <label className="font-bold text-lg mb-1">Difficulty Weight: </label>
-                  <Slider
-                    name="difficultyWeight"
-                    value={formik.values.difficultyWeight}
-                    onChange={formik.handleChange}
-                    // onBlur={formik.handleBlur}
-                    step={1}
-                    marks={marks}
-                    min={1}
-                    max={10}
-                    valueLabelDisplay="off"
-                    className="w-full max-w-xl"
-                  />
-                </div>
-                <div className="mt-4 flex flex-col justify-center items-center w-full">
-                  <label className="font-bold text-lg mb-1">Type Weight: </label>
-                  <Slider
-                    name="typeWeight"
-                    value={formik.values.typeWeight}
-                    onChange={formik.handleChange}
-                    // onBlur={formik.handleBlur}
-                    step={1}
-                    marks={marks}
-                    min={1}
-                    max={10}
-                    valueLabelDisplay="off"
-                    className="w-full max-w-xl"
-                  />
-                  {formik.errors.typeWeight && formik.touched.typeWeight && (
-                    <p className="error">{formik.errors.typeWeight}</p>
-                  )}
-                </div>
                 <div className="mt-4 flex justify-center items-center w-full">
                   <button
                     type="submit"
-                    className="mt-2 px-4 py-2 rounded-md text-white bg-violet-600"
+                    className="mt-2 px-4 py-2 rounded-md text-white bg-blue-600"
                   >
                     Save Preferences
                   </button>
@@ -323,3 +346,13 @@ export default compose(
   withRouter,
   connect(mapStateToProps, { getProfile, editUser, loadMe }),
 )(Profile);
+
+/*
+getProfile,
+  user: { profile, isLoading, error },
+  auth: { me },
+  editUser,
+  loadMe,
+  history,
+  match,
+*/

@@ -3,11 +3,11 @@ import { combineReducers } from 'redux';
 import authReducer from './authReducer';
 import userReducer from './userReducer';
 import usersReducer from './usersReducer';
-import messageReducer from './messageReducer';
+import assignmentReducer from './assignmentReducer';
 
 export default combineReducers({
   auth: authReducer,
-  message: messageReducer,
+  assignment: assignmentReducer,
   user: userReducer,
   users: usersReducer,
 });

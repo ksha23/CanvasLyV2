@@ -1,21 +1,21 @@
 import {
-  GET_MESSAGES_LOADING,
-  GET_MESSAGES_SUCCESS,
-  GET_MESSAGES_FAIL,
-  ADD_MESSAGE_LOADING,
-  ADD_MESSAGE_SUCCESS,
-  ADD_MESSAGE_FAIL,
-  DELETE_MESSAGE_LOADING,
-  DELETE_MESSAGE_SUCCESS,
-  DELETE_MESSAGE_FAIL,
-  EDIT_MESSAGE_LOADING,
-  EDIT_MESSAGE_SUCCESS,
-  EDIT_MESSAGE_FAIL,
-  CLEAR_MESSAGE_ERROR,
+  GET_ASSIGNMENTS_LOADING,
+  GET_ASSIGNMENTS_SUCCESS,
+  GET_ASSIGNMENTS_FAIL,
+  ADD_ASSIGNMENT_LOADING,
+  ADD_ASSIGNMENT_SUCCESS,
+  ADD_ASSIGNMENT_FAIL,
+  COMPLETE_ASSIGNMENT_LOADING,
+  COMPLETE_ASSIGNMENT_SUCCESS,
+  COMPLETE_ASSIGNMENT_FAIL,
+  EDIT_ASSIGNMENT_LOADING,
+  EDIT_ASSIGNMENT_SUCCESS,
+  EDIT_ASSIGNMENT_FAIL,
+  CLEAR_ASSIGNMENT_ERROR,
 } from '../types';
 
 const initialState = {
-  messages: [],
+  assignments: [],
   isLoading: false,
   error: null,
 };
@@ -69,12 +69,12 @@ const customSort = (dueDateWeight, typeWeight, difficultyWeight) => (a, b) => {
   return 0;
 };
 
-const sortMessage = (messages, weights) => {
+const sortAssignments = (assignments, weights) => {
   const weight = weights;
   const dueDateWeight = weight[0];
   const difficultyWeight = weight[1];
   const typeWeight = weight[2];
-  const sortedMessages = messages.sort(customSort(dueDateWeight, typeWeight, difficultyWeight));
+  const sortedMessages = assignments.sort(customSort(dueDateWeight, typeWeight, difficultyWeight));
   return sortedMessages;
 };
 
@@ -82,15 +82,31 @@ const sortMessage = (messages, weights) => {
 
 export default function (state = initialState, { type, payload }) {
   switch (type) {
-    case GET_MESSAGES_LOADING:
+    // GET ASSIGNMENTS
+    case GET_ASSIGNMENTS_LOADING:
       return {
         ...state,
         isLoading: true,
       };
-    case ADD_MESSAGE_LOADING:
+    case GET_ASSIGNMENTS_SUCCESS:
       return {
         ...state,
-        messages: [
+        isLoading: false,
+        assignments: sortAssignments(payload.assignments, payload.weights),
+      };
+    case GET_ASSIGNMENTS_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: payload.error,
+        assignments: initialState.assignments,
+      };
+
+    // ADD ASSIGNMENT
+    case ADD_ASSIGNMENT_LOADING:
+      return {
+        ...state,
+        assignments: [
           {
             id: 0,
             text: 'Loading...',
@@ -99,83 +115,67 @@ export default function (state = initialState, { type, payload }) {
             updatedAt: new Date().toISOString(),
             user: { ...payload.me },
           },
-          ...state.messages,
+          ...state.assignments,
         ],
       };
-    case DELETE_MESSAGE_LOADING:
-    case EDIT_MESSAGE_LOADING:
+    case ADD_ASSIGNMENT_SUCCESS:
       return {
         ...state,
-        messages: state.messages.map((m) => {
+        isLoading: false,
+        assignments: sortAssignments([payload.assignment, ...state.assignments], payload.weights),
+      };
+    case ADD_ASSIGNMENT_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: payload.error,
+        assignments: initialState.assignments,
+      };
+
+    // COMPLETE ASSIGNMENT / EDIT ASSIGNMENT
+    case COMPLETE_ASSIGNMENT_LOADING:
+    case EDIT_ASSIGNMENT_LOADING:
+      return {
+        ...state,
+        assignments: state.assignments.map((m) => {
           if (m._id === payload.id) return { ...m, isLoading: true };
           return m;
         }),
       };
-    case GET_MESSAGES_SUCCESS:
+    case COMPLETE_ASSIGNMENT_SUCCESS:
+    case EDIT_ASSIGNMENT_SUCCESS:
       return {
         ...state,
-        isLoading: false,
-        messages: sortMessage(payload.messages, payload.weights),
-      };
-    case ADD_MESSAGE_SUCCESS:
-      // just need to add the new message to the messages array
-      return {
-        ...state,
-        isLoading: false,
-        messages: [payload.message, ...state.messages],
-      };
-    case DELETE_MESSAGE_SUCCESS:
-      return {
-        ...state,
-        messages: state.messages.map((m) => {
-          if (m._id === payload.message._id) return payload.message;
-          return m;
-        }),
-      };
-    case EDIT_MESSAGE_SUCCESS:
-      return {
-        ...state,
-        messages: sortMessage(
-          state.messages.map((m) => {
-            if (m._id === payload.message._id) return payload.message;
+        assignments: sortAssignments(
+          state.assignments.map((m) => {
+            if (m._id === payload.assignment._id) return payload.assignment;
             return m;
           }),
           payload.weights,
         ),
       };
-    case DELETE_MESSAGE_FAIL:
-    case EDIT_MESSAGE_FAIL:
+    case COMPLETE_ASSIGNMENT_FAIL:
+    case EDIT_ASSIGNMENT_FAIL:
       return {
         ...state,
         error: true,
         isLoading: false,
-        messages: state.messages.map((m) => {
+        assignments: state.assignments.map((m) => {
           if (m._id === payload.id) return { ...m, isLoading: false, error: payload.error };
           return m;
         }),
       };
-    case GET_MESSAGES_FAIL:
+
+    // CLEAR ASSIGNMENT ERROR
+    case CLEAR_ASSIGNMENT_ERROR:
       return {
         ...state,
-        isLoading: false,
-        error: payload.error,
-      };
-    case ADD_MESSAGE_FAIL:
-      return {
-        ...state,
-        isLoading: false,
-        error: payload.error,
-        messages: state.messages.filter((m) => m.id !== 0),
-      };
-    case CLEAR_MESSAGE_ERROR:
-      return {
-        ...state,
-        messages: state.messages.map((m) => {
+        assignments: state.assignments.map((m) => {
           if (m.id === payload.id) return { ...m, isLoading: false, error: null };
           return m;
         }),
       };
-    case 'RESET_MESSAGE_REDUCER':
+    case 'RESET_ASSIGNMENT_REDUCER':
       return {
         initialState,
       };

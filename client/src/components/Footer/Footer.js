@@ -8,7 +8,7 @@ const Footer = () => {
         <p className="text-sm dark:text-zinc-200">
           &copy; {new Date().getFullYear()} CanvasLy. All rights reserved.
         </p>
-        <Link to="/privacy" className="ml-4 text-sm text-violet-600">
+        <Link to="/privacy" className="ml-4 text-sm text-blue-600">
           Privacy Policy
         </Link>
       </div>

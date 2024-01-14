@@ -5,7 +5,6 @@ import https from 'https';
 import { readFileSync } from 'fs';
 import { resolve, join } from 'path';
 import passport from 'passport';
-// import all_routes from 'express-list-endpoints';
 import routes from './routes';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -20,10 +19,6 @@ app.use(passport.initialize());
 require('./services/jwtStrategy');
 require('./services/googleStrategy');
 require('./services/googleAuthCodeStrategy');
-
-// For local and facebook auth
-// require('./services/localStrategy');
-// require('./services/facebookStrategy');
 
 app.use(
   cors({
@@ -48,18 +43,11 @@ mongoose
   })
   .then(() => {
     console.log('MongoDB Connected...');
-    // seedDb();
   })
   .catch((err) => console.log(err));
 
 // Use Routes
 app.use('/', routes);
-
-// display route requested
-app.use((req, res, next) => {
-  console.log(req.method, req.url);
-  next();
-});
 
 // Serve images
 app.use('/public/images', express.static(join(__dirname, '../public/images')));
@@ -85,6 +73,5 @@ if (isProduction) {
 
   const server = https.createServer(httpsOptions, app).listen(port, () => {
     console.log('https server running at ' + port);
-    // console.log(all_routes(app));
   });
 }

@@ -1,19 +1,13 @@
 import axios from 'axios';
 
 import {
-  LOGIN_WITH_OAUTH_LOADING,
-  LOGIN_WITH_OAUTH_SUCCESS,
-  LOGIN_WITH_OAUTH_FAIL,
   LOGOUT_SUCCESS,
-  LOGIN_WITH_EMAIL_LOADING,
-  LOGIN_WITH_EMAIL_SUCCESS,
-  LOGIN_WITH_EMAIL_FAIL,
   ME_LOADING,
   ME_SUCCESS,
   ME_FAIL,
-  // RESEED_DATABASE_LOADING,
-  // RESEED_DATABASE_SUCCESS,
-  // RESEED_DATABASE_FAIL,
+  RELOAD_ME_LOADING,
+  RELOAD_ME_SUCCESS,
+  RELOAD_ME_FAIL,
 } from '../types';
 
 export const loadMe = () => async (dispatch, getState) => {
@@ -32,39 +26,17 @@ export const loadMe = () => async (dispatch, getState) => {
   }
 };
 
-export const loginUserWithEmail = (formData, history) => async (dispatch, getState) => {
-  dispatch({ type: LOGIN_WITH_EMAIL_LOADING });
-  try {
-    const response = await axios.post('/auth/login', formData);
-
-    dispatch({
-      type: LOGIN_WITH_EMAIL_SUCCESS,
-      payload: { me: response.data.me },
-    });
-
-    dispatch(loadMe());
-    history.push('/');
-  } catch (err) {
-    dispatch({
-      type: LOGIN_WITH_EMAIL_FAIL,
-      payload: { error: err.response.data.message },
-    });
-  }
-};
-
-export const logInUserWithOauth = () => async (dispatch, getState) => {
-  dispatch({ type: LOGIN_WITH_OAUTH_LOADING });
-
+export const reloadMe = () => async (dispatch, getState) => {
+  dispatch({ type: RELOAD_ME_LOADING });
   try {
     const response = await axios.get('/api/users/me');
-
     dispatch({
-      type: LOGIN_WITH_OAUTH_SUCCESS,
+      type: RELOAD_ME_SUCCESS,
       payload: { me: response.data.me },
     });
   } catch (err) {
     dispatch({
-      type: LOGIN_WITH_OAUTH_FAIL,
+      type: RELOAD_ME_FAIL,
       payload: { error: err.response.data.message },
     });
   }
@@ -100,55 +72,3 @@ function deleteAllCookies() {
     document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
   }
 }
-
-// export const reseedDatabase = () => async (dispatch, getState) => {
-//   dispatch({
-//     type: RESEED_DATABASE_LOADING,
-//   });
-//   try {
-//     await axios.get('/api/users/reseed');
-
-//     dispatch({
-//       type: RESEED_DATABASE_SUCCESS,
-//     });
-//     dispatch(logOutUser());
-//     dispatch(getMessages());
-//   } catch (err) {
-//     dispatch({
-//       type: RESEED_DATABASE_FAIL,
-//       payload: { error: err?.response?.data.message || err.message },
-//     });
-//   }
-// };
-
-// export const attachTokenToHeaders = (getState) => {
-//   const token = getState().auth.token;
-
-//   const config = {
-//     headers: {
-//       'Content-type': 'application/json',
-//     },
-//   };
-
-//   if (token) {
-//     config.headers['x-auth-token'] = token;
-//   }
-
-//   return config;
-// };
-
-// export const attachTokenToHeadersWithFormData = (getState) => {
-//   const token = getState().auth.token;
-
-//   const config = {
-//     headers: {
-//       'Content-type': 'multipart/form-data',
-//     },
-//   };
-
-//   if (token) {
-//     config.headers['x-auth-token'] = token;
-//   }
-
-//   return config;
-// };
