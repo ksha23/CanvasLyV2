@@ -38,6 +38,25 @@ export const getAssignments = () => async (dispatch, getState) => {
   }
 };
 
+export const refreshAssignments = () => async (dispatch, getState) => {
+  try {
+    const response = await axios.get('/api/calendars/events');
+
+    const user = getState().auth.me;
+    const weights = user.weights;
+
+    dispatch({
+      type: GET_ASSIGNMENTS_SUCCESS,
+      payload: { assignments: response.data, weights: weights },
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_ASSIGNMENTS_FAIL,
+      payload: { error: err?.response?.data.assignment || err.assignment },
+    });
+  }
+};
+
 // UPDATED
 export const addAssignment = (data) => async (dispatch, getState) => {
   dispatch({

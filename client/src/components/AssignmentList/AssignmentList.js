@@ -4,11 +4,16 @@ import { connect } from 'react-redux';
 import Assignment from '../Assignment/Assignment';
 import Loader from '../Loader/Loader';
 
-import { getAssignments } from '../../store/actions/assignmentActions';
+import { getAssignments, refreshAssignments } from '../../store/actions/assignmentActions';
 
-const AssignmentList = ({ getAssignments, assignments, isLoading, error }) => {
+const AssignmentList = ({ getAssignments, refreshAssignments, assignments, isLoading, error }) => {
   useLayoutEffect(() => {
     getAssignments();
+    // refresh data every every 30 seconds
+    const interval = setInterval(() => {
+      refreshAssignments();
+    }, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -51,4 +56,4 @@ const mapStateToProps = (state) => ({
   error: state.assignment.error,
 });
 
-export default connect(mapStateToProps, { getAssignments })(AssignmentList);
+export default connect(mapStateToProps, { getAssignments, refreshAssignments })(AssignmentList);
