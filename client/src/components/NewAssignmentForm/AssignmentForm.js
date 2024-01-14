@@ -82,7 +82,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
         <div className="flex justify-between items-center mb-2">
           <h1 className="text-xl md:text-2xl font-bold">New Assignment</h1>
           <button
-            className="px-3 py-1 text-lg rounded-full text-zinc-400"
+            className="px-3 py-1 text-lg rounded-full text-zinc-700 dark:text-zinc-400"
             onClick={closeForm}
             disabled={isSubmiting}
           >
@@ -94,7 +94,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
             <label htmlFor="name">Name:</label>
             <TextareaAutosize
               name="name"
-              className="p-2 mt-2 bg-gray-200 dark:bg-zinc-800 rounded w-full"
+              className="p-2 mt-2 bg-white dark:bg-zinc-800 rounded w-full"
               placeholder="Add Name..."
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -113,7 +113,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
                   <DateTimePicker
                     name="dueDate"
                     type="dateTime-local"
-                    className="bg-gray-200 dark:bg-zinc-800 rounded w-full"
+                    className="bg-white dark:bg-zinc-800 rounded w-full"
                     value={formik.values.dueDate}
                     onChange={(newValue) => {
                       formik.setFieldValue('dueDate', newValue);
@@ -131,7 +131,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
               <label htmlFor="type">Type:</label>
               <select
                 name="type"
-                className="p-2 mt-2 w-full rounded-md bg-zinc-200 dark:bg-zinc-800"
+                className="p-2 mt-2 w-full rounded-md bg-white dark:bg-zinc-800"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.type}
@@ -153,7 +153,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
               <div className="mx-4">
                 <Slider
                   name="difficulty"
-                  className="mt-2 text-white"
+                  className="mt-2 text-zinc-700 dark:text-white"
                   value={formik.values.difficulty}
                   onChange={formik.handleChange}
                   disabled={isSubmiting}
@@ -174,7 +174,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
             <label htmlFor="reminders">Reminder:</label>
             <TextareaAutosize
               name="reminders"
-              className="p-2 mt-2 bg-gray-200 dark:bg-zinc-800 rounded w-full"
+              className="p-2 mt-2 bg-white dark:bg-zinc-800 rounded w-full"
               type="text"
               placeholder="Add reminder (optional)"
               onChange={formik.handleChange}
