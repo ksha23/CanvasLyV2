@@ -12,7 +12,9 @@ import requireAdmin from '../../hoc/requireAdmin';
 
 const Users = ({ getUsers, users: { users, isLoading } }) => {
   useLayoutEffect(() => {
-    getUsers();
+    if (!users || users.length === 0) {
+      getUsers();
+    }
   }, []);
 
   return (
