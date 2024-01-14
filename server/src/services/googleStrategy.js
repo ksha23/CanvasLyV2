@@ -41,7 +41,7 @@ const googleLogin = new GoogleStrategy(
       }).save();
 
       // remove refresh token from user object
-      newUser.refreshToken = undefined;
+      // newUser.refreshToken = undefined;
       done(null, newUser);
     } catch (err) {
       console.log(err);
