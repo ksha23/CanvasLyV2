@@ -50,6 +50,15 @@ mongoose
 app.use('/', routes);
 
 // Serve images
+// make /public/images folder if it doesnt exist
+const IMAGES_FOLDER_PATH = '/public/images/';
+const fs = require('fs');
+if (!fs.existsSync(join(__dirname, '../public'))) {
+  fs.mkdirSync(join(__dirname, '../public'));
+}
+if (!fs.existsSync(join(__dirname, '../public/images'))) {
+  fs.mkdirSync(join(__dirname, '../public/images'));
+}
 app.use('/public/images', express.static(join(__dirname, '../public/images')));
 
 // Serve static assets if in production
