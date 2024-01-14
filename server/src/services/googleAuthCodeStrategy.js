@@ -4,11 +4,13 @@ import passport from 'passport';
 import User from '../models/User';
 const refresh = require('passport-oauth2-refresh');
 
+const serverUrl = process.env.NODE_ENV === 'production' ? process.env.SERVER_URL_PROD : process.env.SERVER_URL_DEV;
+
 const googleAuthCodeLogin = new GoogleAuthCodeStrategy(
   {
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: 'http://localhost:3000',
+    callbackURL: `${serverUrl}${process.env.GOOGLE_CALLBACK_URL}`,
   },
   async (accessToken, refreshToken, profile, done) => {
     // console.log('params', params);

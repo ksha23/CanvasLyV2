@@ -22,7 +22,7 @@ const Login = ({ auth, history }) => {
         </p>
         <a
           className="bg-red-600 px-4 py-2 text-white rounded flex items-center justify-center"
-          href={GOOGLE_AUTH_LINK}
+          href="/auth/google"
         >
           <i className="fa fa-google fa-fw mr-2" />
           <span>Sign in with Google</span>
