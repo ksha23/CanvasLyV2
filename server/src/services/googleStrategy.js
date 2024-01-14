@@ -15,14 +15,10 @@ const googleLogin = new GoogleStrategy(
     proxy: true,
   },
   async (accessToken, refreshToken, profile, done) => {
-    console.log('accessToken', accessToken);
-    console.log('refreshToken', refreshToken);
     try {
       const oldUser = await User.findOne({ email: profile.email });
 
       if (oldUser) {
-        // remove refresh token from user object
-        // oldUser.refreshToken = undefined;
         return done(null, oldUser);
       }
     } catch (err) {
@@ -37,12 +33,10 @@ const googleLogin = new GoogleStrategy(
         email: profile.email,
         name: profile.displayName,
         avatar: profile.picture,
-        accessToken,
-        refreshToken,
+        accessToken: accessToken,
+        refreshToken: refreshToken,
         tokenExpiresAt: new Date().getTime() + 3599 * 1000,
       }).save();
-
-      console.log('this is the new user', newUser);
 
       // remove refresh token from user object
       // newUser.refreshToken = undefined;
