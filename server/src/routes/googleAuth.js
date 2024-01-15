@@ -28,6 +28,7 @@ router.get(
       maxAge: 1000 * 60 * 60 * 12, // 12 hours
       httpOnly: true, // very important
       secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
     });
     res.redirect(clientUrl);
   },
