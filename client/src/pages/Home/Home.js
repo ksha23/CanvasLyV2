@@ -25,6 +25,16 @@ const Home = ({ auth }) => {
     setDarkMode(currentTheme === 'dark');
   }
 
+  const dummyAssignment = {
+    id: 1,
+    name: 'Dummy Assignment',
+    dueDate: '2021-04-20T23:59:00Z',
+    type: 'Assignment',
+    difficulty: 'Hard',
+    reminders: [],
+    completed: true,
+  };
+
   return (
     <Layout>
       <>
@@ -34,15 +44,20 @@ const Home = ({ auth }) => {
               <div className="max-w-3xl mx-auto text-center">
                 <h1 className="text-4xl font-bold mb-4">Welcome to CanvasLy</h1>
                 <p className="mb-5">
-                  Log in with Google to get started:{' '}
-                  <Link className="bold" to="/login">
-                    Log in
+                  <Link className="font-semibold text-zinc-700 dark:text-zinc-300" to="/login">
+                    Log in with{' '}
+                    <p className="bg-gradient-to-tr from-red-500 to-red-800 inline-block text-transparent bg-clip-text">
+                      Google
+                    </p>{' '}
+                    to get started
                   </Link>
                 </p>
                 {/* <ReseedMessage handleReseed={handleReseed} /> */}
                 <div className="mb-12">
-                  <h2 className="text-2xl font-bold mb-4 text-blue-600">Why Choose CanvasLy?</h2>
-                  <ul className="text-left list-disc ml-6 dark:text-slate-300 why-canvasly-list">
+                  <h2 className="text-2xl font-bold mb-4 bg-gradient-to-bl from-sky-400 to-indigo-900 inline-block text-transparent bg-clip-text">
+                    Why Choose CanvasLy?
+                  </h2>
+                  <ul className="text-left list-disc ml-6 dark:text-zinc-300 why-canvasly-list">
                     <li>Effortlessly manage upcoming assignments, quizzes, projects, and exams</li>
                     <li>
                       Personalize prioritization of assignments based on due date, difficulty, and
@@ -65,9 +80,12 @@ const Home = ({ auth }) => {
                     />
                   </div>
                 )}
+
                 <div>
-                  <h2 className="text-2xl font-bold mb-4 text-blue-600">How to Get Started:</h2>
-                  <ol className="text-left list-decimal ml-6 dark:text-slate-300">
+                  <h2 className="text-2xl font-bold mb-4 bg-gradient-to-br from-sky-400 to-indigo-900 inline-block text-transparent bg-clip-text">
+                    How to Get Started:
+                  </h2>
+                  <ol className="text-left list-decimal ml-6 dark:text-zinc-300">
                     <li>Access "Canvas Calendar" in the Canvas side menu</li>
                     <li>Locate "Calendar Feed" and copy the URL</li>
                     <li>Open Google Calendar and select "+ Other Calendars" then "From URL"</li>
@@ -91,10 +109,10 @@ const Home = ({ auth }) => {
               <h1 className="text-4xl font-bold mb-4 text-center">Welcome, {auth.me.name}</h1>
               <div className="flex-grow max-w-3xl mx-auto text-center">
                 <div>
-                  <h2 className="text-2xl font-bold mb-4 text-blue-600">
+                  <h2 className="text-2xl font-bold mb-4 bg-gradient-to-br from-sky-400 to-indigo-900 inline-block text-transparent bg-clip-text">
                     Need Help Getting Started?
                   </h2>
-                  <ol className="text-left list-decimal ml-6 dark:text-slate-300">
+                  <ol className="text-left list-decimal ml-6 dark:text-zinc-300">
                     <li>Access "Canvas Calendar" in the Canvas side menu</li>
                     <li>Locate "Calendar Feed" and copy the URL</li>
                     <li>Open Google Calendar and select "+ Other Calendars" then "From URL"</li>

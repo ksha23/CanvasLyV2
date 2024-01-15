@@ -176,182 +176,187 @@ const Assignment = ({
       text="Updating..."
       className="rounded-md"
     >
-      <div className="dark:text-white w-full">
+      <div
+        className={`w-full ${
+          assignment.completed
+            ? 'text-zinc-300 dark:text-zinc-700'
+            : 'text-zinc-700 dark:text-zinc-300'
+        }`}
+      >
         <div
           className={
             assignment.completed
-              ? 'p-5 mt-5 rounded-md bg-zinc-100 text-zinc-400 dark:bg-zinc-900 dark:text-zinc-700'
+              ? 'p-5 mt-5 rounded-md bg-zinc-100 dark:bg-zinc-900'
               : isEdit
-              ? 'p-5 mt-5 border-2 bg-zinc-100 dark:bg-zinc-900 border-red-600 rounded-md'
-              : 'p-5 mt-5 bg-zinc-100 dark:bg-zinc-900 rounded-md'
+              ? 'p-5 mt-5 border-2 border-sky-600 dark:border-sky-700 bg-gradient-to-bl from-gray-100 dark:from-gray-900 to-zinc-200 dark:to-zinc-900 rounded-md'
+              : 'p-5 mt-5 bg-gradient-to-bl from-gray-100 dark:from-gray-900 to-zinc-200 dark:to-zinc-900 rounded-md'
           }
         >
-          <div>
-            <div className="flex justify-between items-center space-x-2 mb-2">
-              <h3
-                className={
-                  dateObject < new Date() && !assignment.completed
-                    ? 'text-red-700 text-xl md:text-2xl font-bold'
-                    : dateObject.toDateString() === new Date().toDateString() &&
-                      !assignment.completed
-                    ? 'text-yellow-600 text-xl md:text-2xl font-bold'
-                    : assignment.completed
-                    ? 'text-zinc-400 dark:text-zinc-700 text-xl md:text-2xl font-bold'
-                    : 'text-xl md:text-2xl font-bold'
-                }
+          <div className="flex justify-between items-center space-x-2 mb-2">
+            <h3
+              className={
+                dateObject < new Date() && !assignment.completed
+                  ? 'text-red-700 text-xl md:text-2xl font-bold'
+                  : dateObject.toDateString() === new Date().toDateString() && !assignment.completed
+                  ? 'text-yellow-600 text-xl md:text-2xl font-bold'
+                  : assignment.completed
+                  ? 'text-zinc-300 dark:text-zinc-700 text-xl md:text-2xl font-bold'
+                  : 'text-xl md:text-2xl font-bold'
+              }
+            >
+              {assignment.name}
+            </h3>
+            <div className="flex">
+              <button
+                className={`px-4 ${
+                  assignment.completed
+                    ? 'bg-green-600 dark:bg-green-700 font-semibold'
+                    : 'bg-gradient-to-bl from-emerald-500 to-lime-600 font-semibold'
+                } text-white rounded-md px-3 py-1 ml-2`}
+                onClick={(e) => handleDelete(e, assignment._id)}
+                type="button"
               >
-                {assignment.name}
-              </h3>
-              <div className="flex">
+                {assignment.completed ? '⇧' : '✓'}
+              </button>
+              {assignment.completed && (
                 <button
                   className={`px-4 ${
-                    assignment.completed ? 'bg-green-600 dark:bg-green-700' : 'bg-green-600'
-                  } text-white rounded-md px-3 py-1 ml-2`}
-                  onClick={(e) => handleDelete(e, assignment._id)}
+                    assignment.completed ? 'ml-2 px-4 bg-red-600 dark:bg-red-700' : 'bg-green-600'
+                  } text-white rounded-md py-1`}
+                  onClick={() => confirmComplete(assignment._id)}
                   type="button"
+                  disabled={assignment.confirmedCompleted || !assignment.completed}
                 >
-                  {assignment.completed ? '⇧' : '✓'}
+                  ✕
                 </button>
-                {assignment.completed && (
-                  <button
-                    className={`px-4 ${
-                      assignment.completed ? 'ml-2 px-4 bg-red-600 dark:bg-red-700' : 'bg-green-600'
-                    } text-white rounded-md py-1`}
-                    onClick={() => confirmComplete(assignment._id)}
-                    type="button"
-                    disabled={assignment.confirmedCompleted || !assignment.completed}
-                  >
-                    ✕
-                  </button>
-                )}
-              </div>
+              )}
             </div>
-            <div className="flex justify-start space-x-2 items-center">
-              <svg
-                className={`w-5 h-5 ${
-                  assignment.completed ? 'text-zinc-400 dark:text-zinc-700' : 'text-blue-600'
-                }`}
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path d="M0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm14-7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z" />
-              </svg>
-              <p className="w-full text-sm md:text-lg">{dateTime}</p>
-            </div>
-            <form onSubmit={formik.handleSubmit}>
-              <div className="flex justify-between items-center">
-                <select
-                  name="type"
-                  className={`p-2 mb-2 w-1/2 rounded-md ${
-                    assignment.completed ? 'bg-white dark:bg-zinc-900' : 'bg-white dark:bg-zinc-800'
-                  }
+          </div>
+          <div className="flex justify-start space-x-2 items-center">
+            <svg
+              className={`w-5 h-5`}
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path d="M0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm14-7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z" />
+            </svg>
+            <p className="w-full text-sm md:text-lg">{dateTime}</p>
+          </div>
+          <form onSubmit={formik.handleSubmit}>
+            <div className="flex justify-between items-center">
+              <select
+                name="type"
+                className={`p-2 mb-0 w-1/2 rounded-md ${
+                  assignment.completed ? 'bg-white dark:bg-zinc-900' : 'bg-white dark:bg-gray-800'
+                }
                    dark:text-white"
                   name="type`}
-                  onChange={handleFieldChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.type}
-                  disabled={assignment.isLoading || assignment.completed}
-                >
-                  <option value="Assignment">Assignment</option>
-                  <option value="Quiz">Quiz</option>
-                  <option value="Project">Project</option>
-                  <option value="Exam">Exam</option>
-                  <option value="Other">Other</option>
-                </select>
+                onChange={handleFieldChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.type}
+                disabled={assignment.isLoading || assignment.completed}
+              >
+                <option value="Assignment">Assignment</option>
+                <option value="Quiz">Quiz</option>
+                <option value="Project">Project</option>
+                <option value="Exam">Exam</option>
+                <option value="Other">Other</option>
+              </select>
 
-                <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
-                  <div className="ml-8 mb-2 w-1/2 mr-4">
-                    <Slider
-                      name="difficulty"
-                      className={`${
-                        assignment.completed ? 'text-zinc-300 dark:text-zinc-600' : 'text-blue-600'
-                      }`}
-                      value={formik.values.difficulty}
-                      onChange={handleFieldChange}
-                      disabled={assignment.isLoading || assignment.completed}
-                      step={1}
-                      marks={marks}
-                      min={1}
-                      max={5}
-                      valueLabelDisplay="off"
-                    />
-                  </div>
-                </ThemeProvider>
-              </div>
-              <div>
-                {formik.values.reminders && formik.values.reminders.length > 0 && (
-                  <p className="text-lg mb-2 font-bold">Reminders:</p>
-                )}
-                {formik.values.reminders.map((reminder, index) => {
-                  return (
-                    <div key={index} className="flex items-center w-full space-x-2 mb-2">
-                      <span className="text-2xl font-bold">•</span>
-                      <TextareaAutosize
-                        name={`reminders.${index}`}
-                        className={`p-2 w-full rounded-md border border-zinc-200 dark:${
-                          assignment.completed ? 'text-zinc-700' : 'text-white'
-                        } dark:bg-transparent dark:border-zinc-600`}
-                        onChange={(e) => {
-                          const updatedReminders = [...formik.values.reminders];
-                          updatedReminders[index] = e.target.value;
-                          formik.setFieldValue('reminders', updatedReminders);
-                          setIsEdit(!lodash.isEqual(updatedReminders, assignment.reminders));
-                        }}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.reminders[index] || ''} // Add a default value in case of undefined
-                        disabled={assignment.isLoading || assignment.completed}
-                      />
-
-                      <button
-                        type="button"
-                        onClick={() => deleteReminder(index)}
-                        disabled={assignment.isLoading || assignment.completed}
-                      >
-                        ⓧ
-                      </button>
-                    </div>
-                  );
-                })}
-                <button
-                  className="mb-2 text-sm underline text-zinc-500"
-                  type="button"
-                  onClick={addReminder}
-                  disabled={assignment.isLoading || assignment.completed}
-                >
-                  Add Reminder
-                </button>
-              </div>
-
-              <>
-                {isEdit && (
-                  <>
-                    <button
-                      type="submit"
-                      className="px-4 mr-4 bg-green-600 text-white rounded-md py-2"
-                      disabled={assignment.isLoading}
-                    >
-                      Update
-                    </button>
-                    <button
-                      onClick={() => {
-                        // setIsEdit((oldIsEdit) => !oldIsEdit);
-                        clearAssignmentError(assignment._id);
-                        // refill fields with original values
-                        fillOriginalValues();
+              <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
+                <div className="ml-8 mb-0 w-1/2 mr-4">
+                  <Slider
+                    name="difficulty"
+                    className={`${
+                      assignment.completed ? 'text-zinc-300 dark:text-zinc-700' : 'text-blue-600'
+                    }`}
+                    value={formik.values.difficulty}
+                    onChange={handleFieldChange}
+                    disabled={assignment.isLoading || assignment.completed}
+                    step={1}
+                    marks={marks}
+                    min={1}
+                    max={5}
+                    valueLabelDisplay="off"
+                  />
+                </div>
+              </ThemeProvider>
+            </div>
+            <div>
+              {formik.values.reminders && formik.values.reminders.length > 0 && (
+                <p className="text-lg mb-1 font-semibold">Reminders:</p>
+              )}
+              {formik.values.reminders.map((reminder, index) => {
+                return (
+                  <div key={index} className={`flex items-center w-full space-x-2 mb-2 `}>
+                    <p className="text-2xl font-bold">•</p>
+                    <TextareaAutosize
+                      name={`reminders.${index}`}
+                      className={`p-2 w-full rounded-md border bg-transparent dark:bg-transparent ${
+                        assignment.completed
+                          ? 'border-zinc-200 dark:border-zinc-800'
+                          : 'border-zinc-400 dark:border-zinc-600'
+                      } `}
+                      onChange={(e) => {
+                        const updatedReminders = [...formik.values.reminders];
+                        updatedReminders[index] = e.target.value;
+                        formik.setFieldValue('reminders', updatedReminders);
+                        setIsEdit(!lodash.isEqual(updatedReminders, assignment.reminders));
                       }}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.reminders[index] || ''} // Add a default value in case of undefined
+                      disabled={assignment.isLoading || assignment.completed}
+                    />
+
+                    <button
                       type="button"
-                      className="px-4 mr-4 bg-red-600 text-white rounded-md py-2"
+                      onClick={() => deleteReminder(index)}
                       disabled={assignment.isLoading || assignment.completed}
                     >
-                      Undo
+                      ⓧ
                     </button>
-                  </>
-                )}
-              </>
-            </form>
-          </div>
+                  </div>
+                );
+              })}
+              <button
+                className="mb-2 text-sm underline"
+                type="button"
+                onClick={addReminder}
+                disabled={assignment.isLoading || assignment.completed}
+              >
+                Add Reminder
+              </button>
+            </div>
+
+            <>
+              {isEdit && (
+                <>
+                  <button
+                    type="submit"
+                    className="px-4 mr-4 bg-green-600 text-white rounded-md py-2"
+                    disabled={assignment.isLoading}
+                  >
+                    Update
+                  </button>
+                  <button
+                    onClick={() => {
+                      // setIsEdit((oldIsEdit) => !oldIsEdit);
+                      clearAssignmentError(assignment._id);
+                      // refill fields with original values
+                      fillOriginalValues();
+                    }}
+                    type="button"
+                    className="px-4 mr-4 bg-red-600 text-white rounded-md py-2"
+                    disabled={assignment.isLoading || assignment.completed}
+                  >
+                    Undo
+                  </button>
+                </>
+              )}
+            </>
+          </form>
         </div>
       </div>
     </LoadingOverlay>

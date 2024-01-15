@@ -32,7 +32,7 @@ const Assignments = ({ auth, assignment }) => {
             <p className="text-black dark:text-white text-4xl font-bold mr-4">Assignments</p>
             <button onClick={() => setIsEdit(true)}>
               <svg
-                className="w-8 h-8 text-black dark:text-white"
+                className="w-7 h-7 text-black dark:text-white"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
