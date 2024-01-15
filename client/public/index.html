@@ -14,6 +14,12 @@
       } else if (theme === 'dark') {
         document.documentElement.style.backgroundColor = 'black';
       }
+      window.addEventListener('themeChange', handleThemeChange);
+
+      function handleThemeChange() {
+      const currentTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.style.backgroundColor = currentTheme === 'light' ? 'white' : 'black';
+    }
     </script>
     <!--
       manifest.json provides metadata used when your web app is installed on a
