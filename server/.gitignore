@@ -1,6 +1,7 @@
 /node_modules
 package-lock.json
 
+/build
 /config/dev.js
 /security/cert.key
 /security/cert.pem
@@ -9,5 +10,4 @@ package-lock.json
 /.vscode
 .env
 
-!public/images
-public/images/*
+public/images

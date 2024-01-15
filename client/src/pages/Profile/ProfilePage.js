@@ -136,6 +136,8 @@ const Profile = ({
         formData.append('password', values.password);
       }
       editUser(values.id, formData, history);
+      // scroll to top
+      window.scrollTo(0, 0);
     },
   });
 
