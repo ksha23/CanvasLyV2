@@ -203,59 +203,74 @@ const Profile = ({
             </div>
 
             <div className="flex justify-center w-full">
-              <p></p>
               <form onSubmit={formik.handleSubmit} className="flex flex-col justify-center w-full">
                 <div className="mt-2 flex flex-col justify-center items-center w-full">
-                  <label className="font-bold text-lg mt-4 mb-1">Avatar: </label>
-                  <input
-                    className="bg-zinc-200 dark:bg-zinc-700 rounded-md justify-center text-zinc-600 dark:text-zinc-200 file:bg-blue-600 file: file:text-white file:px-4 file:py-2 file:rounded-md file:border-none file:mr-4  w-full max-w-xl"
-                    name="image"
-                    type="file"
-                    onChange={onChange}
-                  />
-                  {image && (
-                    <button
-                      className="ml-2"
-                      onClick={() => {
-                        setImage('');
-                        setAvatar('');
-                      }}
-                      type="button"
-                    >
-                      Remove Image
-                    </button>
-                  )}
+                  <div className="max-w-xl w-full flex items-center mt-4">
+                    <label className="font-bold text-lg">
+                      <svg
+                        class="w-7 h-7 text-gray-800 dark:text-white"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 18"
+                      >
+                        <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
+                      </svg>
+                    </label>
+                    <input
+                      className="ml-2 bg-zinc-200 dark:bg-zinc-700 rounded-md justify-center text-zinc-500 dark:text-zinc-200 file:dark:bg-zinc-700 file:bg-zinc-200 file:text-blue-600 file:font-bold file:rounded-md file:underline file:border-none file:py-2 file:pl-4 file:pr-2  w-full max-w-xl"
+                      name="image"
+                      type="file"
+                      onChange={onChange}
+                    />
+                    {image && (
+                      <button
+                        className="ml-2"
+                        onClick={() => {
+                          setImage('');
+                          setAvatar('');
+                        }}
+                        type="button"
+                      >
+                        Remove Image
+                      </button>
+                    )}
+                  </div>
                 </div>
                 {/* <input name="id" type="hidden" value={formik.values.id} /> */}
-                <div className="mt-4 flex flex-col justify-center items-center w-full">
-                  <label className="font-bold text-lg mb-1">Name: </label>
-                  <input
-                    placeholder="Name"
-                    name="name"
-                    className="p-2 ml-2 rounded-md bg-zinc-200 dark:bg-zinc-700 w-full max-w-xl text-center"
-                    type="text"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.name}
-                  />
-                  {formik.touched.name && formik.errors.name ? (
-                    <p className="error">{formik.errors.name}</p>
-                  ) : null}
+                <div className="mt-4 flex justify-center items-center w-full">
+                  <div className="max-w-xl w-full flex items-center">
+                    <label className="font-bold text-lg mb-1">Name:</label>
+                    <input
+                      placeholder="Name"
+                      name="name"
+                      className="p-2 px-4 ml-2 rounded-md bg-zinc-200 dark:bg-zinc-700 w-full max-w-xl"
+                      type="text"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.name}
+                    />
+                    {formik.touched.name && formik.errors.name ? (
+                      <p className="error">{formik.errors.name}</p>
+                    ) : null}
+                  </div>
                 </div>
                 <div className="mt-4 flex flex-col justify-center items-center w-full">
-                  <label className="font-bold text-lg mb-1">Username: </label>
-                  <input
-                    placeholder="Username"
-                    name="username"
-                    className="p-2 ml-2 rounded-md bg-zinc-200 dark:bg-zinc-700 w-full max-w-xl text-center"
-                    type="text"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.username}
-                  />
-                  {formik.touched.username && formik.errors.username ? (
-                    <p className="error">{formik.errors.username}</p>
-                  ) : null}
+                  <div className="max-w-xl w-full flex items-center">
+                    <label className="font-bold text-lg mb-1">Username: </label>
+                    <input
+                      placeholder="Username"
+                      name="username"
+                      className="p-2 px-4 ml-2 rounded-md bg-zinc-200 dark:bg-zinc-700 w-full max-w-xl"
+                      type="text"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.username}
+                    />
+                    {formik.touched.username && formik.errors.username ? (
+                      <p className="error">{formik.errors.username}</p>
+                    ) : null}
+                  </div>
                 </div>
                 <div className="mt-4 flex flex-col justify-center items-center w-full">
                   <label className="font-bold text-lg mb-1">Calendar: </label>

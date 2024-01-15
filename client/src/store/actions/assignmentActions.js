@@ -86,8 +86,6 @@ export const completeAssignment = (id) => async (dispatch, getState) => {
   try {
     const response = await axios.put(`/api/assignments/complete/${id}`);
 
-    console.log(response.data);
-
     dispatch({
       type: COMPLETE_ASSIGNMENT_SUCCESS,
       payload: { assignment: response.data, weights: getState().auth.me.weights },
