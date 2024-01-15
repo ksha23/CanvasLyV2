@@ -136,6 +136,10 @@ const Profile = ({
         formData.append('password', values.password);
       }
       editUser(values.id, formData, history);
+      // reset form
+      formik.resetForm();
+      setImage('');
+      setAvatar('');
       // scroll to top
       window.scrollTo(0, 0);
     },
