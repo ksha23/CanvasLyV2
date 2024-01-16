@@ -27,7 +27,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
     <nav className="bg-white text-zinc-700 px-6 pt-4 pb-2 dark:text-zinc-300 dark:bg-black">
       <div className="sticky top-0 flex items-center justify-between">
         <div className="flex items-center">
-          <Link to="/">
+          <Link className="flex items-center" to="/">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="30"
@@ -81,8 +81,8 @@ const Navbar = ({ auth, logOutUser, history }) => {
                 </g>
               </g>
             </svg>
+            <p className={`hidden md:block font-semibold ml-2 ${isActiveLink('/')}`}>CanvasLy</p>
           </Link>
-          <p className="hidden md:block font-semibold ml-2">CanvasLy</p>
 
           {auth.isAuthenticated && (
             <>
@@ -166,7 +166,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
             </Link>
           )}
           {auth.isAuthenticated && (
-            <Link to={`/${auth.me.username}`} className="flex space-x-4 m-0">
+            <Link to={`/${auth.me.username}`} className="flex items-center space-x-3 m-0">
               <img className="h-7 w-7 rounded-full" src={auth.me.avatar} alt="User Avatar" />
               <a href="#" onClick={onLogOut}>
                 Log out
