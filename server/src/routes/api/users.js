@@ -124,7 +124,7 @@ router.get('/:username', requireJwtAuth, refreshTokenMiddleware, async (req, res
 
 router.get('/byId/:id', requireJwtAuth, async (req, res) => {
   try {
-    if (req.user.role !== 'ADMIN' || req.user.id !== req.params.id) {
+    if (req.user.role !== 'ADMIN' && req.user.id !== req.params.id) {
       return res.status(400).json({ message: 'You are not admin.' });
     }
     const user = await User.findById(req.params.id);
