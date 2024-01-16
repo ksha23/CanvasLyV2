@@ -189,7 +189,7 @@ const Assignment = ({
               ? 'p-5 mt-5 rounded-md bg-zinc-100 dark:bg-zinc-900'
               : isEdit
               ? 'p-5 mt-5 border-2 border-sky-600 dark:border-sky-700 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-100 dark:to-zinc-900 rounded-md'
-              : 'p-5 mt-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-900 rounded-md'
+              : 'p-5 mt-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md'
           }
         >
           <div className="flex justify-between items-center space-x-2 mb-2">
@@ -290,7 +290,7 @@ const Assignment = ({
             </div>
             <div>
               {formik.values.reminders && formik.values.reminders.length > 0 && (
-                <p className="text-md font-semibold">Reminders:</p>
+                <p className="text-lg font-semibold">Reminders:</p>
               )}
               {formik.values.reminders.map((reminder, index) => {
                 return (
@@ -298,7 +298,7 @@ const Assignment = ({
                     <p className="text-2xl font-bold">•</p>
                     <TextareaAutosize
                       name={`reminders.${index}`}
-                      className={`px-2 py-1 text-sm w-full rounded-md border bg-transparent dark:bg-transparent ${
+                      className={`py-1 w-full rounded-md border bg-transparent dark:bg-transparent ${
                         assignment.completed
                           ? 'border-zinc-200 dark:border-zinc-800'
                           : 'border-slate-400 dark:border-slate-600'
