@@ -122,6 +122,40 @@ router.get('/:username', requireJwtAuth, refreshTokenMiddleware, async (req, res
   }
 });
 
+router.get('/byId/:id', requireJwtAuth, async (req, res) => {
+  try {
+    if (req.user.role !== 'ADMIN' || req.user.id !== req.params.id) {
+      return res.status(400).json({ message: 'You are not admin.' });
+    }
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: 'No user found.' });
+
+    user.refreshToken = undefined;
+    user.accessToken = undefined;
+
+    const response = await fetch('https://www.googleapis.com/calendar/v3/users/me/calendarList', {
+      headers: {
+        Authorization: `Bearer ${req.user.accessToken}`,
+      },
+    });
+    const data = await response.json();
+    const items = data.items;
+    const calendarData = items.map((item) => {
+      return {
+        id: item.id,
+        summary: item.summary,
+      };
+    });
+
+    const final = user.toJSON();
+    final.calendars = calendarData;
+
+    res.json({ user: final });
+  } catch (err) {
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+});
+
 router.get('/', requireJwtAuth, async (req, res) => {
   // verify user is admin
   if (req.user.role !== 'ADMIN') return res.status(400).json({ message: 'You are not admin.' });

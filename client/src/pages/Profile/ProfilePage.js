@@ -83,6 +83,8 @@ const Profile = ({
   history,
   match,
 }) => {
+  console.log(match);
+  console.log();
   const [image, setImage] = useState('');
   const [avatar, setAvatar] = useState('');
   const matchUsername = match.params.username;
@@ -97,7 +99,8 @@ const Profile = ({
 
   useLayoutEffect(() => {
     if (!profile || profile.username !== matchUsername) getProfile(matchUsername, history);
-    else refreshProfile(matchUsername);
+    // else refreshProfile(matchUsername);
+    if (matchUsername == profile.username) refreshProfile(me.id);
   }, [matchUsername]);
 
   const onChange = (event) => {
@@ -174,7 +177,7 @@ const Profile = ({
                 <div className="flex items-center space-x-2">
                   <span>
                     <svg
-                      class="w-4 h-4"
+                      className="w-4 h-4"
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="currentColor"
@@ -220,7 +223,7 @@ const Profile = ({
                     <div className="max-w-xl w-full flex items-center mt-4">
                       <label className="font-bold text-lg">
                         <svg
-                          class="w-7 h-7"
+                          className="w-7 h-7"
                           aria-hidden="true"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="currentColor"

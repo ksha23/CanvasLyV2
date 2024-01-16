@@ -50,9 +50,9 @@ const Home = ({ auth }) => {
                 >
                   Log in with Google to get started
                 </Link>
-                {/* <div class="relative flex justify-center items-center w-full">
-                  <div class="absolute -inset-1 bg-gradient-to-r from-red-600 to-violet-600 rounded-lg blur opacity-100"></div>
-                  <div class="relative rounded-lg flex justify-center mx-auto">
+                {/* <div className="relative flex justify-center items-center w-full">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-red-600 to-violet-600 rounded-lg blur opacity-100"></div>
+                  <div className="relative rounded-lg flex justify-center mx-auto">
                     <Link
                       className="font-semibold text-zinc-700 dark:text-black bg-zinc-200 dark:bg-white py-2 px-4 rounded-lg"
                       to="/login"

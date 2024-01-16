@@ -64,9 +64,9 @@ export const getProfile = (username, history) => async (dispatch, getState) => {
   }
 };
 
-export const refreshProfile = (username) => async (dispatch) => {
+export const refreshProfile = (id) => async (dispatch) => {
   try {
-    const response = await axios.get(`/api/users/${username}`);
+    const response = await axios.get(`/api/users/byId/${id}`);
 
     dispatch({
       type: GET_PROFILE_SUCCESS,
