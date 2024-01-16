@@ -28,7 +28,7 @@ const Login = ({ auth, history }) => {
           </a>
         </p>
         <a
-          className="bg-gradient-to-bl from-red-500 to-red-900 px-4 py-2 text-white rounded flex items-center justify-center"
+          className="bg-gradient-to-bl from-red-500 to-red-900 px-4 py-2 text-white rounded-md flex items-center justify-center"
           href={googleAuthLink}
         >
           <i className="fa fa-google fa-fw mr-2" />

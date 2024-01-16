@@ -189,7 +189,7 @@ const Assignment = ({
               ? 'p-5 mt-5 rounded-md bg-zinc-100 dark:bg-zinc-900'
               : isEdit
               ? 'p-5 mt-5 border-2 border-sky-600 dark:border-sky-700 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-100 dark:to-zinc-900 rounded-md'
-              : 'p-5 mt-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-100 dark:to-zinc-900 rounded-md'
+              : 'p-5 mt-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-900 rounded-md'
           }
         >
           <div className="flex justify-between items-center space-x-2 mb-2">
@@ -250,8 +250,10 @@ const Assignment = ({
             <div className="flex justify-between items-center">
               <select
                 name="type"
-                className={`p-2 mb-0 w-1/2 rounded-md ${
-                  assignment.completed ? 'bg-white dark:bg-zinc-900' : 'bg-white dark:bg-gray-800'
+                className={`w-1/2 rounded-md ${
+                  assignment.completed
+                    ? 'bg-white dark:bg-zinc-900'
+                    : 'bg-transparent border-zinc-400 dark:border-zinc-700'
                 }
                    dark:text-white"
                   name="type`}
@@ -268,7 +270,7 @@ const Assignment = ({
               </select>
 
               <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
-                <div className="ml-8 mb-0 w-1/2 mr-4">
+                <div className="ml-8 w-1/2 mr-4">
                   <Slider
                     name="difficulty"
                     className={`${
@@ -288,7 +290,7 @@ const Assignment = ({
             </div>
             <div>
               {formik.values.reminders && formik.values.reminders.length > 0 && (
-                <p className="text-md mb-1 font-semibold">Reminders:</p>
+                <p className="text-md font-semibold">Reminders:</p>
               )}
               {formik.values.reminders.map((reminder, index) => {
                 return (
@@ -323,7 +325,7 @@ const Assignment = ({
                 );
               })}
               <button
-                className="mb-2 text-xs underline text-zinc-400 dark:text-zinc-500"
+                className="text-xs underline text-zinc-400 dark:text-zinc-500"
                 type="button"
                 onClick={addReminder}
                 disabled={assignment.isLoading || assignment.completed}
@@ -337,7 +339,7 @@ const Assignment = ({
                 <>
                   <button
                     type="submit"
-                    className="px-4 mr-2 bg-gradient-to-bl from-emerald-500 to-lime-700 text-white rounded-md py-2"
+                    className="mt-2 px-4 mr-2 bg-gradient-to-bl from-emerald-500 to-lime-700 text-white rounded-md py-2"
                     disabled={assignment.isLoading}
                   >
                     Update
@@ -350,7 +352,7 @@ const Assignment = ({
                       fillOriginalValues();
                     }}
                     type="button"
-                    className="px-4 mr-4 bg-gradient-to-bl from-rose-500 to-red-700 text-white rounded-md py-2"
+                    className="mt-2 px-4 mr-4 bg-gradient-to-bl from-rose-500 to-red-700 text-white rounded-md py-2"
                     disabled={assignment.isLoading || assignment.completed}
                   >
                     Undo

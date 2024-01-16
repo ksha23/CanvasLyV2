@@ -233,7 +233,7 @@ const Profile = ({
                         </svg>
                       </label>
                       <input
-                        className="ml-2 bg-zinc-200 dark:bg-zinc-700 rounded-md justify-center text-zinc-500 dark:text-zinc-200 file:dark:bg-zinc-700 file:bg-zinc-200 file:text-blue-600 file:dark:text-blue-500 file:font-semibold file:rounded-md file:underline file:border-none file:py-2 file:pl-4 file:pr-2  w-full max-w-xl"
+                        className="ml-2 bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-md justify-center text-zinc-500 file:bg-transparent file:text-blue-600 file:dark:text-blue-500 file:font-semibold file:rounded-md file:underline file:border-none file:py-2 file:pl-4 file:pr-2  w-full max-w-xl"
                         name="image"
                         type="file"
                         onChange={onChange}
@@ -253,13 +253,13 @@ const Profile = ({
                     </div>
                   </div>
                   {/* <input name="id" type="hidden" value={formik.values.id} /> */}
-                  <div className="mt-4 flex flex-col justify-center items-center w-full">
+                  <div className="mt-2 flex flex-col justify-center items-center w-full">
                     <div className="max-w-xl w-full flex items-center">
                       <label className="font-bold text-lg mb-1">Name:</label>
                       <input
                         placeholder="Name"
                         name="name"
-                        className="p-2 px-4 ml-2 rounded-md bg-zinc-200 dark:bg-zinc-700 w-full max-w-xl"
+                        className="ml-2 rounded-md border bg-transparent border-zinc-300 dark:border-zinc-700 w-full max-w-xl"
                         type="text"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -271,13 +271,13 @@ const Profile = ({
                     ) : null}
                   </div>
 
-                  <div className="mt-4 flex flex-col justify-center items-center w-full">
+                  <div className="mt-2 flex flex-col justify-center items-center w-full">
                     <div className="max-w-xl w-full flex items-center">
                       <label className="font-bold text-lg mb-1">Username: </label>
                       <input
                         placeholder="Username"
                         name="username"
-                        className="p-2 px-4 ml-2 rounded-md bg-zinc-200 dark:bg-zinc-700 w-full max-w-xl"
+                        className="px-4 ml-2 rounded-md bg-transparent border border-zinc-300 dark:border-zinc-700 w-full max-w-xl"
                         type="text"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -289,9 +289,9 @@ const Profile = ({
                     ) : null}
                   </div>
                   <div className="mt-4 flex flex-col justify-center items-center w-full">
-                    <label className="font-bold text-lg mb-1">Calendar: </label>
+                    <label className="font-bold text-lg">Calendar: </label>
                     <select
-                      className="p-2 ml-2 rounded-md bg-zinc-200 dark:bg-zinc-700 w-full max-w-xl text-center"
+                      className="rounded-md bg-transparent border border-zinc-300 dark:border-zinc-700  w-full max-w-xl"
                       name="calendarId"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}

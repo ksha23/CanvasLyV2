@@ -5,9 +5,9 @@ import { useFormik } from 'formik';
 import { addAssignment } from '../../store/actions/assignmentActions';
 import { assignmentFormSchema } from './validation';
 import Slider from '@mui/material/Slider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+// import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+// import { LocalizationProvider } from '@mui/x-date-pickers';
+// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material/styles';
@@ -52,7 +52,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
   const formik = useFormik({
     initialValues: {
       name: '',
-      dueDate: null,
+      dueDate: new Date(),
       type: 'Other',
       difficulty: 1,
       reminders: '',
@@ -78,7 +78,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
 
   return (
     <div className="mt-2 dark:text-white max-w-2xl w-full">
-      <div className="p-6 pt-3 md:pt-6 rounded-md bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-100 dark:to-zinc-900">
+      <div className="p-6 pt-3 md:pt-6 rounded-md bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-900">
         <div className="flex justify-between items-center mb-2">
           <h1 className="text-2xl md:text-3xl font-bold">New Assignment</h1>
           <button
@@ -94,7 +94,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
             <label htmlFor="name">Name:</label>
             <TextareaAutosize
               name="name"
-              className="p-2 mt-1 bg-white dark:bg-zinc-800 rounded w-full border border-zinc-300 dark:border-zinc-600"
+              className="bg-transparent rounded-md w-full border border-zinc-400 dark:border-zinc-600"
               placeholder="Add Name..."
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -108,8 +108,8 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
           <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
             <div className="mb-2">
               <label htmlFor="dueDate">Due Date:</label>
-              <div className="mt-1">
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <div>
+                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DateTimePicker
                     name="dueDate"
                     type="dateTime-local"
@@ -121,7 +121,17 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
                     onBlur={formik.handleBlur}
                     disabled={isSubmiting}
                   />
-                </LocalizationProvider>
+                </LocalizationProvider> */}
+                <input
+                  type="datetime-local"
+                  name="dueDate"
+                  id="dueDate"
+                  className="bg-transparent w-full rounded-md dark:[color-scheme:dark] border border-zinc-400 dark:border-zinc-600"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.dueDate}
+                  disabled={isSubmiting}
+                />
               </div>
               {formik.touched.dueDate && formik.errors.dueDate ? (
                 <p className="text-red-600">{formik.errors.dueDate}</p>
@@ -131,7 +141,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
               <label htmlFor="type">Type:</label>
               <select
                 name="type"
-                className="p-2 mt-1 w-full rounded-md bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600"
+                className="w-full rounded-md bg-transparent border border-zinc-400 dark:border-zinc-700"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.type}
@@ -174,7 +184,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
             <label htmlFor="reminders">Reminder:</label>
             <TextareaAutosize
               name="reminders"
-              className="p-2 mt-1 bg-white dark:bg-zinc-800 rounded w-full border border-zinc-300 dark:border-zinc-600"
+              className="bg-transparent rounded-md w-full border border-zinc-400 dark:border-zinc-700"
               type="text"
               placeholder="Add reminder (optional)"
               onChange={formik.handleChange}
@@ -190,7 +200,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
           <div className="flex justify-center">
             <button
               type="submit"
-              className="bg-gradient-to-bl from-sky-600 to-blue-800 px-4 py-2 rounded text-white"
+              className="bg-gradient-to-bl from-sky-600 to-blue-800 px-4 py-2 rounded-md text-white"
               value="Add Message"
               disabled={isSubmiting}
             >
