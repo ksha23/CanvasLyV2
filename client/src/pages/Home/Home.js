@@ -42,18 +42,28 @@ const Home = ({ auth }) => {
           <div>
             <div className="flex flex-col dark:bg-black dark:text-white">
               <div className="max-w-3xl mx-auto text-center">
-                <h1 className="text-4xl font-bold mb-4">Welcome to CanvasLy</h1>
-                <p className="mb-5">
-                  <Link className="font-semibold text-zinc-700 dark:text-zinc-300" to="/login">
-                    Log in with{' '}
-                    <p className="bg-gradient-to-tr from-red-500 to-red-800 inline-block text-transparent bg-clip-text">
-                      Google
-                    </p>{' '}
-                    to get started
-                  </Link>
-                </p>
+                <h1 className="text-4xl font-bold mb-6">Welcome to CanvasLy</h1>
+
+                <Link
+                  className="font-semibold text-zinc-700 dark:text-zinc-300 bg-zinc-200 dark:bg-zinc-700 py-2 px-4 rounded-lg"
+                  to="/login"
+                >
+                  Log in with Google to get started
+                </Link>
+                {/* <div class="relative flex justify-center items-center w-full">
+                  <div class="absolute -inset-1 bg-gradient-to-r from-red-600 to-violet-600 rounded-lg blur opacity-100"></div>
+                  <div class="relative rounded-lg flex justify-center mx-auto">
+                    <Link
+                      className="font-semibold text-zinc-700 dark:text-black bg-zinc-200 dark:bg-white py-2 px-4 rounded-lg"
+                      to="/login"
+                    >
+                      Log in with Google to get started
+                    </Link>
+                  </div>
+                </div> */}
+
                 {/* <ReseedMessage handleReseed={handleReseed} /> */}
-                <div className="mb-12">
+                <div className="mt-6 mb-12">
                   <h2 className="text-2xl font-bold mb-4 bg-gradient-to-bl from-sky-400 to-indigo-900 inline-block text-transparent bg-clip-text">
                     Why Choose CanvasLy?
                   </h2>

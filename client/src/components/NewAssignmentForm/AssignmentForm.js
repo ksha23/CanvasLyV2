@@ -78,7 +78,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
 
   return (
     <div className="mt-2 dark:text-white max-w-2xl w-full">
-      <div className="p-6 pt-3 md:pt-6 rounded-md bg-zinc-100 dark:bg-zinc-900">
+      <div className="p-6 pt-3 md:pt-6 rounded-md bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-100 dark:to-zinc-900">
         <div className="flex justify-between items-center mb-2">
           <h1 className="text-xl md:text-2xl font-bold">New Assignment</h1>
           <button
@@ -90,11 +90,11 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
           </button>
         </div>
         <form onSubmit={formik.handleSubmit}>
-          <div className="mb-2">
+          <div className="mb-1">
             <label htmlFor="name">Name:</label>
             <TextareaAutosize
               name="name"
-              className="p-2 mt-2 bg-white dark:bg-zinc-800 rounded w-full"
+              className="p-2 mt-1 bg-white dark:bg-zinc-800 rounded w-full border border-zinc-300 dark:border-zinc-600"
               placeholder="Add Name..."
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -106,9 +106,9 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
             ) : null}
           </div>
           <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
-            <div className="mb-4">
+            <div className="mb-2">
               <label htmlFor="dueDate">Due Date:</label>
-              <div className="mt-2">
+              <div className="mt-1">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DateTimePicker
                     name="dueDate"
@@ -127,11 +127,11 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
                 <p className="text-red-600">{formik.errors.dueDate}</p>
               ) : null}
             </div>
-            <div className="mb-4">
+            <div className="mb-2">
               <label htmlFor="type">Type:</label>
               <select
                 name="type"
-                className="p-2 mt-2 w-full rounded-md bg-white dark:bg-zinc-800"
+                className="p-2 mt-1 w-full rounded-md bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.type}
@@ -148,12 +148,12 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
               ) : null}
             </div>
 
-            <div className="mb-4">
+            <div className="mb-2">
               <label htmlFor="difficulty">Difficulty:</label>
               <div className="mx-4">
                 <Slider
                   name="difficulty"
-                  className={`mt-2 text-blue-600`}
+                  className={`mt-1 text-blue-600`}
                   value={formik.values.difficulty}
                   onChange={formik.handleChange}
                   disabled={isSubmiting}
@@ -174,7 +174,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
             <label htmlFor="reminders">Reminder:</label>
             <TextareaAutosize
               name="reminders"
-              className="p-2 mt-2 bg-white dark:bg-zinc-800 rounded w-full"
+              className="p-2 mt-1 bg-white dark:bg-zinc-800 rounded w-full border border-zinc-300 dark:border-zinc-600"
               type="text"
               placeholder="Add reminder (optional)"
               onChange={formik.handleChange}
@@ -190,7 +190,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
           <div className="flex justify-center">
             <button
               type="submit"
-              className="bg-blue-600 px-4 py-2 rounded text-white"
+              className="bg-gradient-to-bl from-sky-600 to-blue-800 px-4 py-2 rounded text-white"
               value="Add Message"
               disabled={isSubmiting}
             >

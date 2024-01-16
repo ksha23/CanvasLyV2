@@ -188,8 +188,8 @@ const Assignment = ({
             assignment.completed
               ? 'p-5 mt-5 rounded-md bg-zinc-100 dark:bg-zinc-900'
               : isEdit
-              ? 'p-5 mt-5 border-2 border-sky-600 dark:border-sky-700 bg-gradient-to-bl from-gray-100 dark:from-gray-900 to-zinc-200 dark:to-zinc-900 rounded-md'
-              : 'p-5 mt-5 bg-gradient-to-bl from-gray-100 dark:from-gray-900 to-zinc-200 dark:to-zinc-900 rounded-md'
+              ? 'p-5 mt-5 border-2 border-sky-600 dark:border-sky-700 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-100 dark:to-zinc-900 rounded-md'
+              : 'p-5 mt-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-100 dark:to-zinc-900 rounded-md'
           }
         >
           <div className="flex justify-between items-center space-x-2 mb-2">
@@ -210,8 +210,8 @@ const Assignment = ({
               <button
                 className={`px-4 ${
                   assignment.completed
-                    ? 'bg-green-600 dark:bg-green-700 font-semibold'
-                    : 'bg-gradient-to-bl from-emerald-500 to-lime-600 font-semibold'
+                    ? 'bg-gradient-to-bl from-emerald-500 to-lime-700 font-semibold'
+                    : 'bg-gradient-to-bl from-emerald-500 to-lime-700 font-semibold'
                 } text-white rounded-md px-3 py-1 ml-2`}
                 onClick={(e) => handleDelete(e, assignment._id)}
                 type="button"
@@ -335,7 +335,7 @@ const Assignment = ({
                 <>
                   <button
                     type="submit"
-                    className="px-4 mr-4 bg-green-600 text-white rounded-md py-2"
+                    className="px-4 mr-2 bg-gradient-to-bl from-emerald-500 to-lime-700 text-white rounded-md py-2"
                     disabled={assignment.isLoading}
                   >
                     Update
@@ -348,7 +348,7 @@ const Assignment = ({
                       fillOriginalValues();
                     }}
                     type="button"
-                    className="px-4 mr-4 bg-red-600 text-white rounded-md py-2"
+                    className="px-4 mr-4 bg-gradient-to-bl from-rose-500 to-red-700 text-white rounded-md py-2"
                     disabled={assignment.isLoading || assignment.completed}
                   >
                     Undo

@@ -156,8 +156,8 @@ const Profile = ({
             <Loader />
           </div>
         ) : (
-          <div className="flex justify-center flex-col w-full">
-            <div className="flex justify-center items-center space-x-4 w-full">
+          <div className="flex justify-center items-center flex-col w-full text-zinc-700 dark:text-zinc-300">
+            <div className="flex justify-center items-center space-x-5">
               <div className="w-20 h-20 md:w-40 md:h-40">
                 <img src={image ? image : profile.avatar} className="object-cover w-full h-full" />
               </div>
@@ -166,14 +166,10 @@ const Profile = ({
                   <span className="font-bold">Username: </span>
                   <span className="info">{profile.username}</span>
                 </div>
-                {/* <div>
-                  <span className="font-bold">Email: </span>
-                  <span className="info">{profile.email}</span>
-                </div> */}
                 <div className="flex items-center space-x-2">
                   <span>
                     <svg
-                      class="w-4 h-4 text-gray-800 dark:text-white"
+                      class="w-4 h-4"
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="currentColor"
@@ -214,7 +210,7 @@ const Profile = ({
                   <div className="max-w-xl w-full flex items-center mt-4">
                     <label className="font-bold text-lg">
                       <svg
-                        class="w-7 h-7 text-gray-800 dark:text-white"
+                        class="w-7 h-7"
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
@@ -238,7 +234,7 @@ const Profile = ({
                         }}
                         type="button"
                       >
-                        Remove Image
+                        Remove
                       </button>
                     )}
                   </div>
@@ -353,7 +349,7 @@ const Profile = ({
                 <div className="mt-4 flex justify-center items-center w-full">
                   <button
                     type="submit"
-                    className="mt-2 px-4 py-2 rounded-md text-white bg-blue-600"
+                    className="mt-2 px-4 py-2 rounded-md text-white bg-gradient-to-bl from-sky-600 to-blue-800"
                   >
                     Save Preferences
                   </button>
