@@ -7,6 +7,13 @@ import { connect } from 'react-redux';
 import { GOOGLE_AUTH_LINK } from '../../constants';
 // import { useGoogleLogin } from '@react-oauth/google';
 
+let googleAuthLink;
+if (process.env.NODE_ENV === 'development') {
+  googleAuthLink = GOOGLE_AUTH_LINK;
+} else {
+  googleAuthLink = '/auth/google';
+}
+
 const Login = ({ auth, history }) => {
   if (auth.isAuthenticated) return <Redirect to="/" />;
 
@@ -21,8 +28,8 @@ const Login = ({ auth, history }) => {
           </a>
         </p>
         <a
-          className="bg-red-600 px-4 py-2 text-white rounded flex items-center justify-center"
-          href="/auth/google"
+          className="bg-gradient-to-bl from-red-500 to-red-900 px-4 py-2 text-white rounded flex items-center justify-center"
+          href={googleAuthLink}
         >
           <i className="fa fa-google fa-fw mr-2" />
           <span>Sign in with Google</span>

@@ -85,11 +85,6 @@ router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, n
   }
 });
 
-// router.get('/reseed', async (req, res) => {
-//   await seedDb();
-//   res.json({ message: 'Database reseeded successfully.' });
-// });
-
 router.get('/me', requireJwtAuth, (req, res) => {
   const me = req.user.toJSON();
   res.json({ me });
@@ -143,80 +138,4 @@ router.get('/', requireJwtAuth, async (req, res) => {
   }
 });
 
-// router.delete('/:id', requireJwtAuth, async (req, res) => {
-//   try {
-//     const tempUser = await User.findById(req.params.id);
-//     if (!tempUser) return res.status(404).json({ message: 'No such user.' });
-//     if (!(tempUser.id === req.user.id || req.user.role === 'ADMIN'))
-//       return res.status(400).json({ message: 'You do not have privilegies to delete that user.' });
-
-//     // if (['email0@email.com', 'email1@email.com'].includes(tempUser.email))
-//     //   return res.status(400).json({ message: 'You can not delete seeded user.' });
-
-//     //delete all messages from that user
-//     await Message.deleteMany({ user: tempUser.id });
-//     //delete user
-//     const user = await User.findByIdAndRemove(tempUser.id);
-//     res.status(200).json({ user });
-//   } catch (err) {
-//     res.status(500).json({ message: 'Something went wrong.' });
-//   }
-// });
-
 export default router;
-
-// FIX THIS
-/*
-
-
-// Set calendar ID
-const setCalendarId = async (req, res) => {
-  const { calendarId } = req.body;
-  try {
-    const user = await User.findOne({ _id: req.user._id });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    user.calendarId = calendarId;
-    await user.save();
-    res.json({ message: "Calendar ID updated" }); // Send the response here
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal Server Error" }); // Handle errors and send appropriate responses
-  }
-};
-
-const getWeights = async (req, res) => {
-  // Get weights from user object
-  const user = await User.findOne({ _id: req.user._id });
-  if (!user) {
-    return res.status(404).json({ message: "User not found" });
-  }
-  const { dueDateWeight, difficultyWeight, typeWeight } = user;
-  return res.json({ dueDateWeight, difficultyWeight, typeWeight });
-};
-
-const setWeights = async (req, res) => {
-  // Set all weights in user object
-  const user = await User.findOne({ _id: req.user._id });
-  if (!user) {
-    return res.status(404).json({ message: "User not found" });
-  }
-  user.dueDateWeight = req.body.dueDateWeight;
-  user.difficultyWeight = req.body.difficultyWeight;
-  user.typeWeight = req.body.typeWeight;
-  await user.save();
-  return res.json({ message: "Weights updated" });
-};
-
-module.exports = {
-  getUserSimple,
-  setCalendarId,
-  getWeights,
-  setDueDateWeight,
-  setDifficultyWeight,
-  setTypeWeight,
-  setWeights,
-};
-
-*/

@@ -42,10 +42,10 @@ const Home = ({ auth }) => {
           <div>
             <div className="flex flex-col dark:bg-black dark:text-white">
               <div className="max-w-3xl mx-auto text-center">
-                <h1 className="text-4xl font-bold mb-6">Welcome to CanvasLy</h1>
+                <h1 className="text-4xl font-bold mb-4">Welcome to CanvasLy</h1>
 
                 <Link
-                  className="font-semibold text-zinc-700 dark:text-zinc-300 bg-zinc-200 dark:bg-zinc-700 py-2 px-4 rounded-lg"
+                  className="font-semibold text-zinc-700 dark:text-zinc-300 py-2 px-4 rounded-lg"
                   to="/login"
                 >
                   Log in with Google to get started
@@ -63,7 +63,7 @@ const Home = ({ auth }) => {
                 </div> */}
 
                 {/* <ReseedMessage handleReseed={handleReseed} /> */}
-                <div className="mt-6 mb-12">
+                <div className="mt-4 mb-12">
                   <h2 className="text-2xl font-bold mb-4 bg-gradient-to-bl from-sky-400 to-indigo-900 inline-block text-transparent bg-clip-text">
                     Why Choose CanvasLy?
                   </h2>
