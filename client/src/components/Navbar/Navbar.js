@@ -82,6 +82,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
               </g>
             </svg>
             <p className={`hidden md:block font-semibold ml-2 ${isActiveLink('/')}`}>CanvasLy</p>
+            {!auth.isAuthenticated && <p className="ml-2 font-semibold md:hidden">CanvasLy</p>}
           </Link>
 
           {auth.isAuthenticated && (
