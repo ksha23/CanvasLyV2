@@ -63,3 +63,20 @@ export const getProfile = (username, history) => async (dispatch, getState) => {
     });
   }
 };
+
+export const refreshProfile = (username) => async (dispatch) => {
+  try {
+    const response = await axios.get(`/api/users/${username}`);
+
+    dispatch({
+      type: GET_PROFILE_SUCCESS,
+      payload: { profile: response.data.user },
+    });
+  } catch (err) {
+    console.error(err);
+    dispatch({
+      type: GET_PROFILE_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};

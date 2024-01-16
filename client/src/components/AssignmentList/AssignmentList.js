@@ -10,8 +10,7 @@ const AssignmentList = ({ getAssignments, refreshAssignments, assignments, isLoa
   useLayoutEffect(() => {
     if (!assignments || assignments.length === 0) {
       getAssignments();
-    }
-    refreshAssignments();
+    } else refreshAssignments();
     // refresh data every every 30 seconds
     const interval = setInterval(() => {
       refreshAssignments();

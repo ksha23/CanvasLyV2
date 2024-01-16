@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { useFormik } from 'formik';
 import { withRouter } from 'react-router-dom';
 
-import { getProfile, editUser } from '../../store/actions/userActions';
+import { getProfile, refreshProfile, editUser } from '../../store/actions/userActions';
 import { loadMe } from '../../store/actions/authActions';
 import Layout from '../../layout/Layout';
 import Loader from '../../components/Loader/Loader';
@@ -75,6 +75,7 @@ const marks = [
 
 const Profile = ({
   getProfile,
+  refreshProfile,
   user: { profile, isLoading, error },
   auth: { me },
   editUser,
@@ -96,6 +97,7 @@ const Profile = ({
 
   useLayoutEffect(() => {
     if (!profile || profile.username !== matchUsername) getProfile(matchUsername, history);
+    else refreshProfile(matchUsername);
   }, [matchUsername]);
 
   const onChange = (event) => {
@@ -159,7 +161,10 @@ const Profile = ({
           <div className="flex justify-center items-center flex-col w-full text-zinc-700 dark:text-zinc-300">
             <div className="flex justify-center items-center space-x-5">
               <div className="w-20 h-20 md:w-40 md:h-40">
-                <img src={image ? image : profile.avatar} className="object-cover w-full h-full" />
+                <img
+                  src={image ? image : profile.avatar}
+                  className="object-cover w-full h-full rounded-lg"
+                />
               </div>
               <div>
                 <div>
@@ -179,6 +184,7 @@ const Profile = ({
                     </svg>
                   </span>
                   <span>
+                    {profile.calendars && profile.calendarId == '' && 'No Calendar Selected'}
                     {profile.calendars &&
                       profile.calendarId !== '' &&
                       profile.calendars.find((calendar) => calendar.id === profile.calendarId)
@@ -204,158 +210,161 @@ const Profile = ({
               </div>
             </div>
 
-            <div className="flex justify-center w-full">
-              <form onSubmit={formik.handleSubmit} className="flex flex-col justify-center w-full">
-                <div className="mt-2 flex flex-col justify-center items-center w-full">
-                  <div className="max-w-xl w-full flex items-center mt-4">
-                    <label className="font-bold text-lg">
-                      <svg
-                        class="w-7 h-7"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="currentColor"
-                        viewBox="0 0 20 18"
-                      >
-                        <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
-                      </svg>
-                    </label>
-                    <input
-                      className="ml-2 bg-zinc-200 dark:bg-zinc-700 rounded-md justify-center text-zinc-500 dark:text-zinc-200 file:dark:bg-zinc-700 file:bg-zinc-200 file:text-blue-600 file:font-bold file:rounded-md file:underline file:border-none file:py-2 file:pl-4 file:pr-2  w-full max-w-xl"
-                      name="image"
-                      type="file"
-                      onChange={onChange}
-                    />
-                    {image && (
-                      <button
-                        className="ml-2"
-                        onClick={() => {
-                          setImage('');
-                          setAvatar('');
-                        }}
-                        type="button"
-                      >
-                        Remove
-                      </button>
-                    )}
+            {matchUsername == me.username && (
+              <div className="flex justify-center w-full">
+                <form
+                  onSubmit={formik.handleSubmit}
+                  className="flex flex-col justify-center w-full"
+                >
+                  <div className="mt-2 flex flex-col justify-center items-center w-full">
+                    <div className="max-w-xl w-full flex items-center mt-4">
+                      <label className="font-bold text-lg">
+                        <svg
+                          class="w-7 h-7"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="currentColor"
+                          viewBox="0 0 20 18"
+                        >
+                          <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
+                        </svg>
+                      </label>
+                      <input
+                        className="ml-2 bg-zinc-200 dark:bg-zinc-700 rounded-md justify-center text-zinc-500 dark:text-zinc-200 file:dark:bg-zinc-700 file:bg-zinc-200 file:text-blue-600 file:dark:text-blue-500 file:font-semibold file:rounded-md file:underline file:border-none file:py-2 file:pl-4 file:pr-2  w-full max-w-xl"
+                        name="image"
+                        type="file"
+                        onChange={onChange}
+                      />
+                      {image && (
+                        <button
+                          className="ml-2"
+                          onClick={() => {
+                            setImage('');
+                            setAvatar('');
+                          }}
+                          type="button"
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </div>
                   </div>
-                </div>
-                {/* <input name="id" type="hidden" value={formik.values.id} /> */}
-                <div className="mt-4 flex justify-center items-center w-full">
-                  <div className="max-w-xl w-full flex items-center">
-                    <label className="font-bold text-lg mb-1">Name:</label>
-                    <input
-                      placeholder="Name"
-                      name="name"
-                      className="p-2 px-4 ml-2 rounded-md bg-zinc-200 dark:bg-zinc-700 w-full max-w-xl"
-                      type="text"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.name}
-                    />
+                  {/* <input name="id" type="hidden" value={formik.values.id} /> */}
+                  <div className="mt-4 flex flex-col justify-center items-center w-full">
+                    <div className="max-w-xl w-full flex items-center">
+                      <label className="font-bold text-lg mb-1">Name:</label>
+                      <input
+                        placeholder="Name"
+                        name="name"
+                        className="p-2 px-4 ml-2 rounded-md bg-zinc-200 dark:bg-zinc-700 w-full max-w-xl"
+                        type="text"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.name}
+                      />
+                    </div>
                     {formik.touched.name && formik.errors.name ? (
-                      <p className="error">{formik.errors.name}</p>
+                      <p className="text-red-600 dark:text-red-500">{formik.errors.name}</p>
                     ) : null}
                   </div>
-                </div>
-                <div className="mt-4 flex flex-col justify-center items-center w-full">
-                  <div className="max-w-xl w-full flex items-center">
-                    <label className="font-bold text-lg mb-1">Username: </label>
-                    <input
-                      placeholder="Username"
-                      name="username"
-                      className="p-2 px-4 ml-2 rounded-md bg-zinc-200 dark:bg-zinc-700 w-full max-w-xl"
-                      type="text"
+
+                  <div className="mt-4 flex flex-col justify-center items-center w-full">
+                    <div className="max-w-xl w-full flex items-center">
+                      <label className="font-bold text-lg mb-1">Username: </label>
+                      <input
+                        placeholder="Username"
+                        name="username"
+                        className="p-2 px-4 ml-2 rounded-md bg-zinc-200 dark:bg-zinc-700 w-full max-w-xl"
+                        type="text"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.username}
+                      />
+                    </div>
+                    {formik.touched.username && formik.errors.username ? (
+                      <p className="text-red-600 dark:text-red-500">{formik.errors.username}</p>
+                    ) : null}
+                  </div>
+                  <div className="mt-4 flex flex-col justify-center items-center w-full">
+                    <label className="font-bold text-lg mb-1">Calendar: </label>
+                    <select
+                      className="p-2 ml-2 rounded-md bg-zinc-200 dark:bg-zinc-700 w-full max-w-xl text-center"
+                      name="calendarId"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.username}
-                    />
-                    {formik.touched.username && formik.errors.username ? (
-                      <p className="error">{formik.errors.username}</p>
-                    ) : null}
-                  </div>
-                </div>
-                <div className="mt-4 flex flex-col justify-center items-center w-full">
-                  <label className="font-bold text-lg mb-1">Calendar: </label>
-                  <select
-                    className="p-2 ml-2 rounded-md bg-zinc-200 dark:bg-zinc-700 w-full max-w-xl text-center"
-                    name="calendarId"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.calendarId}
-                  >
-                    <option value="">Choose a Calendar</option>
-                    {profile.calendars &&
-                      profile.calendars.map((calendar) => (
-                        <option key={calendar.id} value={calendar.id}>
-                          {calendar.summary}
-                        </option>
-                      ))}
-                  </select>
-                  {formik.errors.calendarId && formik.touched.calendarId && (
-                    <p className="error">{formik.errors.calendarId}</p>
-                  )}
-                </div>
-                <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
-                  <div className="mt-4 flex flex-col justify-center items-center w-full">
-                    <label className="font-bold text-lg mb-1">Due Date Weight: </label>
-                    <Slider
-                      name="dueDateWeight"
-                      value={formik.values.dueDateWeight}
-                      onChange={formik.handleChange}
-                      // onBlur={formik.handleBlur}
-                      step={1}
-                      marks={marks}
-                      min={1}
-                      max={10}
-                      valueLabelDisplay="off"
-                      className="w-full max-w-xl text-blue-600"
-                    />
-                  </div>
-                  <div className="mt-4 flex flex-col justify-center items-center w-full">
-                    <label className="font-bold text-lg mb-1">Difficulty Weight: </label>
-                    <Slider
-                      name="difficultyWeight"
-                      value={formik.values.difficultyWeight}
-                      onChange={formik.handleChange}
-                      // onBlur={formik.handleBlur}
-                      step={1}
-                      marks={marks}
-                      min={1}
-                      max={10}
-                      valueLabelDisplay="off"
-                      className="w-full max-w-xl text-blue-600"
-                    />
-                  </div>
-                  <div className="mt-4 flex flex-col justify-center items-center w-full">
-                    <label className="font-bold text-lg mb-1">Type Weight: </label>
-                    <Slider
-                      name="typeWeight"
-                      value={formik.values.typeWeight}
-                      onChange={formik.handleChange}
-                      // onBlur={formik.handleBlur}
-                      step={1}
-                      marks={marks}
-                      min={1}
-                      max={10}
-                      valueLabelDisplay="off"
-                      className="w-full max-w-xl text-blue-600"
-                    />
-                    {formik.errors.typeWeight && formik.touched.typeWeight && (
-                      <p className="error">{formik.errors.typeWeight}</p>
+                      value={formik.values.calendarId}
+                    >
+                      <option value="">Choose a Calendar</option>
+                      {profile.calendars &&
+                        profile.calendars.map((calendar) => (
+                          <option key={calendar.id} value={calendar.id}>
+                            {calendar.summary}
+                          </option>
+                        ))}
+                    </select>
+                    {formik.errors.calendarId && formik.touched.calendarId && (
+                      <p className="text-red-600 dark:text-red-500">{formik.errors.calendarId}</p>
                     )}
                   </div>
-                </ThemeProvider>
+                  <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+                    <div className="mt-4 flex flex-col justify-center items-center w-full">
+                      <label className="font-bold text-lg mb-1">Due Date Weight: </label>
+                      <Slider
+                        name="dueDateWeight"
+                        value={formik.values.dueDateWeight}
+                        onChange={formik.handleChange}
+                        step={1}
+                        marks={marks}
+                        min={0}
+                        max={10}
+                        valueLabelDisplay="off"
+                        className="w-full max-w-xl text-blue-600"
+                      />
+                    </div>
+                    <div className="mt-4 flex flex-col justify-center items-center w-full">
+                      <label className="font-bold text-lg mb-1">Difficulty Weight: </label>
+                      <Slider
+                        name="difficultyWeight"
+                        value={formik.values.difficultyWeight}
+                        onChange={formik.handleChange}
+                        step={1}
+                        marks={marks}
+                        min={0}
+                        max={10}
+                        valueLabelDisplay="off"
+                        className="w-full max-w-xl text-blue-600"
+                      />
+                    </div>
+                    <div className="mt-4 flex flex-col justify-center items-center w-full">
+                      <label className="font-bold text-lg mb-1">Type Weight: </label>
+                      <Slider
+                        name="typeWeight"
+                        value={formik.values.typeWeight}
+                        onChange={formik.handleChange}
+                        step={1}
+                        marks={marks}
+                        min={0}
+                        max={10}
+                        valueLabelDisplay="off"
+                        className="w-full max-w-xl text-blue-600"
+                      />
+                      {formik.errors.typeWeight && formik.touched.typeWeight && (
+                        <p className="text-red-600 dark:text-red-500">{formik.errors.typeWeight}</p>
+                      )}
+                    </div>
+                  </ThemeProvider>
 
-                <div className="mt-4 flex justify-center items-center w-full">
-                  <button
-                    type="submit"
-                    className="mt-2 px-4 py-2 rounded-md text-white bg-gradient-to-bl from-sky-600 to-blue-800"
-                  >
-                    Save Preferences
-                  </button>
-                </div>
-              </form>
-            </div>
+                  <div className="mt-4 flex justify-center items-center w-full">
+                    <button
+                      type="submit"
+                      className="mt-2 px-4 py-2 rounded-md text-white bg-gradient-to-bl from-sky-600 to-blue-800"
+                    >
+                      Save Preferences
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -371,7 +380,7 @@ const mapStateToProps = (state) => ({
 export default compose(
   requireAuth,
   withRouter,
-  connect(mapStateToProps, { getProfile, editUser, loadMe }),
+  connect(mapStateToProps, { getProfile, refreshProfile, editUser, loadMe }),
 )(Profile);
 
 /*

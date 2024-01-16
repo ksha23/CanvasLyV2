@@ -20,11 +20,11 @@ const Navbar = ({ auth, logOutUser, history }) => {
   };
 
   const isActiveLink = (pathname) => {
-    return location.pathname === pathname ? 'font-bold text-black dark:text-white ' : '';
+    return location.pathname === pathname ? 'font-bold text-black dark:text-white' : '';
   };
 
   return (
-    <nav className="bg-white text-zinc-700 px-6 pt-4 pb-2 dark:text-zinc-300 dark:bg-black">
+    <nav className="bg-white text-zinc-600 px-6 pt-4 pb-2 dark:text-zinc-300 dark:bg-black">
       <div className="sticky top-0 flex items-center justify-between">
         <div className="flex items-center">
           <Link className="flex items-center" to="/">
@@ -91,64 +91,80 @@ const Navbar = ({ auth, logOutUser, history }) => {
                 to="/assignments"
                 className={`ml-6 text-s md:text-base ${isActiveLink('/assignments')}`}
               >
-                <svg
-                  fill="currentColor"
-                  width="20px"
-                  height="20px"
-                  viewBox="0 0 1920 1920"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <g id="SVGRepo_bgCarrier" stroke-width="0" />
-
-                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
-
-                  <g id="SVGRepo_iconCarrier">
-                    {' '}
-                    <path
-                      d="M1468.214 0v551.145L840.27 1179.089c-31.623 31.623-49.693 74.54-49.693 119.715v395.289h395.288c45.176 0 88.093-18.07 119.716-49.694l162.633-162.633v438.206H0V0h1468.214Zm129.428 581.3c22.137-22.136 57.825-22.136 79.962 0l225.879 225.879c22.023 22.023 22.023 57.712 0 79.848l-677.638 677.637c-10.616 10.503-24.96 16.49-39.98 16.49H903.516v-282.35c0-15.02 5.986-29.364 16.49-39.867Zm-920.005 548.095H338.82v112.94h338.818v-112.94Zm225.88-225.879H338.818v112.94h564.697v-112.94Zm734.106-202.5-89.561 89.56 146.03 146.031 89.562-89.56-146.031-146.031Zm-508.228-362.197H338.82v338.818h790.576V338.82Z"
-                      fill-rule="evenodd"
-                    />{' '}
-                  </g>
-                </svg>
-              </Link>
-              <Link
-                to="/assignments"
-                className={`ml-1 text-s hidden md:block md:text-base ${isActiveLink(
-                  '/assignments',
-                )}`}
-              >
-                Assignments
+                <div className="flex items-center">
+                  <svg
+                    fill="currentColor"
+                    width="18px"
+                    height="18px"
+                    viewBox="0 0 1920 1920"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="mr-2"
+                  >
+                    <g id="SVGRepo_bgCarrier" stroke-width="0" />
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+                    <g id="SVGRepo_iconCarrier">
+                      <path
+                        d="M1468.214 0v551.145L840.27 1179.089c-31.623 31.623-49.693 74.54-49.693 119.715v395.289h395.288c45.176 0 88.093-18.07 119.716-49.694l162.633-162.633v438.206H0V0h1468.214Zm129.428 581.3c22.137-22.136 57.825-22.136 79.962 0l225.879 225.879c22.023 22.023 22.023 57.712 0 79.848l-677.638 677.637c-10.616 10.503-24.96 16.49-39.98 16.49H903.516v-282.35c0-15.02 5.986-29.364 16.49-39.867Zm-920.005 548.095H338.82v112.94h338.818v-112.94Zm225.88-225.879H338.818v112.94h564.697v-112.94Zm734.106-202.5-89.561 89.56 146.03 146.031 89.562-89.56-146.031-146.031Zm-508.228-362.197H338.82v338.818h790.576V338.82Z"
+                        fill-rule="evenodd"
+                      />
+                    </g>
+                  </svg>
+                  <p className="hidden md:block">Assignments</p>
+                </div>
               </Link>
               <Link
                 to={`/${auth.me.username}`}
                 className={`ml-6 text-s md:text-base ${isActiveLink(`/${auth.me.username}`)}`}
               >
-                <svg
-                  class="w-5 h-5"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 16"
-                >
-                  <path d="M18 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2ZM6.5 3a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3.014 13.021l.157-.625A3.427 3.427 0 0 1 6.5 9.571a3.426 3.426 0 0 1 3.322 2.805l.159.622-6.967.023ZM16 12h-3a1 1 0 0 1 0-2h3a1 1 0 0 1 0 2Zm0-3h-3a1 1 0 1 1 0-2h3a1 1 0 1 1 0 2Zm0-3h-3a1 1 0 1 1 0-2h3a1 1 0 1 1 0 2Z" />
-                </svg>
-              </Link>
-              <Link
-                to={`/${auth.me.username}`}
-                className={`ml-2 text-s hidden md:block md:text-base ${isActiveLink(
-                  `/${auth.me.username}`,
-                )}`}
-              >
-                Profile
+                <div className="flex items-center">
+                  <svg
+                    class="w-5 h-5 mr-2"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 20 16"
+                  >
+                    <path d="M18 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2ZM6.5 3a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3.014 13.021l.157-.625A3.427 3.427 0 0 1 6.5 9.571a3.426 3.426 0 0 1 3.322 2.805l.159.622-6.967.023ZM16 12h-3a1 1 0 0 1 0-2h3a1 1 0 0 1 0 2Zm0-3h-3a1 1 0 1 1 0-2h3a1 1 0 1 1 0 2Zm0-3h-3a1 1 0 1 1 0-2h3a1 1 0 1 1 0 2Z" />
+                  </svg>
+                  <p className="hidden md:block">Profile</p>
+                </div>
               </Link>
 
               {auth.me?.role === 'ADMIN' && (
                 <>
-                  <Link className={`ml-4 hidden md:block ${isActiveLink('/users')}`} to="/users">
-                    Users
+                  <Link className={`ml-6 hidden md:block ${isActiveLink('/users')}`} to="/users">
+                    <div className="flex items-center">
+                      <svg
+                        className="flex w-5 h-5 mr-2"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 18"
+                      >
+                        <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
+                      </svg>
+                      Users
+                    </div>
                   </Link>
-                  <Link className={`ml-4 hidden md:block ${isActiveLink('/admin')}`} to="/admin">
-                    Admin
+                  <Link className={`ml-6 hidden md:block ${isActiveLink('/admin')}`} to="/admin">
+                    <div className="flex items-center">
+                      <svg
+                        class="w-5 h-5 mr-2"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M4 12.25V1m0 11.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M4 19v-2.25m6-13.5V1m0 2.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M10 19V7.75m6 4.5V1m0 11.25a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM16 19v-2"
+                        />
+                      </svg>
+                      Admin
+                    </div>
                   </Link>
                 </>
               )}

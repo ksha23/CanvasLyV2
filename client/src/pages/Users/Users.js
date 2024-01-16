@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 import { getUsers } from '../../store/actions/usersActions';
@@ -30,12 +30,12 @@ const Users = ({ getUsers, users: { users, isLoading } }) => {
             <>
               {users.map((user, index) => {
                 return (
-                  <div key={index} className="flex space-x-6 mb-4">
-                    {/* <Link to={`/${user.username}`}> */}
-                    <div className="w-40 h-40">
-                      <img src={user.avatar} className="object-cover w-full h-full" />
-                    </div>
-                    {/* </Link> */}
+                  <div key={index} className="flex space-x-6 mb-4 items-center">
+                    <Link to={`/${user.username}`}>
+                      <div className="w-20 h-20 md:w-40 md:h-40">
+                        <img src={user.avatar} className="object-cover w-full h-full rounded-lg" />
+                      </div>
+                    </Link>
                     <div className="info-container">
                       <div>
                         <span className="font-bold">Provider: </span>
@@ -51,9 +51,12 @@ const Users = ({ getUsers, users: { users, isLoading } }) => {
                       </div>
                       <div>
                         <span className="font-bold">Username: </span>
-                        {/* <Link to={`/${user.username}`} className="info bold profile-link"> */}
-                        <span className="info">{user.username}</span>
-                        {/* </Link> */}
+                        <Link
+                          to={`/${user.username}`}
+                          className="info bold text-blue-600 dark:text-blue-500"
+                        >
+                          <span className="info">{user.username}</span>
+                        </Link>
                       </div>
                       <div>
                         <span className="font-bold">Email: </span>

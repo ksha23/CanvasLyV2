@@ -25,7 +25,7 @@ const DarkModeToggle = () => {
     <div onClick={toggleTheme} style={{ cursor: 'pointer' }}>
       {theme === 'light' ? (
         <svg
-          className="w-5 h-5 text-gray-800 dark:text-white"
+          className="w-5 h-5 text-zinc-700 dark:text-zinc-200"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
@@ -35,7 +35,7 @@ const DarkModeToggle = () => {
         </svg>
       ) : (
         <svg
-          className="w-5 h-5 text-gray-800 dark:text-white"
+          className="w-5 h-5 text-zinc-700 dark:text-zinc-200"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"

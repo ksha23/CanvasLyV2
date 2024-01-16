@@ -196,7 +196,7 @@ const Assignment = ({
             <h3
               className={
                 dateObject < new Date() && !assignment.completed
-                  ? 'text-red-700 text-xl md:text-2xl font-bold'
+                  ? 'text-red-600 dark:text-red-700 text-xl md:text-2xl font-bold'
                   : dateObject.toDateString() === new Date().toDateString() && !assignment.completed
                   ? 'text-yellow-600 text-xl md:text-2xl font-bold'
                   : assignment.completed
@@ -221,8 +221,10 @@ const Assignment = ({
               {assignment.completed && (
                 <button
                   className={`px-4 ${
-                    assignment.completed ? 'ml-2 px-4 bg-red-600 dark:bg-red-700' : 'bg-green-600'
-                  } text-white rounded-md py-1`}
+                    assignment.completed
+                      ? 'ml-2 px-4 bg-gradient-to-bl from-rose-500 to-red-700'
+                      : 'bg-green-600'
+                  } text-white rounded-md py-1 font-bold`}
                   onClick={() => confirmComplete(assignment._id)}
                   type="button"
                   disabled={assignment.confirmedCompleted || !assignment.completed}
@@ -234,7 +236,7 @@ const Assignment = ({
           </div>
           <div className="flex justify-start space-x-2 items-center">
             <svg
-              className={`w-5 h-5`}
+              className={`w-4 h-4`}
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
@@ -286,18 +288,18 @@ const Assignment = ({
             </div>
             <div>
               {formik.values.reminders && formik.values.reminders.length > 0 && (
-                <p className="text-lg mb-1 font-semibold">Reminders:</p>
+                <p className="text-md mb-1 font-semibold">Reminders:</p>
               )}
               {formik.values.reminders.map((reminder, index) => {
                 return (
-                  <div key={index} className={`flex items-center w-full space-x-2 mb-2 `}>
+                  <div key={index} className={`flex items-center w-full space-x-2 mb-1 `}>
                     <p className="text-2xl font-bold">•</p>
                     <TextareaAutosize
                       name={`reminders.${index}`}
-                      className={`p-2 w-full rounded-md border bg-transparent dark:bg-transparent ${
+                      className={`px-2 py-1 text-sm w-full rounded-md border bg-transparent dark:bg-transparent ${
                         assignment.completed
                           ? 'border-zinc-200 dark:border-zinc-800'
-                          : 'border-zinc-400 dark:border-zinc-600'
+                          : 'border-slate-400 dark:border-slate-600'
                       } `}
                       onChange={(e) => {
                         const updatedReminders = [...formik.values.reminders];
@@ -321,7 +323,7 @@ const Assignment = ({
                 );
               })}
               <button
-                className="mb-2 text-sm underline"
+                className="mb-2 text-xs underline text-zinc-400 dark:text-zinc-500"
                 type="button"
                 onClick={addReminder}
                 disabled={assignment.isLoading || assignment.completed}
