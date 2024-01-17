@@ -18,6 +18,8 @@ const DarkModeToggle = () => {
     setTheme(newTheme);
     document.documentElement.style.backgroundColor = newTheme === 'light' ? 'white' : 'black';
     document.getElementById('theme-color').content = newTheme === 'light' ? '#FFFFFF' : '#000000';
+    // dispatch new event
+    window.dispatchEvent(new Event('themeChange'));
   };
 
   return (
