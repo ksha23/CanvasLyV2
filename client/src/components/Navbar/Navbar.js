@@ -24,7 +24,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
   };
 
   return (
-    <nav className="bg-white text-zinc-600 px-6 py-2 dark:text-zinc-300 dark:bg-black">
+    <nav className="bg-white text-zinc-600 px-6 pb-2 pt-2 md:pt-4 dark:text-zinc-300 dark:bg-black">
       <div className="sticky top-0 flex items-center justify-between">
         <div className="flex items-center">
           <Link className="flex items-center" to="/">
