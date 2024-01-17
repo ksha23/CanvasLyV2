@@ -16,9 +16,8 @@ const DarkModeToggle = () => {
     document.body.classList.add(newTheme);
     localStorage.setItem('theme', newTheme);
     setTheme(newTheme);
-
-    // Dispatch the custom event for theme changes
-    window.dispatchEvent(new Event('themeChange'));
+    document.documentElement.style.backgroundColor = newTheme === 'light' ? 'white' : 'black';
+    document.getElementById('theme-color').content = newTheme === 'light' ? '#FFFFFF' : '#000000';
   };
 
   return (
