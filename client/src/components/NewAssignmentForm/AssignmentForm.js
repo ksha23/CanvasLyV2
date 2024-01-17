@@ -200,7 +200,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
           <div className="flex justify-center">
             <button
               type="submit"
-              className="bg-gradient-to-bl from-sky-600 to-blue-800 px-4 py-2 rounded-md text-white"
+              className="bg-gradient-to-bl from-sky-600 to-blue-800 px-4 py-2 rounded-md text-white w-full"
               value="Add Message"
               disabled={isSubmiting}
             >

@@ -176,7 +176,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
           <DarkModeToggle />
           {!auth.isAuthenticated && (
             <Link
-              className="px-4 py-1 text-white rounded-full bg-gradient-to-bl from-sky-400 to-indigo-900"
+              className="px-4 py-1 text-white rounded-md bg-gradient-to-bl from-sky-500 to-indigo-900"
               to="/login"
             >
               Log in

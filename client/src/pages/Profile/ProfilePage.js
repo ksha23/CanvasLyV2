@@ -360,7 +360,7 @@ const Profile = ({
                   <div className="mt-4 flex justify-center items-center w-full">
                     <button
                       type="submit"
-                      className="mt-2 px-4 py-2 rounded-md text-white bg-gradient-to-bl from-sky-600 to-blue-800"
+                      className="mt-2 px-4 py-2 rounded-md text-white bg-gradient-to-bl from-sky-600 to-blue-800 w-full max-w-xl"
                     >
                       Save Preferences
                     </button>
