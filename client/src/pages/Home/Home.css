@@ -2,7 +2,7 @@
     position: relative;
     aspect-ratio: 16 / 9; /* Set aspect ratio as width / height */
     width: 100%;
-    max-width: 1000px;
+    max-width: 800px;
   }
   
   .video-container iframe {

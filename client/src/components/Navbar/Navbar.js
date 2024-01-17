@@ -179,7 +179,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
               className="px-4 py-1 text-white rounded-md bg-gradient-to-bl from-sky-500 to-indigo-900"
               to="/login"
             >
-              Log in
+              Sign in
             </Link>
           )}
           {auth.isAuthenticated && (

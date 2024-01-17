@@ -252,7 +252,7 @@ const Assignment = ({
                 name="type"
                 className={`w-1/2 rounded-md ${
                   assignment.completed
-                    ? 'bg-white dark:bg-zinc-900'
+                    ? 'bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700'
                     : 'bg-transparent border-zinc-300 dark:border-zinc-700'
                 }
                    dark:text-white"
@@ -326,7 +326,11 @@ const Assignment = ({
                 );
               })}
               <button
-                className="text-xs underline text-zinc-400 dark:text-zinc-500"
+                className={
+                  assignment.completed
+                    ? 'text-xs text-zinc-300 dark:text-zinc-700'
+                    : 'text-xs underline text-zinc-400 dark:text-zinc-500'
+                }
                 type="button"
                 onClick={addReminder}
                 disabled={assignment.isLoading || assignment.completed}
