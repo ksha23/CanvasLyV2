@@ -253,7 +253,7 @@ const Assignment = ({
                 className={`w-1/2 rounded-md ${
                   assignment.completed
                     ? 'bg-white dark:bg-zinc-900'
-                    : 'bg-transparent border-zinc-400 dark:border-zinc-700'
+                    : 'bg-transparent border-zinc-300 dark:border-zinc-700'
                 }
                    dark:text-white"
                   name="type`}
@@ -301,7 +301,7 @@ const Assignment = ({
                       className={`py-1 w-full rounded-md border bg-transparent dark:bg-transparent ${
                         assignment.completed
                           ? 'border-zinc-200 dark:border-zinc-800'
-                          : 'border-slate-400 dark:border-slate-600'
+                          : 'border-zinc-300 dark:border-zinc-700'
                       } `}
                       onChange={(e) => {
                         const updatedReminders = [...formik.values.reminders];

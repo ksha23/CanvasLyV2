@@ -94,7 +94,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
             <label htmlFor="name">Name:</label>
             <TextareaAutosize
               name="name"
-              className="bg-transparent rounded-md w-full border border-zinc-400 dark:border-zinc-600"
+              className="bg-transparent rounded-md w-full border border-zinc-300 dark:border-zinc-600"
               placeholder="Add Name..."
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -126,7 +126,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
                   type="datetime-local"
                   name="dueDate"
                   id="dueDate"
-                  className="bg-transparent w-full rounded-md dark:[color-scheme:dark] border border-zinc-400 dark:border-zinc-600"
+                  className="bg-transparent w-full rounded-md dark:[color-scheme:dark] border border-zinc-300 dark:border-zinc-600"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.dueDate}
@@ -141,7 +141,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
               <label htmlFor="type">Type:</label>
               <select
                 name="type"
-                className="w-full rounded-md bg-transparent border border-zinc-400 dark:border-zinc-700"
+                className="w-full rounded-md bg-transparent border border-zinc-300 dark:border-zinc-700"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.type}
@@ -184,7 +184,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
             <label htmlFor="reminders">Reminder:</label>
             <TextareaAutosize
               name="reminders"
-              className="bg-transparent rounded-md w-full border border-zinc-400 dark:border-zinc-700"
+              className="bg-transparent rounded-md w-full border border-zinc-300 dark:border-zinc-700"
               type="text"
               placeholder="Add reminder (optional)"
               onChange={formik.handleChange}
