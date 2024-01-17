@@ -67,14 +67,14 @@ const Home = ({ auth }) => {
       <>
         {!auth.isAuthenticated ? (
           <div className="flex flex-col justify-center items-center text-center w-full text-black dark:text-white">
-            <h1 className="text-4xl font-bold mb-4">Welcome to CanvasLy</h1>
+            <h1 className="text-4xl font-bold">Welcome to CanvasLy</h1>
             <Link
-              className="text-zinc-700 dark:text-zinc-300 py-2 px-6 rounded-lg dark:shadow-[0_0_15px_theme('colors.blue.500')]"
+              className="text-zinc-700 dark:text-zinc-300 mt-4 mb-4 dark:mt-8 dark:mb-8 py-2 px-6 rounded-lg dark:shadow-[0_0_15px_theme('colors.blue.500')]"
               to="/login"
             >
               Sign in with Google to get started &rarr;
             </Link>
-            <h2 className="mt-4 text-2xl font-bold mb-4 bg-gradient-to-bl from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
+            <h2 className="text-2xl font-bold mb-4 bg-gradient-to-bl from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
               Why CanvasLy?
             </h2>
             <ul className="text-left list-disc ml-6 dark:text-zinc-300 why-canvasly-list">
@@ -85,7 +85,7 @@ const Home = ({ auth }) => {
               <li>Never miss another assignment again!</li>
             </ul>
 
-            <h2 className="mt-8 text-2xl font-bold mb-4 bg-gradient-to-bl from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
+            <h2 className="mt-8 text-2xl font-bold mb-4 bg-gradient-to-tl from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
               Intuitive UI
             </h2>
             <div className="w-full max-w-4xl mb-5">
