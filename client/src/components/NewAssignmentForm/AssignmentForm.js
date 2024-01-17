@@ -95,7 +95,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
             <TextareaAutosize
               name="name"
               className="bg-transparent rounded-md w-full border border-zinc-300 dark:border-zinc-600"
-              placeholder="Add Name..."
+              placeholder="Assignment name..."
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.name}
@@ -109,19 +109,6 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
             <div className="mb-2">
               <label htmlFor="dueDate">Due Date:</label>
               <div>
-                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DateTimePicker
-                    name="dueDate"
-                    type="dateTime-local"
-                    className="bg-white dark:bg-zinc-800 rounded w-full"
-                    value={formik.values.dueDate}
-                    onChange={(newValue) => {
-                      formik.setFieldValue('dueDate', newValue);
-                    }}
-                    onBlur={formik.handleBlur}
-                    disabled={isSubmiting}
-                  />
-                </LocalizationProvider> */}
                 <input
                   type="datetime-local"
                   name="dueDate"
@@ -186,7 +173,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
               name="reminders"
               className="bg-transparent rounded-md w-full border border-zinc-300 dark:border-zinc-700"
               type="text"
-              placeholder="Add reminder (optional)"
+              placeholder="Reminder (optional)..."
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.reminders}

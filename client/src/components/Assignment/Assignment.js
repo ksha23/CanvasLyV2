@@ -188,7 +188,7 @@ const Assignment = ({
             assignment.completed
               ? 'p-5 mt-5 rounded-md bg-zinc-100 dark:bg-zinc-900'
               : isEdit
-              ? 'p-5 mt-5 border-2 border-sky-600 dark:border-sky-700 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-100 dark:to-zinc-900 rounded-md'
+              ? 'p-5 mt-5 border-2 border-sky-600 dark:border-sky-700 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md'
               : 'p-5 mt-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md'
           }
         >
@@ -310,6 +310,7 @@ const Assignment = ({
                         setIsEdit(!lodash.isEqual(updatedReminders, assignment.reminders));
                       }}
                       onBlur={formik.handleBlur}
+                      placeholder="Reminder..."
                       value={formik.values.reminders[index] || ''} // Add a default value in case of undefined
                       disabled={assignment.isLoading || assignment.completed}
                     />
