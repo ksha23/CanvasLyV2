@@ -21,7 +21,7 @@ const Weather = ({ weatherData }) => {
             </div>
             <div className="flex justify-between">
               <p className="flex mb-1">
-                <div className="w-6 h-6">
+                <div className="w-5 h-5">
                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                     <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
@@ -42,7 +42,7 @@ const Weather = ({ weatherData }) => {
                 })}
               </p>
               <p className="flex">
-                <div className="w-6 h-6">
+                <div className="w-5 h-5">
                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                     <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
