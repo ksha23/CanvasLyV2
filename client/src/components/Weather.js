@@ -4,7 +4,7 @@ const Weather = ({ weatherData }) => {
   return (
     <>
       {weatherData && (
-        <div className="p-5 flex justify-center flex-col border-md bg-zinc-100 dark:bg-zinc-800 mx-5 my-5 md:my-10 rounded-lg max-w-xs w-full border border-zinc-300 dark:border-zinc-600">
+        <div className="px-4 py-2 flex justify-center flex-col border-md bg-zinc-100 dark:bg-zinc-800 mx-5 my-5 md:my-10 rounded-lg max-w-xs w-full border border-zinc-300 dark:border-zinc-600">
           <div className="flex justify-between items-center w-full mb-2">
             <div className="flex flex-col text-left">
               <p className="text-xl md:text-2xl font-bold">My Location</p>
@@ -15,11 +15,10 @@ const Weather = ({ weatherData }) => {
             </p>
           </div>
           <div className="text-zinc-600 dark:text-zinc-300">
-            <div className="flex justify-between mb-2">
+            <div className="flex justify-between">
               <p>{weatherData.weather[0].main}</p>
               <p>Humidity: {weatherData.main.humidity}%</p>
             </div>
-
             <div className="flex justify-between">
               <p className="flex">
                 <div className="w-6 h-6">
