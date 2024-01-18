@@ -14,7 +14,7 @@ const Weather = ({ weatherData }) => {
               {((weatherData.main.temp - 273.15) * 1.8 + 32).toFixed(0)}&deg;
             </p>
           </div>
-          <div className="">
+          <div className="text-sm">
             <div className="flex justify-between">
               <p>{weatherData.weather[0].main}</p>
               <p>Humidity: {weatherData.main.humidity}%</p>
