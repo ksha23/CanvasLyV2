@@ -1,14 +1,16 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import DateTime from '../../components/DateTime';
 import { GOOGLE_AUTH_LINK } from '../../constants';
+import Weather from '../../components/Weather';
 
 import './Home.css';
 import Layout from '../../layout/Layout';
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material/styles';
 import Slider from '@mui/material/Slider';
+import Loader from '../../components/Loader/Loader';
 
 const marks = [
   {
@@ -46,6 +48,25 @@ const lightTheme = createTheme({
 });
 
 const Home = ({ auth }) => {
+  const [weatherData, setWeatherData] = useState(null);
+  useEffect(() => {
+    if (weatherData) return;
+    navigator.geolocation.getCurrentPosition(function (position) {
+      fetchWeatherData(position.coords.latitude, position.coords.longitude);
+    });
+  }, []);
+  const fetchWeatherData = async (latitude, longitude) => {
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=98a669420d5fd3441c7e30d6d2e9844f`;
+
+    try {
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+      setWeatherData(data);
+    } catch (error) {
+      console.error('Error fetching weather data:', error);
+    }
+  };
+
   let googleAuthLink;
   if (process.env.NODE_ENV === 'development') {
     googleAuthLink = GOOGLE_AUTH_LINK;
@@ -255,30 +276,30 @@ const Home = ({ auth }) => {
             </div>
           </div>
         ) : (
-          <>
-            <div className="flex flex-col dark:bg-black dark:text-white w-full">
-              <h1 className="text-4xl font-bold mb-4 text-center">Welcome, {auth.me.name}</h1>
-              <div className="max-w-3xl mx-auto text-center">
-                <div>
-                  <DateTime />
-                  <h2 className="mt-8 text-2xl font-bold mb-2 bg-gradient-to-br from-sky-400 to-indigo-900 inline-block text-transparent bg-clip-text">
-                    Need Help Getting Started?
-                  </h2>
-                  <ol className="text-left list-decimal ml-6 dark:text-zinc-300">
-                    <li>Access "Canvas Calendar" in the Canvas side menu</li>
-                    <li>Locate "Calendar Feed" and copy the URL</li>
-                    <li>Open Google Calendar and select "+ Other Calendars" then "From URL"</li>
-                    <li>Paste the URL and click "Add Calendar"</li>
-                    <li>Sign in to CanvasLy using your Google account</li>
-                    <li>
-                      Go to "Profile" and choose the imported Canvas calendar to display assignments
-                    </li>
-                    <li>You're all set!</li>
-                  </ol>
-                </div>
-              </div>
+          <div className="flex flex-col items-center w-full text-zinc-700 dark:text-zinc-300 text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center">
+              Welcome, {auth.me.name}
+            </h1>
+            <div className="flex flex-col justify-center items-center max-w-3xl w-full text-center">
+              <DateTime />
+              {weatherData === null && <Loader />}
+              <Weather weatherData={weatherData} />
+              <h2 className="mt-5 text-2xl font-bold mb-2 bg-gradient-to-br from-sky-400 to-indigo-900 inline-block text-transparent bg-clip-text">
+                Need Help Getting Started?
+              </h2>
+              <ol className="text-left list-decimal ml-6 dark:text-zinc-300">
+                <li>Access "Canvas Calendar" in the Canvas side menu</li>
+                <li>Locate "Calendar Feed" and copy the URL</li>
+                <li>Open Google Calendar and select "+ Other Calendars" then "From URL"</li>
+                <li>Paste the URL and click "Add Calendar"</li>
+                <li>Sign in to CanvasLy using your Google account</li>
+                <li>
+                  Go to "Profile" and choose the imported Canvas calendar to display assignments
+                </li>
+                <li>You're all set!</li>
+              </ol>
             </div>
-          </>
+          </div>
         )}
       </>
     </Layout>
