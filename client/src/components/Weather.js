@@ -4,7 +4,7 @@ const Weather = ({ weatherData }) => {
   return (
     <>
       {weatherData && (
-        <div className="px-4 py-2 flex justify-center flex-col border-md bg-zinc-100 dark:bg-zinc-800 mx-5 my-5 md:my-10 rounded-lg max-w-xs w-full border border-zinc-300 dark:border-zinc-600">
+        <div className="px-4 py-2 flex justify-center flex-col border-md text-zinc-700 dark:text-zinc-200 bg-gradient-to-tr from-gray-50 dark:from-gray-900 to-gray-300 dark:to-gray-600 mx-5 my-5 md:my-10 rounded-lg max-w-xs w-full">
           <div className="flex justify-between items-center w-full mb-2">
             <div className="flex flex-col text-left">
               <p className="text-xl md:text-2xl font-bold">My Location</p>
@@ -14,13 +14,13 @@ const Weather = ({ weatherData }) => {
               {((weatherData.main.temp - 273.15) * 1.8 + 32).toFixed(0)}&deg;
             </p>
           </div>
-          <div className="text-zinc-600 dark:text-zinc-300">
+          <div className="">
             <div className="flex justify-between">
               <p>{weatherData.weather[0].main}</p>
               <p>Humidity: {weatherData.main.humidity}%</p>
             </div>
             <div className="flex justify-between">
-              <p className="flex">
+              <p className="flex mb-1">
                 <div className="w-6 h-6">
                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>

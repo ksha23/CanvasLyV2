@@ -288,7 +288,7 @@ const Home = ({ auth }) => {
           </div>
         ) : (
           <div className="flex flex-col items-center w-full text-zinc-700 dark:text-zinc-300 text-center">
-            <h1 className="text-3xl md:text-5xl font-bold mb-2 md:mb-4 text-center">
+            <h1 className="text-3xl md:text-5xl font-bold mb-2 md:mb-4 text-center light:text-black dark:text-white">
               Welcome, {auth.me.name}
             </h1>
             <div className="flex flex-col justify-center items-center max-w-3xl w-full text-center">
