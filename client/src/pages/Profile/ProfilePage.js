@@ -83,8 +83,6 @@ const Profile = ({
   history,
   match,
 }) => {
-  console.log(match);
-  console.log();
   const [image, setImage] = useState('');
   const [avatar, setAvatar] = useState('');
   const matchUsername = match.params.username;

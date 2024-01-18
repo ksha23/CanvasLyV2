@@ -50,10 +50,21 @@ const lightTheme = createTheme({
 const Home = ({ auth }) => {
   const [weatherData, setWeatherData] = useState(null);
   useEffect(() => {
+    const options = {
+      enableHighAccuracy: false,
+      timeout: 10000,
+      maximumAge: 60000,
+    };
     if (weatherData) return;
-    navigator.geolocation.getCurrentPosition(function (position) {
-      fetchWeatherData(position.coords.latitude, position.coords.longitude);
-    });
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        fetchWeatherData(position.coords.latitude, position.coords.longitude);
+      },
+      function (error) {
+        console.error('Error Code = ' + error.code + ' - ' + error.message);
+      },
+      options,
+    );
   }, []);
   const fetchWeatherData = async (latitude, longitude) => {
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=98a669420d5fd3441c7e30d6d2e9844f`;
@@ -277,14 +288,18 @@ const Home = ({ auth }) => {
           </div>
         ) : (
           <div className="flex flex-col items-center w-full text-zinc-700 dark:text-zinc-300 text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center">
+            <h1 className="text-3xl md:text-5xl font-bold mb-2 md:mb-4 text-center">
               Welcome, {auth.me.name}
             </h1>
             <div className="flex flex-col justify-center items-center max-w-3xl w-full text-center">
               <DateTime />
-              {weatherData === null && <Loader />}
+              {weatherData === null && (
+                <div>
+                  <Loader />
+                </div>
+              )}
               <Weather weatherData={weatherData} />
-              <h2 className="mt-5 text-2xl font-bold mb-2 bg-gradient-to-br from-sky-400 to-indigo-900 inline-block text-transparent bg-clip-text">
+              <h2 className="text-2xl font-bold mb-2 bg-gradient-to-br from-sky-400 to-indigo-900 inline-block text-transparent bg-clip-text">
                 Need Help Getting Started?
               </h2>
               <ol className="text-left list-decimal ml-6 dark:text-zinc-300">

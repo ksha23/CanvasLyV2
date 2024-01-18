@@ -29,7 +29,7 @@ export const editUser = (id, formData, history) => async (dispatch, getState) =>
     // edited him self, reload me
     // if (getState().auth.me?.id === response.data.user.id) dispatch(loadMe());
     if (getState().auth.me?.id === response.data.user.id) {
-      dispatch(getProfile(response.data.user.username, history));
+      dispatch(getProfile(response.data.user.id, history));
       dispatch(reloadMe());
     }
     history.push(`/${response.data.user.username}`);
