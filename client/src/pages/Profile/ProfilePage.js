@@ -98,9 +98,9 @@ const Profile = ({
   }
 
   useLayoutEffect(() => {
-    if (!profile || profile.username !== matchUsername) getProfile(matchUsername, history);
+    if (!profile || profile.username !== matchUsername) getProfile(me.id, history);
     // else refreshProfile(matchUsername);
-    if (matchUsername == profile.username) refreshProfile(me.id);
+    if (matchUsername == profile.username) refreshProfile(me.id, history);
   }, [matchUsername]);
 
   const onChange = (event) => {

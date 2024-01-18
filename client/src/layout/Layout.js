@@ -9,7 +9,7 @@ const Layout = ({ children }) => {
     <>
       <div className="bg-white min-h-screen dark:bg-black flex flex-col justify-between w-full">
         <Navbar />
-        <div className="p-10 pt-5 flex justify-center flex-grow">{children}</div>
+        <div className="p-10 flex justify-center flex-grow">{children}</div>
         <Footer />
       </div>
     </>

@@ -5,10 +5,17 @@ import { useLocation } from 'react-router-dom';
 import { Link, withRouter } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import DarkModeToggle from '../DarkModeToggle/DarkModeToggle';
+import { GOOGLE_AUTH_LINK } from '../../constants';
 
 import { logOutUser } from '../../store/actions/authActions';
 
 const Navbar = ({ auth, logOutUser, history }) => {
+  let googleAuthLink;
+  if (process.env.NODE_ENV === 'development') {
+    googleAuthLink = GOOGLE_AUTH_LINK;
+  } else {
+    googleAuthLink = '/auth/google';
+  }
   const location = useLocation();
 
   const onLogOut = (event) => {
@@ -24,7 +31,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
   };
 
   return (
-    <nav className="bg-white text-zinc-600 px-6 pb-2 pt-2 md:pt-4 dark:text-zinc-300 dark:bg-black">
+    <nav className="bg-white text-zinc-600 px-6 py-3 md:pt-4 dark:text-zinc-300 dark:bg-black shadow-md md:shadow-none dark:shadow-lg dark:md:shadow-none shadow-zinc-300 dark:shadow-zinc-800">
       <div className="sticky top-0 flex items-center justify-between">
         <div className="flex items-center">
           <Link className="flex items-center" to="/">
@@ -98,7 +105,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
                     height="18px"
                     viewBox="0 0 1920 1920"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="mr-2"
+                    className="md:mr-2"
                   >
                     <g id="SVGRepo_bgCarrier" strokeWidth="0" />
                     <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" />
@@ -174,14 +181,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
 
         <div className="flex items-center space-x-4">
           <DarkModeToggle />
-          {!auth.isAuthenticated && (
-            <Link
-              className="px-4 py-1 text-white rounded-md bg-gradient-to-bl from-sky-500 to-indigo-900"
-              to="/login"
-            >
-              Sign in
-            </Link>
-          )}
+          {!auth.isAuthenticated && <a href={googleAuthLink}>Sign in</a>}
           {auth.isAuthenticated && (
             <Link to={`/${auth.me.username}`} className="flex items-center space-x-3 m-0">
               <img className="h-7 w-7 rounded-full" src={auth.me.avatar} alt="User Avatar" />

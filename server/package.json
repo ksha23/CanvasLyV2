@@ -26,6 +26,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.8.3",
     "@babel/preset-env": "^7.1.6",
     "@babel/register": "^7.0.0",
+    "@kth/canvas-api": "^4.2.5",
     "bcryptjs": "^2.4.3",
     "concurrently": "^5.1.0",
     "config": "^3.3.0",

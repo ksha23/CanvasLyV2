@@ -41,12 +41,12 @@ export const editUser = (id, formData, history) => async (dispatch, getState) =>
   }
 };
 
-export const getProfile = (username, history) => async (dispatch, getState) => {
+export const getProfile = (id, history) => async (dispatch, getState) => {
   dispatch({
     type: GET_PROFILE_LOADING,
   });
   try {
-    const response = await axios.get(`/api/users/${username}`);
+    const response = await axios.get(`/api/users/byId/${id}`);
 
     dispatch({
       type: GET_PROFILE_SUCCESS,
@@ -64,7 +64,7 @@ export const getProfile = (username, history) => async (dispatch, getState) => {
   }
 };
 
-export const refreshProfile = (id) => async (dispatch) => {
+export const refreshProfile = (id, history) => async (dispatch) => {
   try {
     const response = await axios.get(`/api/users/byId/${id}`);
 
@@ -74,6 +74,9 @@ export const refreshProfile = (id) => async (dispatch) => {
     });
   } catch (err) {
     console.error(err);
+    if (err?.response.status === 404) {
+      history.push('/notfound');
+    }
     dispatch({
       type: GET_PROFILE_FAIL,
       payload: { error: err?.response?.data.message || err.message },

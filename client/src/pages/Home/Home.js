@@ -1,13 +1,11 @@
 import React, { useState, useLayoutEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import DateTime from '../../components/DateTime';
+import { GOOGLE_AUTH_LINK } from '../../constants';
 
-import YoutubeComponent from '../../components/YoutubeComponent/YoutubeComponent';
 import './Home.css';
 import Layout from '../../layout/Layout';
-import HomePicture from '../../Assets/CanvaslyHome.png';
-import HomePictureLight from '../../Assets/CanvaslyHomeLight.png';
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material/styles';
 import Slider from '@mui/material/Slider';
@@ -48,6 +46,12 @@ const lightTheme = createTheme({
 });
 
 const Home = ({ auth }) => {
+  let googleAuthLink;
+  if (process.env.NODE_ENV === 'development') {
+    googleAuthLink = GOOGLE_AUTH_LINK;
+  } else {
+    googleAuthLink = '/auth/google';
+  }
   const [theme, setTheme] = useState(localStorage.getItem('theme') === 'dark');
 
   useLayoutEffect(() => {
@@ -66,27 +70,32 @@ const Home = ({ auth }) => {
     <Layout>
       <>
         {!auth.isAuthenticated ? (
-          <div className="flex flex-col justify-center items-center text-center w-full text-black dark:text-white">
-            <h1 className="text-4xl font-bold">Welcome to CanvasLy</h1>
-            <Link
-              className="text-zinc-700 dark:text-zinc-300 mt-4 mb-4 dark:mt-8 dark:mb-8 py-2 px-6 rounded-lg dark:shadow-[0_0_15px_theme('colors.blue.500')]"
-              to="/login"
+          <div className="flex flex-col justify-center items-center w-full text-zinc-700 dark:text-zinc-300 text-center">
+            <h1 className="text-5xl mb-2 font-bold text-black dark:text-white">CanvasLy</h1>
+            <h2 className="text-2xl font-bold mb-6">The better assignment manager</h2>
+            <a
+              className="mb-6 py-2 px-6 text-sm rounded-lg border border-zinc-300 dark:border-slate-600"
+              href={googleAuthLink}
             >
               Sign in with Google to get started &rarr;
-            </Link>
-            <h2 className="text-2xl font-bold mb-4 bg-gradient-to-bl from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
-              Why CanvasLy?
-            </h2>
-            <ul className="text-left list-disc ml-6 dark:text-zinc-300 why-canvasly-list">
-              <li>Effortlessly manage upcoming assignments, quizzes, projects, and exams</li>
-              <li>
-                Personalize prioritization of assignments based on due date, difficulty, and type
-              </li>
-              <li>Never miss another assignment again!</li>
-            </ul>
+            </a>
+            <div className="w-full max-w-4xl mb-8 text-left">
+              <h2 className="text-3xl font-bold mb-2 bg-gradient-to-bl from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
+                Why CanvasLy?
+              </h2>
+              <ul className="text-left list-disc ml-6 dark:text-zinc-300 why-canvasly-list">
+                <li className="text-lg">
+                  Effortlessly manage upcoming assignments, quizzes, projects, and exams
+                </li>
+                <li className="text-lg">
+                  Personalize prioritization of assignments based on due date, difficulty, and type
+                </li>
+                <li className="text-lg">Never miss another assignment again!</li>
+              </ul>
+            </div>
 
-            <h2 className="mt-8 text-2xl font-bold mb-4 bg-gradient-to-tl from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
-              Intuitive UI
+            <h2 className="text-3xl font-bold mb-2 bg-gradient-to-tl from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
+              Intuitive & Modern UI
             </h2>
             <div className="w-full max-w-4xl mb-5">
               <div className="p-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md text-left">
@@ -226,30 +235,33 @@ const Home = ({ auth }) => {
                 </div>
               </div>
             </div>
-
-            <h2 className="text-2xl font-bold mb-4 bg-gradient-to-br from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
-              How to Get Started:
-            </h2>
-            <ol className="text-left list-decimal ml-6 dark:text-zinc-300">
-              <li>Access "Canvas Calendar" in the Canvas side menu</li>
-              <li>Locate "Calendar Feed" and copy the URL</li>
-              <li>Open Google Calendar and select "+ Other Calendars" then "From URL"</li>
-              <li>Paste the URL and click "Add Calendar"</li>
-              <li>Sign in to CanvasLy using your Google account</li>
-              <li>Choose the imported Canvas calendar to display assignments</li>
-              <li>You're all set!</li>
-            </ol>
-            <div className="mt-8 video-container">
-              <YoutubeComponent videoId="5tayaNGT-F4" />
+            <div className="w-full max-w-4xl mb-8 text-left">
+              <h2 className="text-3xl font-bold mb-2 bg-gradient-to-br from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
+                How to Get Started:
+              </h2>
+              <ol className="text-left list-decimal ml-6 dark:text-zinc-300">
+                <li className="text-lg">Access "Canvas Calendar" in the Canvas side menu</li>
+                <li className="text-lg">Locate "Calendar Feed" and copy the URL</li>
+                <li className="text-lg">
+                  Open Google Calendar and select "+ Other Calendars" then "From URL"
+                </li>
+                <li className="text-lg">Paste the URL and click "Add Calendar"</li>
+                <li className="text-lg">Sign in to CanvasLy using your Google account</li>
+                <li className="text-lg">
+                  Go to "Profile" and choose the imported Canvas calendar to display assignments
+                </li>
+                <li className="text-lg">You're all set!</li>
+              </ol>
             </div>
           </div>
         ) : (
           <>
-            <div className="flex flex-col flex-grow dark:bg-black dark:text-white w-full">
+            <div className="flex flex-col dark:bg-black dark:text-white w-full">
               <h1 className="text-4xl font-bold mb-4 text-center">Welcome, {auth.me.name}</h1>
-              <div className="flex-grow max-w-3xl mx-auto text-center">
+              <div className="max-w-3xl mx-auto text-center">
                 <div>
-                  <h2 className="text-2xl font-bold mb-4 bg-gradient-to-br from-sky-400 to-indigo-900 inline-block text-transparent bg-clip-text">
+                  <DateTime />
+                  <h2 className="mt-8 text-2xl font-bold mb-2 bg-gradient-to-br from-sky-400 to-indigo-900 inline-block text-transparent bg-clip-text">
                     Need Help Getting Started?
                   </h2>
                   <ol className="text-left list-decimal ml-6 dark:text-zinc-300">
@@ -258,15 +270,11 @@ const Home = ({ auth }) => {
                     <li>Open Google Calendar and select "+ Other Calendars" then "From URL"</li>
                     <li>Paste the URL and click "Add Calendar"</li>
                     <li>Sign in to CanvasLy using your Google account</li>
-                    <li>Choose the imported Canvas calendar to display assignments</li>
+                    <li>
+                      Go to "Profile" and choose the imported Canvas calendar to display assignments
+                    </li>
                     <li>You're all set!</li>
                   </ol>
-
-                  <div className="mt-8">
-                    <div className="video-container">
-                      <YoutubeComponent videoId="5tayaNGT-F4" />
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

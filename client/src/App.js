@@ -3,7 +3,6 @@ import { Route, Switch } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import Login from './pages/Login/Login';
 import Home from './pages/Home/Home';
 import ProfilePage from './pages/Profile/ProfilePage';
 import Users from './pages/Users/Users';
@@ -31,7 +30,6 @@ const App = ({ auth, loadMe }) => {
     <>
       {auth.appLoaded ? (
         <Switch>
-          <Route path="/login" component={Login} />
           <Route path="/users" component={Users} />
           <Route path="/notfound" component={NotFound} />
           <Route path="/admin" component={Admin} />
