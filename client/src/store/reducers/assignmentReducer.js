@@ -106,6 +106,8 @@ export default function (state = initialState, { type, payload }) {
         assignments: sorted,
       };
     case GET_ASSIGNMENTS_FAIL:
+      console.log('in GET_ASSIGNMENTS_FAIL');
+      console.log('error is: ', payload);
       return {
         ...state,
         isLoading: false,

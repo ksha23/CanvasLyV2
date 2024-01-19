@@ -8,17 +8,17 @@ import { connect } from 'react-redux';
 
 const Assignments = ({ auth, assignment }) => {
   const [isEdit, setIsEdit] = useState(false);
+  console.log('assignments', assignment);
 
   const closeForm = () => {
     setIsEdit(false);
   };
 
-  // redirect to home if we're in error state
   useEffect(() => {
-    if (auth.error || assignment.error) {
+    if (assignment.error) {
       window.location.href = '/';
     }
-  }, [auth.error, assignment.error]);
+  }, []);
 
   return (
     <Layout>

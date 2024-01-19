@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { useFormik } from 'formik';
@@ -100,6 +100,13 @@ const Profile = ({
     // else refreshProfile(matchUsername);
     if (matchUsername == profile.username) refreshProfile(me.id, history);
   }, [matchUsername]);
+
+  useLayoutEffect(() => {
+    if (error) {
+      //redirect to home
+      window.location.href = '/';
+    }
+  }, []);
 
   const onChange = (event) => {
     formik.setFieldValue('image', event.currentTarget.files[0]);

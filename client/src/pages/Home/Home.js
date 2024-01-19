@@ -59,6 +59,9 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') === 'dark');
 
   useLayoutEffect(() => {
+    if (assignment.error) {
+      window.location.href = '/';
+    }
     getAssignments();
     const currentTheme = localStorage.getItem('theme') || 'light';
     setTheme(currentTheme);
