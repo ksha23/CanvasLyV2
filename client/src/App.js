@@ -13,7 +13,7 @@ import Assignments from './pages/Assignments/Assignments';
 import { loadMe } from './store/actions/authActions';
 import PrivacyPolicyPage from './pages/PrivacyPolicy/PrivacyPolicy';
 
-const App = ({ auth, loadMe }) => {
+const App = ({ auth, assignment, profile, loadMe }) => {
   useEffect(() => {
     if (!auth.appLoaded && !auth.isLoading && !auth.isAuthenticated) {
       loadMe();
@@ -21,10 +21,10 @@ const App = ({ auth, loadMe }) => {
   }, [auth.isAuthenticated, loadMe, auth.isLoading, auth.appLoaded]);
 
   useEffect(() => {
-    if (auth.error) {
-      window.location.href = '/login';
+    if (auth.error || assignment?.error || profile?.error) {
+      window.location.href = '/';
     }
-  }, [auth.error]);
+  }, []);
 
   return (
     <>
@@ -48,6 +48,8 @@ const App = ({ auth, loadMe }) => {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  assignment: state.assignment,
+  profile: state.profile,
 });
 
 export default compose(connect(mapStateToProps, { loadMe }))(App);

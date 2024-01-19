@@ -26,7 +26,12 @@ const AssignmentList = ({ getAssignments, refreshAssignments, assignments, isLoa
             <Loader />
           </div>
         ) : error ? (
-          <div className="text-center text-black dark:text-white">{error}</div>
+          <div
+            className="mt-5
+           text-center text-red-600"
+          >
+            {error}
+          </div>
         ) : (
           <div>
             {/* map through only assignments/assignments that are not completed*/}

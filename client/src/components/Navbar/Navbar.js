@@ -31,7 +31,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
   };
 
   return (
-    <nav className="bg-white text-zinc-600 px-6 py-4 dark:text-zinc-300 dark:bg-black shadow-md md:shadow-none dark:md:shadow-none shadow-zinc-300 dark:shadow-zinc-700">
+    <nav className="bg-white text-zinc-600 px-6 py-4 dark:text-zinc-300 dark:bg-black shadow-md dark:shadow-lg md:shadow-none dark:md:shadow-none shadow-zinc-300 dark:shadow-zinc-700">
       <div className="sticky top-0 flex items-center justify-between">
         <div className="flex items-center">
           <Link className="flex items-center" to="/">
@@ -122,8 +122,8 @@ const Navbar = ({ auth, logOutUser, history }) => {
                 </div>
               </Link>
               <Link
-                to={`/${auth.me.username}`}
-                className={`ml-6 text-s md:text-base ${isActiveLink(`/${auth.me.username}`)}`}
+                to={`/${auth.me.id}`}
+                className={`ml-6 text-s md:text-base ${isActiveLink(`/${auth.me.id}`)}`}
               >
                 <div className="flex items-center">
                   <svg

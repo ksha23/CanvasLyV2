@@ -155,7 +155,7 @@ const postProcess = async (data, googleId, timeZone, calendarId) => {
 // THIS IS A HELPER FUNCTION FOR GETTING EVENTS
 // Get events from Google Calendar API
 const getEventsFromGoogle = async (req, res) => {
-  const calendarId = req.user.calendarId;
+  const calendarId = encodeURIComponent(req.user.calendarId);
   const today = new Date(); // Get today's date
   const response = await fetch(
     `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?timeMin=${today.toISOString()}&maxResults=30`,
@@ -189,10 +189,9 @@ router.get('/events', requireJwtAuth, refreshTokenMiddleware, async (req, res) =
       return res.status(200).json(postProcessedData);
     }
   } catch (error) {
-    console.error(error);
+    console.log(error);
     return res.status(400).json([]);
   }
-  return res.status(400).json([]);
 });
 
 // Get a specific calendar by ID (/api/calendars/calendarById/:id)

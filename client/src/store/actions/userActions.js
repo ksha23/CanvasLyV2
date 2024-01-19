@@ -32,7 +32,7 @@ export const editUser = (id, formData, history) => async (dispatch, getState) =>
       dispatch(getProfile(response.data.user.id, history));
       dispatch(reloadMe());
     }
-    history.push(`/${response.data.user.username}`);
+    history.push(`/${response.data.user.id}`);
   } catch (err) {
     dispatch({
       type: EDIT_USER_FAIL,
@@ -59,7 +59,7 @@ export const getProfile = (id, history) => async (dispatch, getState) => {
     }
     dispatch({
       type: GET_PROFILE_FAIL,
-      payload: { error: err?.response?.data.message || err.message },
+      payload: { error: err?.response?.data },
     });
   }
 };
@@ -79,7 +79,7 @@ export const refreshProfile = (id, history) => async (dispatch) => {
     }
     dispatch({
       type: GET_PROFILE_FAIL,
-      payload: { error: err?.response?.data.message || err.message },
+      payload: { error: err?.response?.data },
     });
   }
 };

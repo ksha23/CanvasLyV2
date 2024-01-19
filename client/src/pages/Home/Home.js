@@ -59,9 +59,6 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') === 'dark');
 
   useLayoutEffect(() => {
-    if (assignment.error) {
-      window.location.href = '/';
-    }
     getAssignments();
     const currentTheme = localStorage.getItem('theme') || 'light';
     setTheme(currentTheme);
@@ -79,16 +76,19 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
       <>
         {!auth.isAuthenticated ? (
           <div className="flex flex-col justify-center items-center w-full text-zinc-700 dark:text-zinc-300 text-center">
-            <div className="w-full bg-blue-600 py-36 px-10 text-white">
+            <div className="w-full py-16 px-10">
               <h1 className="text-5xl mb-4 font-bold">Never forget an assignment again</h1>
               <h2 className="text-2xl mb-10">
                 CanvasLy helps you organize <strong>everything</strong>
               </h2>
-              <a className="mb-6 py-2 px-6 text-sm rounded-lg bg-blue-500" href={googleAuthLink}>
+              <a
+                className="mb-6 py-3 px-6 text-base rounded-lg text-white bg-blue-600 hover:bg-blue-700"
+                href={googleAuthLink}
+              >
                 Sign in to get started &rarr;
               </a>
             </div>
-            <div className="px-10 py-20 w-full max-w-4xl text-left">
+            <div className="px-10 py-16 w-full max-w-5xl text-left">
               <h2 className="text-3xl font-bold mb-2 bg-gradient-to-bl from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
                 Why CanvasLy?
               </h2>
@@ -103,7 +103,7 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
                 <li className="text-lg">It's totally free!</li>
               </ul>
             </div>
-            <div className="w-full max-w-4xl mb-5 px-10">
+            <div className="w-full max-w-5xl mb-5 px-10">
               <div className="p-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md text-left">
                 <div className="flex justify-between items-center space-x-2 mb-2 w-full">
                   <h3 className="text-xl md:text-2xl font-bold">Problem Set 1</h3>
@@ -180,8 +180,8 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
                     Undo
                   </button> */}
             </div>
-            <div className="w-full max-w-4xl mb-5 px-10">
-              <div className="p-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md text-left border-2 border-red-600">
+            <div className="w-full max-w-5xl mb-5 px-10">
+              <div className="p-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md text-left border-2 border-sky-600 dark:border-sky-700">
                 <div className="flex justify-between items-center space-x-2 mb-2 w-full">
                   <h3 className="text-xl md:text-2xl font-bold">Quiz 1</h3>
                   <div className="flex">
@@ -257,7 +257,7 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
                 </button>
               </div>
             </div>
-            <div className="w-full max-w-4xl px-10">
+            <div className="w-full max-w-5xl px-10">
               <div className="p-5 bg-zinc-100 dark:bg-zinc-900 rounded-md text-left text-zinc-300 dark:text-zinc-700">
                 <div className="flex justify-between items-center space-x-2 mb-2 w-full">
                   <h3 className="text-xl md:text-2xl font-bold">Completed Assignment</h3>
@@ -318,7 +318,7 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
                 </div>
               </div>
             </div>
-            <div className="w-full max-w-4xl py-20 px-10 text-left">
+            <div className="w-full max-w-5xl py-16 px-10 text-left">
               <h2 className="text-3xl font-bold mb-2 bg-gradient-to-br from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
                 How to Get Started:
               </h2>
@@ -352,17 +352,19 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
                 Recommended Next:
               </h1>
               {/*Display details of first assignment*/}
-              {assignment.assignments.length === 0 || assignment.isLoading ? (
+              {assignment.error ? (
+                <p className="text-red-600">{assignment?.error}</p>
+              ) : assignment.assignments.length === 0 || assignment.isLoading ? (
                 <div className="flex justify-center w-full">
                   <Loader width={100} height={100} />
                 </div>
               ) : (
-                <div className="px-6 py-4 border border-zinc-300 dark:border-zinc-600 rounded-md">
+                <div className="flex justify-center flex-col px-6 py-4 border border-zinc-300 dark:border-zinc-600 rounded-md">
                   <h2 className="text-xl md:text-2xl font-semibold mb-2 pb-2 border-b border-zinc-400 dark:border-zinc-500">
                     {assignment.firstAssignment.name}
                   </h2>
                   <h2 className="text-sm md:text-base">
-                    Due:{' '}
+                    <strong>Due: </strong>
                     {new Date(assignment.firstAssignment.dueDate).toLocaleDateString('en-US', {
                       weekday: 'short',
                       month: 'short',
@@ -376,10 +378,12 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
                   </h2>
                   <div className="flex justify-center space-x-6">
                     <h2 className="text-sm md:text-base">
-                      Type: {assignment.firstAssignment.type}
+                      <strong>Type: </strong>
+                      {assignment.firstAssignment.type}
                     </h2>
                     <h2 className="text-sm md:text-base">
-                      Difficulty: {assignment.firstAssignment.difficulty}
+                      <strong>Difficulty: </strong>
+                      {assignment.firstAssignment.difficulty}
                     </h2>
                   </div>
                 </div>

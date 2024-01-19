@@ -96,17 +96,11 @@ const Profile = ({
   }
 
   useLayoutEffect(() => {
-    if (!profile || profile.username !== matchUsername) getProfile(me.id, history);
-    // else refreshProfile(matchUsername);
-    if (matchUsername == profile.username) refreshProfile(me.id, history);
-  }, [matchUsername]);
-
-  useLayoutEffect(() => {
-    if (error) {
-      //redirect to home
-      window.location.href = '/';
+    if (!profile || profile.username !== matchUsername) {
+      getProfile(matchUsername, history);
     }
-  }, []);
+    if (matchUsername === me.id) refreshProfile(me.id, history);
+  }, [matchUsername]);
 
   const onChange = (event) => {
     formik.setFieldValue('image', event.currentTarget.files[0]);
@@ -158,15 +152,18 @@ const Profile = ({
   return (
     <Layout>
       <div className="dark:text-white w-full p-10">
-        {error && <p className="text-center">{error}</p>}
-        <p className="text-4xl font-bold text-center mb-6">Profile: {profile.name}</p>
+        <p className="text-4xl font-bold text-center mb-6">
+          Profile: {isLoading ? '' : profile.name}
+        </p>
+        {error && <p className="text-center text-red-600">{error}</p>}
+
         {isLoading ? (
           <div className="flex justify-center items-center">
             <Loader />
           </div>
         ) : (
           <div className="flex justify-center items-center flex-col w-full text-zinc-700 dark:text-zinc-300">
-            {profile.username && profile.calendarId && (
+            {profile.username && profile.calendarId !== null && (
               <div className="flex justify-center items-center space-x-5">
                 <img
                   src={image ? image : profile.avatar}
@@ -215,7 +212,7 @@ const Profile = ({
               </div>
             )}
 
-            {matchUsername == me.username && (
+            {matchUsername == me.id && (
               <div className="flex justify-center w-full">
                 <form
                   onSubmit={formik.handleSubmit}

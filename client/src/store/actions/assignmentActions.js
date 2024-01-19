@@ -31,10 +31,10 @@ export const getAssignments = () => async (dispatch, getState) => {
       payload: { assignments: response.data, weights: weights },
     });
   } catch (err) {
-    console.log('error is: ', err);
+    console.log('err: ', err);
     dispatch({
       type: GET_ASSIGNMENTS_FAIL,
-      payload: { error: err?.message },
+      payload: { error: err?.response.data },
     });
   }
 };
@@ -53,7 +53,7 @@ export const refreshAssignments = () => async (dispatch, getState) => {
   } catch (err) {
     dispatch({
       type: GET_ASSIGNMENTS_FAIL,
-      payload: { error: err?.response?.data.assignment || err.assignment },
+      payload: { error: err?.response?.data },
     });
   }
 };

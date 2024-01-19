@@ -38,6 +38,10 @@ const Users = ({ getUsers, users: { users, isLoading } }) => {
                     </Link>
                     <div className="info-container">
                       <div>
+                        <span className="font-bold">ID: </span>
+                        <span className="info">{user.id}</span>
+                      </div>
+                      <div>
                         <span className="font-bold">Provider: </span>
                         <span className="info">{user.provider}</span>
                       </div>
@@ -52,7 +56,7 @@ const Users = ({ getUsers, users: { users, isLoading } }) => {
                       <div>
                         <span className="font-bold">Username: </span>
                         <Link
-                          to={`/${user.username}`}
+                          to={`/${user.id}`}
                           className="info bold text-blue-600 dark:text-blue-500"
                         >
                           <span className="info">{user.username}</span>
