@@ -31,7 +31,7 @@ const AssignmentList = ({ getAssignments, refreshAssignments, assignments, isLoa
           <div>
             {/* map through only assignments/assignments that are not completed*/}
             {assignments &&
-              assignments.length > 1 &&
+              assignments.length > 0 &&
               assignments.map((assignment, index) => {
                 if (assignment.completed === false && assignment.confirmedCompleted === false) {
                   return <Assignment key={index} assignment={assignment} />;
@@ -39,7 +39,7 @@ const AssignmentList = ({ getAssignments, refreshAssignments, assignments, isLoa
               })}
             {/* map through only assignments/assignments that are completed*/}
             {assignments &&
-              assignments.length > 1 &&
+              assignments.length > 0 &&
               assignments.map((assignment, index) => {
                 if (assignment.completed === true && assignment.confirmedCompleted === false) {
                   return <Assignment key={index} assignment={assignment} />;
