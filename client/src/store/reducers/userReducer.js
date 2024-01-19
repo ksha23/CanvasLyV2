@@ -36,7 +36,6 @@ export default function (state = initialState, { type, payload }) {
       };
     case GET_PROFILE_FAIL:
     case EDIT_USER_FAIL:
-      console.log(payload);
       return {
         ...state,
         isLoading: false,
