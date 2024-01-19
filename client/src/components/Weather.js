@@ -9,19 +9,21 @@ const Weather = ({ weatherData, isLoading, error, fetchWeather }) => {
   }, []);
   return (
     <>
-      <div className="px-4 py-2 flex justify-center flex-col border-md text-zinc-700 dark:text-zinc-200 rounded-lg max-w-xs w-full">
+      <div className="px-4 py-2 flex justify-center flex-col border-md text-zinc-700 dark:text-zinc-200 rounded-lg border border-zinc-300 dark:border-zinc-600 max-w-xs w-full">
         <div className="flex justify-between items-center w-full mb-2">
           <div className="flex text-left">
-            <div className="flex">
+            <div className="flex items-center">
               {weatherData && (
                 <img
-                  className="w-12 h-12"
+                  className="w-10 h-10 scale-150"
                   src={`https://openweathermap.org/img/wn/${weatherData?.weather[0].icon}@2x.png`}
                 />
               )}
               <div className="flex flex-col ml-2">
-                <p className="text-xl md:text-2xl font-semibold">My Location</p>
-                <p className="text-xs">{weatherData?.name || 'Loading'}</p>
+                <p className="text-xl md:text-2xl font-semibold">
+                  {weatherData?.name || 'Loading'}
+                </p>
+                <p className="text-xs">Approximate Location</p>
               </div>
             </div>
           </div>

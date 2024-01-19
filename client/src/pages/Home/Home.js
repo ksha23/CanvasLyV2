@@ -349,17 +349,19 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
 
             <div className="flex flex-col items-center justify-center w-full mb-10">
               <h1 className="text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-tl from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
-                Recommended next:
+                Recommended Next:
               </h1>
               {/*Display details of first assignment*/}
               {assignment.assignments.length === 0 || assignment.isLoading ? (
                 <div className="flex justify-center w-full">
-                  <Loader width={90} height={90} />
+                  <Loader width={100} height={100} />
                 </div>
               ) : (
-                <div className="px-6 py-4 border border-zinc-300 dark:border-zinc-600 rounded-md ">
-                  <h2 className="text-xl font-bold">{assignment.firstAssignment.name}</h2>
-                  <h2 className="md:text-lg">
+                <div className="px-6 py-4 border border-zinc-300 dark:border-zinc-600 rounded-md">
+                  <h2 className="text-xl md:text-2xl font-bold mb-2">
+                    {assignment.firstAssignment.name}
+                  </h2>
+                  <h2 className="text-sm md:text-lg">
                     Due:{' '}
                     {new Date(assignment.firstAssignment.dueDate).toLocaleDateString('en-US', {
                       weekday: 'short',
@@ -372,11 +374,17 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
                       hour12: true,
                     })}
                   </h2>
+                  <div className="flex justify-center space-x-6">
+                    <h2 className="text-sm md:text-lg">Type: {assignment.firstAssignment.type}</h2>
+                    <h2 className="text-sm md:text-lg">
+                      Difficulty: {assignment.firstAssignment.difficulty}
+                    </h2>
+                  </div>
                 </div>
               )}
             </div>
 
-            <h2 className="text-2xl font-bold mb-2 bg-gradient-to-br from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
+            <h2 className="text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-br from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
               Need Help Getting Started?
             </h2>
             <ol className="text-left list-decimal ml-6 dark:text-zinc-300">

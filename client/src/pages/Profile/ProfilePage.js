@@ -166,37 +166,37 @@ const Profile = ({
           </div>
         ) : (
           <div className="flex justify-center items-center flex-col w-full text-zinc-700 dark:text-zinc-300">
-            <div className="flex justify-center items-center space-x-5">
-              <img
-                src={image ? image : profile.avatar}
-                className="object-cover w-20 h-20 md:w-32 md:h-32 rounded-lg"
-              />
-              <div>
+            {profile.username && profile.calendarId && (
+              <div className="flex justify-center items-center space-x-5">
+                <img
+                  src={image ? image : profile.avatar}
+                  className="object-cover w-20 h-20 md:w-32 md:h-32 rounded-lg"
+                />
                 <div>
-                  <span className="font-bold">Username: </span>
-                  <span className="info">{profile.username}</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <span>
-                    <svg
-                      className="w-4 h-4"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm14-7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z" />
-                    </svg>
-                  </span>
-                  <span>
-                    {profile.calendars && profile.calendarId == '' && 'No Calendar Selected'}
-                    {profile.calendars &&
-                      profile.calendarId !== '' &&
-                      profile.calendars.find((calendar) => calendar.id === profile.calendarId)
-                        .summary}
-                  </span>
-                </div>
-                {profile.weights && (
+                  <div>
+                    <span className="font-bold">Username: </span>
+                    <span className="info">{profile.username}</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <span>
+                      <svg
+                        className="w-4 h-4"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm14-7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z" />
+                      </svg>
+                    </span>
+                    <span>
+                      {profile.calendars && profile.calendarId == '' && 'No Calendar Selected'}
+                      {profile.calendars &&
+                        profile.calendarId !== '' &&
+                        profile.calendars.find((calendar) => calendar.id === profile.calendarId)
+                          .summary}
+                    </span>
+                  </div>
                   <>
                     <div>
                       <span className="font-bold">Due Date Weight: </span>
@@ -211,9 +211,9 @@ const Profile = ({
                       <span className="info">{profile.weights[2]}</span>
                     </div>
                   </>
-                )}
+                </div>
               </div>
-            </div>
+            )}
 
             {matchUsername == me.username && (
               <div className="flex justify-center w-full">

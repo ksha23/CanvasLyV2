@@ -191,7 +191,7 @@ const Assignment = ({
             <h3
               className={
                 dateObject < new Date() && !assignment.completed
-                  ? 'text-red-600 dark:text-red-700 text-xl md:text-2xl font-bold'
+                  ? 'text-red-600 text-xl md:text-2xl font-bold'
                   : dateObject.toDateString() === new Date().toDateString() && !assignment.completed
                   ? 'text-yellow-600 text-xl md:text-2xl font-bold'
                   : assignment.completed
