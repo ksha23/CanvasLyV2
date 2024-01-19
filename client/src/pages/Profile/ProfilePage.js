@@ -383,13 +383,3 @@ export default compose(
   withRouter,
   connect(mapStateToProps, { getProfile, refreshProfile, editUser, loadMe }),
 )(Profile);
-
-/*
-getProfile,
-  user: { profile, isLoading, error },
-  auth: { me },
-  editUser,
-  loadMe,
-  history,
-  match,
-*/
