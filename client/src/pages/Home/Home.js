@@ -358,10 +358,10 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
                 </div>
               ) : (
                 <div className="px-6 py-4 border border-zinc-300 dark:border-zinc-600 rounded-md">
-                  <h2 className="text-xl md:text-2xl font-bold mb-2">
+                  <h2 className="text-xl md:text-2xl font-semibold mb-2 pb-2 border-b border-zinc-400 dark:border-zinc-500">
                     {assignment.firstAssignment.name}
                   </h2>
-                  <h2 className="text-sm md:text-lg">
+                  <h2 className="text-sm md:text-base">
                     Due:{' '}
                     {new Date(assignment.firstAssignment.dueDate).toLocaleDateString('en-US', {
                       weekday: 'short',
@@ -375,8 +375,10 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
                     })}
                   </h2>
                   <div className="flex justify-center space-x-6">
-                    <h2 className="text-sm md:text-lg">Type: {assignment.firstAssignment.type}</h2>
-                    <h2 className="text-sm md:text-lg">
+                    <h2 className="text-sm md:text-base">
+                      Type: {assignment.firstAssignment.type}
+                    </h2>
+                    <h2 className="text-sm md:text-base">
                       Difficulty: {assignment.firstAssignment.difficulty}
                     </h2>
                   </div>

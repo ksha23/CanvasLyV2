@@ -9,8 +9,8 @@ const Weather = ({ weatherData, isLoading, error, fetchWeather }) => {
   }, []);
   return (
     <>
-      <div className="px-6 py-4 flex justify-center flex-col border-md text-zinc-700 dark:text-zinc-200 rounded-lg border border-zinc-300 dark:border-zinc-600 max-w-xs w-full">
-        <div className="flex justify-between items-center w-full mb-2">
+      <div className="px-6 py-4 flex justify-center flex-col border-md text-zinc-700 dark:text-zinc-200 rounded-lg border border-zinc-300 dark:border-zinc-600 max-w-sm w-full">
+        <div className="flex justify-between items-center w-full pb-2 mb-2 border-b border-zinc-400 dark:border-zinc-500">
           <div className="flex text-left">
             <div className="flex items-center">
               {weatherData && (
@@ -31,7 +31,7 @@ const Weather = ({ weatherData, isLoading, error, fetchWeather }) => {
             {((weatherData?.main.temp - 273.15) * 1.8 + 32).toFixed(0) || 'Loading'}&deg;
           </p>
         </div>
-        <div className="text-sm">
+        <div className="text-sm md:text-base">
           <div className="flex justify-between">
             <p>{weatherData?.weather[0].main || 'Loading'}</p>
             <p>Humidity: {weatherData?.main.humidity || 'Loading'}%</p>
