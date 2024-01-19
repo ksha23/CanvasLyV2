@@ -150,10 +150,9 @@ const Profile = ({
 
   return (
     <Layout>
-      {error && <p className="error">{error}</p>}
-
-      <div className="dark:text-white w-full">
-        <p className="text-4xl font-bold text-center mb-4">Profile: {profile.name}</p>
+      <div className="dark:text-white w-full p-10">
+        {error && <p className="text-center">{error}</p>}
+        <p className="text-4xl font-bold text-center mb-6">Profile: {profile.name}</p>
         {isLoading ? (
           <div className="flex justify-center items-center">
             <Loader />
@@ -161,12 +160,10 @@ const Profile = ({
         ) : (
           <div className="flex justify-center items-center flex-col w-full text-zinc-700 dark:text-zinc-300">
             <div className="flex justify-center items-center space-x-5">
-              <div className="w-20 h-20 md:w-40 md:h-40">
-                <img
-                  src={image ? image : profile.avatar}
-                  className="object-cover w-full h-full rounded-lg"
-                />
-              </div>
+              <img
+                src={image ? image : profile.avatar}
+                className="object-cover w-20 h-20 md:w-32 md:h-32 rounded-lg"
+              />
               <div>
                 <div>
                   <span className="font-bold">Username: </span>

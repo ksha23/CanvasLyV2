@@ -19,7 +19,7 @@ const Users = ({ getUsers, users: { users, isLoading } }) => {
 
   return (
     <Layout>
-      <div className="dark:text-white">
+      <div className="dark:text-white p-10">
         <h1 className="text-center text-4xl font-bold">Users</h1>
         <div className="mt-4">
           {isLoading ? (

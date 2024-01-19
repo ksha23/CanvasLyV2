@@ -31,7 +31,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
   };
 
   return (
-    <nav className="bg-white text-zinc-600 px-6 py-3 md:pt-4 dark:text-zinc-300 dark:bg-black shadow-md md:shadow-none dark:md:shadow-none shadow-zinc-300 dark:shadow-zinc-700">
+    <nav className="bg-white text-zinc-600 px-6 py-4 dark:text-zinc-300 dark:bg-black shadow-md md:shadow-none dark:md:shadow-none shadow-zinc-300 dark:shadow-zinc-700">
       <div className="sticky top-0 flex items-center justify-between">
         <div className="flex items-center">
           <Link className="flex items-center" to="/">
@@ -88,7 +88,9 @@ const Navbar = ({ auth, logOutUser, history }) => {
                 </g>
               </g>
             </svg>
-            <p className={`hidden md:block font-semibold ml-2 ${isActiveLink('/')}`}>CanvasLy</p>
+            <p className={`hidden md:block font-semibold text-xl ml-2 ${isActiveLink('/')}`}>
+              CanvasLy
+            </p>
             {!auth.isAuthenticated && <p className="ml-2 font-semibold md:hidden">CanvasLy</p>}
           </Link>
 

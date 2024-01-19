@@ -1,5 +1,4 @@
-import React, { useLayoutEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 
 import requireAdmin from '../../hoc/requireAdmin';
 import Layout from '../../layout/Layout';
@@ -13,7 +12,7 @@ import Layout from '../../layout/Layout';
 const Admin = () => {
   return (
     <Layout>
-      <div className="dark:text-white">
+      <div className="dark:text-white p-10">
         <h1 className="text-4xl font-bold">Admin Dashboard</h1>
       </div>
     </Layout>

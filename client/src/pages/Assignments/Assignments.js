@@ -27,7 +27,7 @@ const Assignments = ({ auth, assignment }) => {
           <AssignmentForm closeForm={closeForm} />
         </div>
       ) : (
-        <div className="w-full">
+        <div className="w-full p-10">
           <div className="flex justify-center">
             <p className="text-black dark:text-white text-4xl font-bold mr-4">Assignments</p>
             <button onClick={() => setIsEdit(true)}>

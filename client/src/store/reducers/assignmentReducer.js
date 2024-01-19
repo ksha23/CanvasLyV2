@@ -1,3 +1,4 @@
+import { first } from 'lodash';
 import {
   GET_ASSIGNMENTS_LOADING,
   GET_ASSIGNMENTS_SUCCESS,
@@ -16,6 +17,7 @@ import {
 
 const initialState = {
   assignments: [],
+  firstAssignment: null,
   isLoading: false,
   error: null,
 };
@@ -69,6 +71,13 @@ const customSort = (dueDateWeight, typeWeight, difficultyWeight) => (a, b) => {
   return 0;
 };
 
+const getFirstAssignment = (assignments) => {
+  // get first assignment that is not completed
+  if (!assignments.length) return null;
+  const firstAssignment = first(assignments.filter((a) => !a.completed));
+  return firstAssignment;
+};
+
 const sortAssignments = (assignments, weights) => {
   const weight = weights;
   const dueDateWeight = weight[0];
@@ -89,10 +98,12 @@ export default function (state = initialState, { type, payload }) {
         isLoading: true,
       };
     case GET_ASSIGNMENTS_SUCCESS:
+      const sorted = sortAssignments(payload.assignments, payload.weights);
       return {
         ...state,
         isLoading: false,
-        assignments: sortAssignments(payload.assignments, payload.weights),
+        firstAssignment: getFirstAssignment(sorted),
+        assignments: sorted,
       };
     case GET_ASSIGNMENTS_FAIL:
       return {

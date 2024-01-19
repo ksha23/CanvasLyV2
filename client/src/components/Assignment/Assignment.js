@@ -170,12 +170,7 @@ const Assignment = ({
   });
 
   return (
-    <LoadingOverlay
-      active={assignment.isLoading}
-      spinner={<Loader />}
-      text="Updating..."
-      className="rounded-md"
-    >
+    <LoadingOverlay active={assignment.isLoading} spinner={<Loader />} className="rounded-md">
       <div
         className={`w-full ${
           assignment.completed
