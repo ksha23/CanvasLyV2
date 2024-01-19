@@ -9,7 +9,7 @@ const Weather = ({ weatherData, isLoading, error, fetchWeather }) => {
   }, []);
   return (
     <>
-      <div className="px-4 py-2 flex justify-center flex-col border-md text-zinc-700 dark:text-zinc-200 rounded-lg border border-zinc-300 dark:border-zinc-600 max-w-xs w-full">
+      <div className="px-6 py-4 flex justify-center flex-col border-md text-zinc-700 dark:text-zinc-200 rounded-lg border border-zinc-300 dark:border-zinc-600 max-w-xs w-full">
         <div className="flex justify-between items-center w-full mb-2">
           <div className="flex text-left">
             <div className="flex items-center">
