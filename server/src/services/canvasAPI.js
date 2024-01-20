@@ -1,10 +1,11 @@
-const Canvas = require("@kth/canvas-api").default;
+const Canvas = require('@kth/canvas-api').default;
+const CanvasApiError = require('@kth/canvas-api').CanvasApiError;
 
 // USEFUL
 async function getCourses(canvasURL, canvasToken) {
   try {
     const canvas = new Canvas(canvasURL, canvasToken);
-    const courses = canvas.listItems("courses");
+    const courses = canvas.listItems('courses');
     let coursesArray = [];
 
     for await (const course of courses) {
@@ -19,7 +20,53 @@ async function getCourses(canvasURL, canvasToken) {
     return coursesArray;
   } catch (err) {
     if (err instanceof CanvasApiError) {
-      console.error("Canvas API Error");
+      console.error('Canvas API Error');
+      console.error(err.options.url);
+      console.error(err.response.statusCode);
+      console.error(err.message);
+    } else {
+      console.error(err);
+    }
+  }
+}
+
+async function getFilteredCourses(canvasURL, canvasToken) {
+  try {
+    const canvas = new Canvas(canvasURL, canvasToken);
+    const courses = canvas.listItems('courses');
+    // get active courses
+    // const courses = canvas.listItems('courses?enrollment_state=active');
+
+    let coursesArray = [];
+
+    for await (const course of courses) {
+      coursesArray.push({
+        name: course.name,
+        id: course.id,
+        timeZone: course.timeZone,
+        start: course.start_at,
+        end: course.end_at,
+      });
+    }
+
+    const filteredCourses = [];
+    const today = new Date();
+
+    // filter out courses that don't have a start or end date
+    for (let i = 0; i < coursesArray.length; i++) {
+      if (coursesArray[i].start == null || coursesArray[i].end == null) {
+        continue;
+      }
+      // const courseStartDate = new Date(courses[i].start);
+      const courseEndDate = new Date(coursesArray[i].end);
+      if (courseEndDate >= today) {
+        filteredCourses.push(coursesArray[i]);
+      }
+    }
+    return filteredCourses;
+  } catch (err) {
+    if (err instanceof CanvasApiError) {
+      console.error('Canvas API Error');
       console.error(err.options.url);
       console.error(err.response.statusCode);
       console.error(err.message);
@@ -48,7 +95,7 @@ async function getCourses(canvasURL, canvasToken) {
 async function getTodos(canvasURL, canvasToken) {
   try {
     const canvas = new Canvas(canvasURL, canvasToken);
-    const todos = canvas.listItems("users/self/todo");
+    const todos = canvas.listItems('users/self/todo');
     let todosArray = [];
     for await (const todo of todos) {
       todosArray.push({
@@ -60,7 +107,7 @@ async function getTodos(canvasURL, canvasToken) {
     return todosArray;
   } catch (err) {
     if (err instanceof CanvasApiError) {
-      console.error("Canvas API Error");
+      console.error('Canvas API Error');
       console.error(err.options.url);
       console.error(err.response.statusCode);
       console.error(err.message);
@@ -74,10 +121,9 @@ async function getTodos(canvasURL, canvasToken) {
 async function getUpcomingEvents(canvasURL, canvasToken) {
   try {
     const canvas = new Canvas(canvasURL, canvasToken);
-    const upcomingEvents = canvas.listItems("users/self/upcoming_events");
+    const upcomingEvents = canvas.listItems('users/self/upcoming_events');
     let upcomingEventsArray = [];
     for await (const upcomingEvent of upcomingEvents) {
-      console.log(upcomingEvent);
       if (upcomingEvent.assignment != null) {
         upcomingEventsArray.push({
           title: upcomingEvent.title,
@@ -108,7 +154,7 @@ async function getUpcomingEvents(canvasURL, canvasToken) {
     return upcomingEventsArray;
   } catch (err) {
     if (err instanceof CanvasApiError) {
-      console.error("Canvas API Error");
+      console.error('Canvas API Error');
       console.error(err.options.url);
       console.error(err.response.statusCode);
       console.error(err.message);
@@ -122,9 +168,7 @@ async function getUpcomingEvents(canvasURL, canvasToken) {
 async function getAssignments(courseId, canvasURL, canvasToken) {
   try {
     const canvas = new Canvas(canvasURL, canvasToken);
-    const assignments = canvas.listItems(
-      `courses/${courseId}/assignments?order_by=due_at`
-    );
+    const assignments = canvas.listItems(`courses/${courseId}/assignments?order_by=due_at`);
     let assignmentsArray = [];
     for await (const assignment of assignments) {
       assignmentsArray.push({
@@ -139,7 +183,41 @@ async function getAssignments(courseId, canvasURL, canvasToken) {
     return assignmentsArray;
   } catch (err) {
     if (err instanceof CanvasApiError) {
-      console.error("Canvas API Error");
+      console.error('Canvas API Error');
+      console.error(err.options.url);
+      console.error(err.response.statusCode);
+      console.error(err.message);
+    } else {
+      console.error(err);
+    }
+  }
+}
+
+async function getAssignmentsLimited(courseId, canvasURL, canvasToken) {
+  try {
+    const canvas = new Canvas(canvasURL, canvasToken);
+    const pages = canvas.listPages(`courses/${courseId}/assignments?order_by=due_at`);
+    // pages is a async generator
+    let assignmentsArray = [];
+    // only use first page
+    const page = await pages.next();
+    const assignments = page.value.body;
+    for (const assignment of assignments) {
+      assignmentsArray.push({
+        name: assignment.name,
+        description: assignment.description,
+        id: assignment.id,
+        dueDate: assignment.due_at,
+        pointsPossible: assignment.points_possible,
+        courseId: assignment.course_id,
+        url: assignment.html_url,
+        isQuiz: assignment.is_quiz_assignment,
+      });
+    }
+    return assignmentsArray;
+  } catch (err) {
+    if (err instanceof CanvasApiError) {
+      console.error('Canvas API Error');
       console.error(err.options.url);
       console.error(err.response.statusCode);
       console.error(err.message);
@@ -168,7 +246,39 @@ async function getQuizzes(courseId, canvasURL, canvasToken) {
     return quizzesArray;
   } catch (err) {
     if (err instanceof CanvasApiError) {
-      console.error("Canvas API Error");
+      console.error('Canvas API Error');
+      console.error(err.options.url);
+      console.error(err.response.statusCode);
+      console.error(err.message);
+    } else {
+      console.error(err);
+    }
+  }
+}
+
+async function getQuizzesLimited(courseId, canvasURL, canvasToken) {
+  try {
+    const canvas = new Canvas(canvasURL, canvasToken);
+    const pages = canvas.listPages(`courses/${courseId}/quizzes`);
+    // pages is a async generator
+    let quizzesArray = [];
+    // only use first page
+    const page = await pages.next();
+    const quizzes = page.value.body;
+    for (const quiz of quizzes) {
+      quizzesArray.push({
+        name: quiz.title,
+        description: quiz.description,
+        id: quiz.id,
+        dueDate: quiz.due_at,
+        pointsPossible: quiz.points_possible,
+        courseId: quiz.course_id,
+      });
+    }
+    return quizzesArray;
+  } catch (err) {
+    if (err instanceof CanvasApiError) {
+      console.error('Canvas API Error');
       console.error(err.options.url);
       console.error(err.response.statusCode);
       console.error(err.message);
@@ -198,7 +308,7 @@ async function getCalendarEvents(canvasURL, canvasToken) {
     return calendarEventsArray;
   } catch (err) {
     if (err instanceof CanvasApiError) {
-      console.error("Canvas API Error");
+      console.error('Canvas API Error');
       console.error(err.options.url);
       console.error(err.response.statusCode);
       console.error(err.message);
@@ -210,9 +320,12 @@ async function getCalendarEvents(canvasURL, canvasToken) {
 
 module.exports = {
   getCourses,
+  getFilteredCourses,
   getTodos,
   getUpcomingEvents,
   getAssignments,
+  getAssignmentsLimited,
   getQuizzes,
+  getQuizzesLimited,
   getCalendarEvents,
 };

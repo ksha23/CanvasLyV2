@@ -3,6 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { useFormik } from 'formik';
 import { withRouter } from 'react-router-dom';
+import axios from 'axios';
 
 import { getProfile, refreshProfile, editUser } from '../../store/actions/userActions';
 import { loadMe } from '../../store/actions/authActions';
@@ -85,6 +86,8 @@ const Profile = ({
 }) => {
   const [image, setImage] = useState('');
   const [avatar, setAvatar] = useState('');
+  const [apiKey, setApiKey] = useState('');
+  const [apiUrl, setApiUrl] = useState('');
   const matchUsername = match.params.username;
 
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
@@ -110,6 +113,16 @@ const Profile = ({
     } catch (err) {
       // expected
     }
+  };
+
+  const updateAPIKey = (apiKey) => {
+    axios.post('/api/canvas/apiToken', { apiKey });
+    alert('Updated API Key');
+  };
+
+  const updateAPIUrl = (apiUrl) => {
+    axios.post('/api/canvas/APIUrl', { apiUrl });
+    alert('Updated API URL');
   };
 
   const formik = useFormik({
@@ -215,7 +228,39 @@ const Profile = ({
             )}
 
             {matchUsername == me?.id && (
-              <div className="flex justify-center w-full">
+              <div className="flex flex-col justify-center w-full">
+                <div className="flex flex-col items-center justify-center mt-8 w-full">
+                  <div className="mb-2 flex w-full justify-center space-x-2 max-w-lg">
+                    <input
+                      className="bg-transparent dark:text-white w-full rounded-md border border-zinc-300 dark:border-zinc-700"
+                      type="text"
+                      placeholder="API KEY"
+                      onChange={(e) => setApiKey(e.target.value)}
+                    />
+                    <button
+                      className="bg-blue-600 text-white rounded-md px-4 py-2"
+                      onClick={() => updateAPIKey(apiKey)}
+                      type="button"
+                    >
+                      Update
+                    </button>
+                  </div>
+                  <div className="flex w-full justify-center space-x-2 max-w-lg">
+                    <input
+                      className="bg-transparent dark:text-white w-full rounded-md border border-zinc-300 dark:border-zinc-700"
+                      type="text"
+                      placeholder="API URL"
+                      onChange={(e) => setApiUrl(e.target.value)}
+                    />
+                    <button
+                      className="bg-blue-600 text-white rounded-md px-4 py-2"
+                      onClick={() => updateAPIUrl(apiUrl)}
+                      type="button"
+                    >
+                      Update
+                    </button>
+                  </div>
+                </div>
                 <form
                   onSubmit={formik.handleSubmit}
                   className="flex flex-col justify-center w-full"

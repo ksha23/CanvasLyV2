@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Layout from '../../layout/Layout';
 import requireAuth from '../../hoc/requireAuth';
 import AssignmentList from '../../components/AssignmentList/AssignmentList';

@@ -7,6 +7,7 @@ import Joi from 'joi';
 import { isValidUrl } from '../utils/utils';
 import { IMAGES_FOLDER_PATH } from '../utils/constants';
 import { required } from 'joi/lib/types/lazy';
+import { type } from 'joi/lib/types/object';
 
 const { Schema } = mongoose;
 
@@ -32,29 +33,15 @@ const userSchema = new Schema(
       match: [/\S+@\S+\.\S+/, 'is invalid'],
       index: true,
     },
-    password: {
-      type: String,
-      trim: true,
-      minlength: 6,
-      maxlength: 60,
-    },
     name: String,
     avatar: String,
     role: { type: String, default: 'USER' },
     bio: String,
-    // google
     googleId: {
       type: String,
       unique: true,
       sparse: true,
     },
-    // fb
-    facebookId: {
-      type: String,
-      unique: true,
-      sparse: true,
-    },
-    messages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Message' }],
     accessToken: {
       type: String,
     },
@@ -64,6 +51,14 @@ const userSchema = new Schema(
     refreshToken: {
       type: String,
       required: true,
+    },
+    canvasAPIToken: {
+      type: String,
+      default: '',
+    },
+    canvasAPIUrl: {
+      type: String,
+      default: '',
     },
     calendarId: {
       type: String,
