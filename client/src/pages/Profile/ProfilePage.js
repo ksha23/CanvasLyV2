@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { useFormik } from 'formik';
@@ -99,7 +99,7 @@ const Profile = ({
     if (!profile || profile.username !== matchUsername) {
       getProfile(matchUsername, history);
     }
-    if (matchUsername === me.id) refreshProfile(me.id, history);
+    if (matchUsername === me?.id) refreshProfile(me?.id, history);
   }, [matchUsername]);
 
   const onChange = (event) => {
@@ -117,7 +117,7 @@ const Profile = ({
     initialValues: {
       image: '',
       avatar: '',
-      id: profile.id,
+      id: profile?.id,
       name: profile.name,
       username: profile.username,
       password: '',
@@ -139,7 +139,7 @@ const Profile = ({
       if (profile.provider === 'email') {
         formData.append('password', values.password);
       }
-      editUser(values.id, formData, history);
+      editUser(values?.id, formData, history);
       // reset form
       formik.resetForm();
       setImage('');
@@ -163,7 +163,7 @@ const Profile = ({
           </div>
         ) : (
           <div className="flex justify-center items-center flex-col w-full text-zinc-700 dark:text-zinc-300">
-            {profile.username && profile.calendarId !== null && (
+            {me && profile.username && profile.calendarId !== null && (
               <div className="flex justify-center items-center space-x-5">
                 <img
                   src={image ? image : profile.avatar}
@@ -190,7 +190,7 @@ const Profile = ({
                       {profile.calendars && profile.calendarId == '' && 'No Calendar Selected'}
                       {profile.calendars &&
                         profile.calendarId !== '' &&
-                        profile.calendars.find((calendar) => calendar.id === profile.calendarId)
+                        profile.calendars.find((calendar) => calendar?.id === profile.calendarId)
                           .summary}
                     </span>
                   </div>
@@ -212,7 +212,7 @@ const Profile = ({
               </div>
             )}
 
-            {matchUsername == me.id && (
+            {matchUsername == me?.id && (
               <div className="flex justify-center w-full">
                 <form
                   onSubmit={formik.handleSubmit}
@@ -299,7 +299,7 @@ const Profile = ({
                       <option value="">Choose a Calendar</option>
                       {profile.calendars &&
                         profile.calendars.map((calendar) => (
-                          <option key={calendar.id} value={calendar.id}>
+                          <option key={calendar?.id} value={calendar?.id}>
                             {calendar.summary}
                           </option>
                         ))}

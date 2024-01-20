@@ -59,7 +59,8 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') === 'dark');
 
   useLayoutEffect(() => {
-    getAssignments();
+    if (auth.isAuthenticated && !assignment.assignments) getAssignments();
+    else if (auth.isAuthenticated) refreshAssignments();
     const currentTheme = localStorage.getItem('theme') || 'light';
     setTheme(currentTheme);
   }, []);
