@@ -25,6 +25,7 @@ const router = new Router();
 //   });
 // });
 
+// --------------------- Preferences  --------------------- //
 router.post('/apiToken', requireJwtAuth, async (req, res) => {
   const apiToken = req.body.apiKey;
   const user = await User.findOne({ _id: req.user._id });
@@ -45,6 +46,8 @@ router.post('/apiUrl', requireJwtAuth, async (req, res) => {
   });
 });
 
+// --------------------- Courses --------------------- //
+
 router.get('/courses', async (req, res) => {
   const canvasApiUrl = req.user.canvasAPIUrl;
   const canvasApiToken = req.user.canvasAPIToken;
@@ -55,6 +58,46 @@ router.get('/courses', async (req, res) => {
     courses,
   });
 });
+
+// --------------------- Assignments --------------------- //
+
+// mark assignment as completed
+router.put('/complete/:id', requireJwtAuth, async (req, res) => {
+  const id = req.params.id;
+  try {
+    const assignment = await CanvasAssignment.findById(id);
+    if (!assignment) {
+      console.error('Assignment not found');
+      return res.status(404).json({ error: 'Assignment not found' });
+    } else {
+      assignment.completed = !assignment.completed; // Reverse the completed boolean
+      const updatedAssignment = await assignment.save();
+      res.status(200).json(updatedAssignment);
+    }
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+// confirm assignment completion by ID (/api/assignments/confirm/:id)
+router.put('/confirm/:id', requireJwtAuth, async (req, res) => {
+  const id = req.params.id;
+  try {
+    const assignment = await CanvasAssignment.findById(id);
+    if (!assignment) {
+      console.error('Assignment not found');
+      return res.status(404).json({ error: 'Assignment not found' });
+    } else {
+      assignment.confirmedCompleted = true;
+      const updatedAssignment = await assignment.save();
+      res.status(200).json(updatedAssignment);
+    }
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+// --------------------- Add Assignment --------------------- //
 
 // not really useful
 // router.get('/getTodos', async (req, res) => {
@@ -103,17 +146,21 @@ router.get('/courses', async (req, res) => {
 router.get('/assignments', requireJwtAuth, async (req, res) => {
   const canvasApiUrl = req.user.canvasAPIUrl;
   const canvasApiToken = req.user.canvasAPIToken;
-  // get courses from body
+
+  // get user object first
+  const user = await User.findOne({ _id: req.user._id });
+
+  // get courses in db under user
+  const existingCourses = await user.populate('courses').execPopulate();
+
   const courses = await getFilteredCourses(canvasApiUrl, canvasApiToken);
   const assignments = [];
   for (let i = 0; i < courses.length; i++) {
-    // PIPELINE
-    // 1. get assignments for each course
+    // first look for course in existingCourses
+    let existingCourse = existingCourses.courses.find((course) => course.canvasCourseId === courses[i].id);
     const courseAssignments = await getAssignmentsLimited(courses[i].id, canvasApiUrl, canvasApiToken);
-    // 2. get course from database
-    const course = await Course.findOne({ name: courses[i].name }).exec();
-    // 3a. if course doesn't exist in database, create it
-    if (!course) {
+
+    if (!existingCourse) {
       const newCourse = new Course({
         name: courses[i].name,
         canvasCourseId: courses[i].id,
@@ -127,8 +174,13 @@ router.get('/assignments', requireJwtAuth, async (req, res) => {
         assignments: [],
       });
       await newCourse.save();
+      user.courses.push(newCourse._id);
+      await user.save();
+      // update existingCourse
+      existingCourse = newCourse;
 
       // 4a. add assignments to course
+      // get assignments from canvas
       for (let j = 0; j < courseAssignments.length; j++) {
         const newAssignment = new CanvasAssignment({
           name: courseAssignments[j].name,
@@ -143,7 +195,12 @@ router.get('/assignments', requireJwtAuth, async (req, res) => {
           class: '',
           completed: false,
           confirmedCompleted: false,
-          description: courseAssignments[j].description,
+          description:
+            courseAssignments[j].description != '' && courseAssignments[j].description != null
+              ? courseAssignments[j].description.substring(0, 150) + courseAssignments[j].description.length > 150
+                ? '...'
+                : ''
+              : '',
           link: courseAssignments[j].url,
           reminders: [],
           location: '',
@@ -153,9 +210,13 @@ router.get('/assignments', requireJwtAuth, async (req, res) => {
         await newCourse.save();
       }
     } else {
-      // 3b and 4b. update assignments paramter of course, upserting if canvasAssignmentId doesn't exist in database
       for (let j = 0; j < courseAssignments.length; j++) {
-        const assignment = await CanvasAssignment.findOne({ canvasAssignmentId: courseAssignments[j].id }).exec();
+        // get all assignments in existing course
+        const existingAssignments = await existingCourse.populate('assignments').execPopulate();
+        // check if assignment exists in existing course
+        const assignment = existingAssignments.assignments.find(
+          (assignment) => assignment.canvasAssignmentId === courseAssignments[j].id,
+        );
         if (!assignment) {
           const newAssignment = new CanvasAssignment({
             name: courseAssignments[j].name,
@@ -170,21 +231,39 @@ router.get('/assignments', requireJwtAuth, async (req, res) => {
             class: '',
             completed: false,
             confirmedCompleted: false,
-            description: courseAssignments[j].description,
+            description:
+              courseAssignments[j].description != '' && courseAssignments[j].description != null
+                ? courseAssignments[j].description.substring(0, 150) + courseAssignments[j].description.length > 150
+                  ? '...'
+                  : ''
+                : '',
             link: courseAssignments[j].url,
             reminders: [],
             location: '',
           });
           await newAssignment.save();
-          course.assignments.push(newAssignment._id);
-          await course.save();
+          existingCourse.assignments.push(newAssignment._id);
+          await existingCourse.save();
+        } else {
+          // check every field and update if necessary
+          // assignment.name = courseAssignments[j].name;
+          // assignment.isQuiz = courseAssignments[j].isQuiz;
+          // assignment.canvasAssignmentId = courseAssignments[j].id;
+          // assignment.dueDate = courseAssignments[j].dueDate || 'Unspecified';
+          // assignment.pointsPossible = courseAssignments[j].pointsPossible;
+          // assignment.description =
+          //   courseAssignments[j].description != '' && courseAssignments[j].description != null
+          //     ? courseAssignments[j].description.substring(0, 150) + courseAssignments[j].description.length > 150
+          //       ? '...'
+          //       : ''
+          //     : '';
+          // await assignment.save();
         }
       }
     }
-    // 5. get assignments from database
-    const courseAssignmentsFromDatabase = await Course.findOne({ name: courses[i].name })
-      .populate('assignments')
-      .exec();
+    // 5. get assignments from course now
+    const courseAssignmentsFromDatabase = await existingCourse.populate('assignments').execPopulate();
+
     // 6. add assignments to assignments array
     assignments.push({ course: courses[i].name, assignments: courseAssignmentsFromDatabase || [] });
   }

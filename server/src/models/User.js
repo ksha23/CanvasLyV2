@@ -64,6 +64,11 @@ const userSchema = new Schema(
       type: String,
       default: '',
     },
+    courses: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: 'Course',
+      default: [],
+    },
     dueDateWeight: {
       type: Number,
       default: 0,
