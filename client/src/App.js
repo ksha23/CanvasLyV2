@@ -9,10 +9,10 @@ import Users from './pages/Users/Users';
 import Admin from './pages/Admin/Admin';
 import NotFound from './pages/NotFound/NotFound';
 import Assignments from './pages/Assignments/Assignments';
-import Assignments2 from './pages/Assignments2/Assignments2';
 
 import { loadMe } from './store/actions/authActions';
 import PrivacyPolicyPage from './pages/PrivacyPolicy/PrivacyPolicy';
+import CanvasAssignments from './pages/CanvasAssignments/CanvasAssignments';
 
 const App = ({ auth, assignment, profile, loadMe }) => {
   useEffect(() => {
@@ -35,7 +35,7 @@ const App = ({ auth, assignment, profile, loadMe }) => {
           <Route path="/notfound" component={NotFound} />
           <Route path="/admin" component={Admin} />
           <Route path="/assignments" component={Assignments} />
-          <Route path="/assignments2" component={Assignments2} />
+          <Route path="/canvas" component={CanvasAssignments} />
           <Route path="/privacy" component={PrivacyPolicyPage} />
           <Route exact path="/:username" component={ProfilePage} />
           <Route exact path="/" component={Home} />

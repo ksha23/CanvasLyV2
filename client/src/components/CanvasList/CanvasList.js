@@ -1,9 +1,8 @@
 import React, { useState, useLayoutEffect } from 'react';
-import DOMPurify from 'dompurify';
 import Loader from '../Loader/Loader';
 import CanvasAssignment from '../CanvasAssignment/CanvasAssignment';
 
-const AssignmentList = () => {
+const CanvasList = () => {
   const [assignments, setAssignments] = useState([]);
 
   const setup = async () => {
@@ -36,11 +35,15 @@ const AssignmentList = () => {
                 {assignmentGroup.assignments.assignments.map((assignment, index) => {
                   if (assignment.completed === false && assignment.confirmedCompleted === false) {
                     return <CanvasAssignment assignment={assignment} key={index} />;
+                  } else {
+                    return null;
                   }
                 })}
                 {assignmentGroup.assignments.assignments.map((assignment, index) => {
                   if (assignment.completed === true && assignment.confirmedCompleted === false) {
                     return <CanvasAssignment assignment={assignment} key={index} />;
+                  } else {
+                    return null;
                   }
                 })}
               </div>
@@ -51,4 +54,4 @@ const AssignmentList = () => {
   );
 };
 
-export default AssignmentList;
+export default CanvasList;

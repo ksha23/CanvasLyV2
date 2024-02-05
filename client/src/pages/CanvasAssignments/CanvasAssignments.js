@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Layout from '../../layout/Layout';
-import AssignmentList from '../../components/CanvasList/AssignmentList';
-const Assignments2 = () => {
+import CanvasList from '../../components/CanvasList/CanvasList';
+const CanvasAssignments = () => {
   return (
     <Layout>
       <div className="w-full p-10">
@@ -9,11 +9,11 @@ const Assignments2 = () => {
           <p className="text-black dark:text-white text-4xl font-bold mr-4">Assignments</p>
         </div>
         <div className="flex justify-center w-full">
-          <AssignmentList />
+          <CanvasList />
         </div>
       </div>
     </Layout>
   );
 };
 
-export default Assignments2;
+export default CanvasAssignments;
