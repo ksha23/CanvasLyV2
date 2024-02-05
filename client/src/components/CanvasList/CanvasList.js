@@ -1,6 +1,5 @@
 import React, { useState, useLayoutEffect, useEffect } from 'react';
 import Loader from '../Loader/Loader';
-import CanvasAssignment from '../CanvasAssignment/CanvasAssignment';
 import { connect } from 'react-redux';
 import { getCanvasAssignments, refreshCanvasAssignments } from '../../store/actions/canvasActions';
 import CanvasAssign from '../CanvasAssignment/CanvasAssign';
@@ -20,7 +19,7 @@ const CanvasList = ({
     // refresh data every every 30 seconds
     const interval = setInterval(() => {
       refreshCanvasAssignments();
-    }, 30000);
+    }, 60000);
     return () => clearInterval(interval);
   }, []);
 
@@ -40,14 +39,14 @@ const CanvasList = ({
             return (
               <div className="m-5" key={index}>
                 <p className="text-2xl font-bold mb-1">{assignmentGroup.course}</p>
-                {assignmentGroup.assignments.assignments.map((assignment, index) => {
+                {assignmentGroup.assignments.map((assignment, index) => {
                   if (assignment.completed === false && assignment.confirmedCompleted === false) {
                     return <CanvasAssign assignment={assignment} key={index} />;
                   } else {
                     return null;
                   }
                 })}
-                {assignmentGroup.assignments.assignments.map((assignment, index) => {
+                {assignmentGroup.assignments.map((assignment, index) => {
                   if (assignment.completed === true && assignment.confirmedCompleted === false) {
                     return <CanvasAssign assignment={assignment} key={index} />;
                   } else {

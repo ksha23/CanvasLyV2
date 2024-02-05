@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import { useFormik } from 'formik';
 
 import {
-  completeAssignment,
   editAssignment,
   clearAssignmentError,
   confirmComplete,
 } from '../../store/actions/assignmentActions';
+
+import { completeCanvasAssignment } from '../../store/actions/canvasActions';
 import { assignmentFormSchema } from './validation';
 import lodash from 'lodash';
 import Slider from '@mui/material/Slider';
@@ -57,7 +58,7 @@ const marks = [
 // auth is not used here
 const CanvasAssign = ({
   assignment,
-  completeAssignment,
+  completeCanvasAssignment,
   editAssignment,
   clearAssignmentError,
   confirmComplete,
@@ -102,7 +103,7 @@ const CanvasAssign = ({
 
   const handleDelete = (e, id) => {
     e.preventDefault();
-    completeAssignment(id);
+    completeCanvasAssignment(id);
   };
 
   const handleFieldChange = (e) => {
@@ -380,7 +381,7 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  completeAssignment,
+  completeCanvasAssignment,
   editAssignment,
   clearAssignmentError,
   confirmComplete,

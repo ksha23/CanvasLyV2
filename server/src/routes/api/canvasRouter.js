@@ -281,10 +281,11 @@ router.get('/assignments', requireJwtAuth, async (req, res) => {
       }
     }
     // 5. get assignments from course now
-    const courseAssignmentsFromDatabase = await existingCourse.populate('assignments').execPopulate();
+    let courseAssignmentsFromDatabase = await existingCourse.populate('assignments').execPopulate();
 
+    //only populate assignments for existing course
     // 6. add assignments to assignments array
-    assignments.push({ course: courses[i].name, assignments: courseAssignmentsFromDatabase || [] });
+    assignments.push({ course: courses[i].name, assignments: courseAssignmentsFromDatabase.assignments || [] });
   }
   res.send({
     assignments,

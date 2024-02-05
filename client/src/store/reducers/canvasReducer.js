@@ -97,12 +97,11 @@ export default function (state = initialState, { type, payload }) {
         isLoading: true,
       };
     case GET_CANVAS_ASSIGNMENTS_SUCCESS:
-      const sorted = sortAssignments(payload.assignments, payload.weights);
       return {
         ...state,
         isLoading: false,
-        firstAssignment: getFirstAssignment(sorted),
-        assignments: sorted,
+        firstAssignment: null,
+        assignments: payload.assignments,
       };
     case GET_CANVAS_ASSIGNMENTS_FAIL:
       return {
@@ -156,13 +155,33 @@ export default function (state = initialState, { type, payload }) {
     case UPDATE_CANVAS_ASSIGNMENT_SUCCESS:
       return {
         ...state,
-        assignments: sortAssignments(
-          state.assignments.map((m) => {
-            if (m._id === payload.assignment._id) return payload.assignment;
-            return m;
-          }),
-          payload.weights,
-        ),
+        //sortAssignments(
+        // assignments: state.assignments.map((course) => {
+        //   course.assignments.assignments.map((m) => {
+        //     if (m._id === payload.assignment._id) {
+        //       return payload.assignment;
+        //     }
+        //     return m;
+        //   });
+
+        // if (m._id === payload.assignment._id) return payload.assignment;
+        // if (m._id === payload.assignment._id) console.log('returned is ', payload.assignment);
+        // return m;
+        // }),
+
+        // payload.weights,
+        // ),
+        assignments: state.assignments.map((course) => {
+          return {
+            ...course,
+            assignments: course.assignments.map((m) => {
+              if (m._id === payload.assignment._id) {
+                return payload.assignment;
+              }
+              return m;
+            }),
+          };
+        }),
       };
     case COMPLETE_CANVAS_ASSIGNMENT_FAIL:
     case UPDATE_CANVAS_ASSIGNMENT_FAIL:
