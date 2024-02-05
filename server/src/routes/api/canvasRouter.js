@@ -48,7 +48,7 @@ router.post('/apiUrl', requireJwtAuth, async (req, res) => {
 
 // --------------------- Courses --------------------- //
 
-router.get('/courses', async (req, res) => {
+router.get('/courses', requireJwtAuth, async (req, res) => {
   const canvasApiUrl = req.user.canvasAPIUrl;
   const canvasApiToken = req.user.canvasAPIToken;
 
@@ -59,7 +59,7 @@ router.get('/courses', async (req, res) => {
   });
 });
 
-// --------------------- Assignments --------------------- //
+// --------------------- Update --------------------- //
 
 // mark assignment as completed
 router.put('/complete/:id', requireJwtAuth, async (req, res) => {
@@ -97,10 +97,36 @@ router.put('/confirm/:id', requireJwtAuth, async (req, res) => {
   }
 });
 
+router.put('/updateAssignment/:id', requireJwtAuth, async (req, res) => {
+  const id = req.params.id;
+  const { newData } = req.body;
+
+  try {
+    const assignment = await CanvasAssignment.findById(id);
+    if (!assignment) {
+      console.error('Assignment not found');
+      return res.status(404).json({ error: 'Assignment not found' });
+    } else {
+      assignment.name = newData.name;
+      assignment.dueDate = newData.dueDate;
+      assignment.type = newData.type;
+      assignment.difficulty = newData.difficulty;
+      assignment.description = newData.description;
+      assignment.reminders = newData.reminders;
+      assignment.save();
+      res.status(200).json(assignment);
+    }
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
 // --------------------- Add Assignment --------------------- //
 
 // not really useful
-// router.get('/getTodos', async (req, res) => {
+// router.get('/getTodos', requireJwtAuth, async (req, res) => {
+//   const canvasApiUrl = req.user.canvasAPIUrl;
+//   const canvasApiToken = req.user.canvasAPIToken;
 //   const todos = await getTodos(canvasApiUrl, canvasApiToken);
 //   res.send({
 //     todos,
@@ -109,7 +135,6 @@ router.put('/confirm/:id', requireJwtAuth, async (req, res) => {
 
 // not really useful
 // router.get('/getUpcomingEvents', async (req, res) => {
-//   console.log('here!');
 //   const upcomingEvents = await getUpcomingEvents(canvasApiUrl, canvasApiToken);
 //   res.send({
 //     upcomingEvents,
@@ -158,8 +183,8 @@ router.get('/assignments', requireJwtAuth, async (req, res) => {
   for (let i = 0; i < courses.length; i++) {
     // first look for course in existingCourses
     let existingCourse = existingCourses.courses.find((course) => course.canvasCourseId === courses[i].id);
+    console.log('Getting assingments for course', courses[i].name);
     const courseAssignments = await getAssignmentsLimited(courses[i].id, canvasApiUrl, canvasApiToken);
-
     if (!existingCourse) {
       const newCourse = new Course({
         name: courses[i].name,
@@ -179,8 +204,6 @@ router.get('/assignments', requireJwtAuth, async (req, res) => {
       // update existingCourse
       existingCourse = newCourse;
 
-      // 4a. add assignments to course
-      // get assignments from canvas
       for (let j = 0; j < courseAssignments.length; j++) {
         const newAssignment = new CanvasAssignment({
           name: courseAssignments[j].name,
@@ -197,9 +220,8 @@ router.get('/assignments', requireJwtAuth, async (req, res) => {
           confirmedCompleted: false,
           description:
             courseAssignments[j].description != '' && courseAssignments[j].description != null
-              ? courseAssignments[j].description.substring(0, 150) + courseAssignments[j].description.length > 150
-                ? '...'
-                : ''
+              ? courseAssignments[j].description.substring(0, 250) +
+                (courseAssignments[j].description.length > 250 ? '...' : '')
               : '',
           link: courseAssignments[j].url,
           reminders: [],
@@ -233,9 +255,8 @@ router.get('/assignments', requireJwtAuth, async (req, res) => {
             confirmedCompleted: false,
             description:
               courseAssignments[j].description != '' && courseAssignments[j].description != null
-                ? courseAssignments[j].description.substring(0, 150) + courseAssignments[j].description.length > 150
-                  ? '...'
-                  : ''
+                ? courseAssignments[j].description.substring(0, 250) +
+                  (courseAssignments[j].description.length > 250 ? '...' : '')
                 : '',
             link: courseAssignments[j].url,
             reminders: [],
@@ -246,18 +267,16 @@ router.get('/assignments', requireJwtAuth, async (req, res) => {
           await existingCourse.save();
         } else {
           // check every field and update if necessary
-          // assignment.name = courseAssignments[j].name;
-          // assignment.isQuiz = courseAssignments[j].isQuiz;
-          // assignment.canvasAssignmentId = courseAssignments[j].id;
-          // assignment.dueDate = courseAssignments[j].dueDate || 'Unspecified';
-          // assignment.pointsPossible = courseAssignments[j].pointsPossible;
-          // assignment.description =
-          //   courseAssignments[j].description != '' && courseAssignments[j].description != null
-          //     ? courseAssignments[j].description.substring(0, 150) + courseAssignments[j].description.length > 150
-          //       ? '...'
-          //       : ''
-          //     : '';
-          // await assignment.save();
+          assignment.name = courseAssignments[j].name;
+          assignment.isQuiz = courseAssignments[j].isQuiz;
+          assignment.dueDate = courseAssignments[j].dueDate || 'Unspecified';
+          assignment.pointsPossible = courseAssignments[j].pointsPossible;
+          assignment.description =
+            courseAssignments[j].description != '' && courseAssignments[j].description != null
+              ? courseAssignments[j].description.substring(0, 250) +
+                (courseAssignments[j].description.length > 250 ? '...' : '')
+              : '';
+          await assignment.save();
         }
       }
     }

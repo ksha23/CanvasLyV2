@@ -1,5 +1,6 @@
 const Canvas = require('@kth/canvas-api').default;
 const CanvasApiError = require('@kth/canvas-api').CanvasApiError;
+const cheerio = require('cheerio');
 
 // USEFUL
 async function getCourses(canvasURL, canvasToken) {
@@ -171,9 +172,14 @@ async function getAssignments(courseId, canvasURL, canvasToken) {
     const assignments = canvas.listItems(`courses/${courseId}/assignments?order_by=due_at`);
     let assignmentsArray = [];
     for await (const assignment of assignments) {
+      let descriptionText = '';
+      if (assignment.description !== null && assignment.description !== '') {
+        const $ = cheerio.load(assignment.description);
+        descriptionText = $.text();
+      }
       assignmentsArray.push({
         name: assignment.name,
-        description: assignment.description,
+        description: descriptionText,
         id: assignment.id,
         dueDate: assignment.due_at,
         pointsPossible: assignment.points_possible,
@@ -196,16 +202,39 @@ async function getAssignments(courseId, canvasURL, canvasToken) {
 async function getAssignmentsLimited(courseId, canvasURL, canvasToken) {
   try {
     const canvas = new Canvas(canvasURL, canvasToken);
-    const pages = canvas.listPages(`courses/${courseId}/assignments?order_by=due_at`);
-    // pages is a async generator
+    let pages = canvas.listPages(`courses/${courseId}/assignments?order_by=due_at`);
     let assignmentsArray = [];
+    let finalAssignmentsArray = [];
     // only use first page
-    const page = await pages.next();
-    const assignments = page.value.body;
+    let page = await pages.next();
+    let assignments = page.value.body;
+    // add assignments to array
     for (const assignment of assignments) {
-      assignmentsArray.push({
+      assignmentsArray.push(assignment);
+    }
+    // keep getting next page until the date of the last assignment is in the future + 2weeks or so
+    while (
+      assignments.length > 0 &&
+      assignments[assignments.length - 1].due_at < new Date(Date.now() + 12096e5).toISOString()
+    ) {
+      let tempPage = await pages.next();
+      if (tempPage.done) break;
+      page = tempPage;
+      assignments = page.value.body;
+      for (const assignment of assignments) {
+        assignmentsArray.push(assignment);
+      }
+    }
+
+    for (const assignment of assignmentsArray) {
+      let descriptionText = '';
+      if (assignment.description !== null && assignment.description !== '') {
+        const $ = cheerio.load(assignment.description);
+        descriptionText = $.text();
+      }
+      finalAssignmentsArray.push({
         name: assignment.name,
-        description: assignment.description,
+        description: descriptionText,
         id: assignment.id,
         dueDate: assignment.due_at,
         pointsPossible: assignment.points_possible,
@@ -214,7 +243,7 @@ async function getAssignmentsLimited(courseId, canvasURL, canvasToken) {
         isQuiz: assignment.is_quiz_assignment,
       });
     }
-    return assignmentsArray;
+    return finalAssignmentsArray;
   } catch (err) {
     if (err instanceof CanvasApiError) {
       console.error('Canvas API Error');

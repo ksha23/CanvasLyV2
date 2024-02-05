@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Layout from '../../layout/Layout';
-import AssignmentList from '../../components/AssignmentList2/AssignmentList';
+import AssignmentList from '../../components/CanvasList/AssignmentList';
 const Assignments2 = () => {
   return (
     <Layout>

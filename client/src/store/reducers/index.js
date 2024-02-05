@@ -5,6 +5,7 @@ import userReducer from './userReducer';
 import usersReducer from './usersReducer';
 import assignmentReducer from './assignmentReducer';
 import weatherReducer from './weatherReducer';
+import canvasReducer from './canvasReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -12,4 +13,5 @@ export default combineReducers({
   user: userReducer,
   users: usersReducer,
   weather: weatherReducer,
+  canvas: canvasReducer,
 });
