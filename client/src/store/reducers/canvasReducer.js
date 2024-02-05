@@ -12,6 +12,9 @@ import {
   UPDATE_CANVAS_ASSIGNMENT_FAIL,
   UPDATE_CANVAS_ASSIGNMENT_LOADING,
   UPDATE_CANVAS_ASSIGNMENT_SUCCESS,
+  CONFIRM_CANVAS_ASSIGNMENT_SUCCESS,
+  CONFIRM_CANVAS_ASSIGNMENT_FAIL,
+  CONFIRM_CANVAS_ASSIGNMENT_LOADING,
 } from '../types';
 
 const initialState = {
@@ -110,7 +113,6 @@ export default function (state = initialState, { type, payload }) {
         error: payload.error,
         assignments: initialState.assignments,
       };
-
     // ADD ASSIGNMENT
     case CREATE_CANVAS_ASSIGNMENT_LOADING:
       return {
@@ -144,6 +146,7 @@ export default function (state = initialState, { type, payload }) {
     // COMPLETE ASSIGNMENT / EDIT ASSIGNMENT
     case COMPLETE_CANVAS_ASSIGNMENT_LOADING:
     case UPDATE_CANVAS_ASSIGNMENT_LOADING:
+    case CONFIRM_CANVAS_ASSIGNMENT_LOADING:
       return {
         ...state,
         assignments: state.assignments.map((m) => {
@@ -153,24 +156,9 @@ export default function (state = initialState, { type, payload }) {
       };
     case COMPLETE_CANVAS_ASSIGNMENT_SUCCESS:
     case UPDATE_CANVAS_ASSIGNMENT_SUCCESS:
+    case CONFIRM_CANVAS_ASSIGNMENT_SUCCESS:
       return {
         ...state,
-        //sortAssignments(
-        // assignments: state.assignments.map((course) => {
-        //   course.assignments.assignments.map((m) => {
-        //     if (m._id === payload.assignment._id) {
-        //       return payload.assignment;
-        //     }
-        //     return m;
-        //   });
-
-        // if (m._id === payload.assignment._id) return payload.assignment;
-        // if (m._id === payload.assignment._id) console.log('returned is ', payload.assignment);
-        // return m;
-        // }),
-
-        // payload.weights,
-        // ),
         assignments: state.assignments.map((course) => {
           return {
             ...course,
@@ -185,6 +173,7 @@ export default function (state = initialState, { type, payload }) {
       };
     case COMPLETE_CANVAS_ASSIGNMENT_FAIL:
     case UPDATE_CANVAS_ASSIGNMENT_FAIL:
+    case CONFIRM_CANVAS_ASSIGNMENT_FAIL:
       return {
         ...state,
         error: true,

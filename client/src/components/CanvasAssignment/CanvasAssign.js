@@ -184,10 +184,10 @@ const CanvasAssign = ({
         <div
           className={
             assignment.completed
-              ? 'p-5 mt-5 rounded-md bg-zinc-100 dark:bg-zinc-900'
+              ? 'p-5 mb-5 rounded-md bg-zinc-100 dark:bg-zinc-900'
               : isEdit
-              ? 'p-5 mt-5 border-2 border-sky-600 dark:border-sky-700 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md'
-              : 'p-5 mt-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md'
+              ? 'p-5 mb-5 border-2 border-sky-600 dark:border-sky-700 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md'
+              : 'p-5 mb-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md'
           }
         >
           <div className="flex justify-between items-center space-x-2 mb-2">
@@ -248,7 +248,13 @@ const CanvasAssign = ({
             <p className="w-full text-sm md:text-lg">{dateTime}</p>
           </div>
           <div>
-            <p>Points: {assignment.pointsPossible}</p>
+            <p>
+              <strong>Points Possible: </strong>
+              {assignment.pointsPossible}
+            </p>
+          </div>
+          <div className="pb-2">
+            <p>{assignment.description}</p>
           </div>
           <form onSubmit={formik.handleSubmit}>
             <div className="flex justify-between items-center">
