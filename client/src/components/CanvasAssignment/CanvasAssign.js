@@ -55,7 +55,7 @@ const marks = [
 ];
 
 // auth is not used here
-const Assignment = ({
+const CanvasAssign = ({
   assignment,
   completeAssignment,
   editAssignment,
@@ -65,6 +65,8 @@ const Assignment = ({
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
+      points: assignment.points,
+      link: assignment.link,
       difficulty: parseInt(assignment.difficulty),
       type: assignment.type,
       reminders: [...assignment.reminders],
@@ -188,19 +190,22 @@ const Assignment = ({
           }
         >
           <div className="flex justify-between items-center space-x-2 mb-2">
-            <h3
-              className={
-                dateObject < new Date() && !assignment.completed
-                  ? 'text-red-600 text-xl md:text-2xl font-bold'
-                  : dateObject.toDateString() === new Date().toDateString() && !assignment.completed
-                  ? 'text-yellow-600 text-xl md:text-2xl font-bold'
-                  : assignment.completed
-                  ? 'text-zinc-300 dark:text-zinc-700 text-xl md:text-2xl font-bold'
-                  : 'text-xl md:text-2xl font-bold'
-              }
-            >
-              {assignment.name}
-            </h3>
+            <a href={assignment.link} target="_blank" rel="noreferrer">
+              <h3
+                className={
+                  dateObject < new Date() && !assignment.completed
+                    ? 'text-red-600 text-xl md:text-2xl font-bold underline'
+                    : dateObject.toDateString() === new Date().toDateString() &&
+                      !assignment.completed
+                    ? 'text-yellow-600 text-xl md:text-2xl font-bold underline'
+                    : assignment.completed
+                    ? 'text-zinc-300 dark:text-zinc-700 text-xl md:text-2xl font-bold'
+                    : 'text-xl md:text-2xl font-bold underline'
+                }
+              >
+                {assignment.name}
+              </h3>
+            </a>
             <div className="flex">
               <button
                 className={`px-4 ${
@@ -240,6 +245,9 @@ const Assignment = ({
               <path d="M0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm14-7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z" />
             </svg>
             <p className="w-full text-sm md:text-lg">{dateTime}</p>
+          </div>
+          <div>
+            <p>Points: {assignment.pointsPossible}</p>
           </div>
           <form onSubmit={formik.handleSubmit}>
             <div className="flex justify-between items-center">
@@ -376,4 +384,4 @@ export default connect(mapStateToProps, {
   editAssignment,
   clearAssignmentError,
   confirmComplete,
-})(Assignment);
+})(CanvasAssign);

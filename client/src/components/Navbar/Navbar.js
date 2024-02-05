@@ -121,6 +121,9 @@ const Navbar = ({ auth, logOutUser, history }) => {
                   <p className="hidden md:block">Assignments</p>
                 </div>
               </Link>
+              <Link className="ml-6" to="/canvas">
+                Canvas
+              </Link>
               <Link
                 to={`/${auth.me.id}`}
                 className={`ml-6 text-s md:text-base ${isActiveLink(`/${auth.me.id}`)}`}
