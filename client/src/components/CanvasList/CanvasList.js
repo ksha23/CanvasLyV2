@@ -14,10 +14,6 @@ const CanvasList = ({
   const [selectedGroups, setSelectedGroups] = useState([]);
 
   useLayoutEffect(() => {
-    setSelectedGroups(assignments.map((assignment) => assignment.course));
-  }, [assignments]);
-
-  useLayoutEffect(() => {
     if (!assignments || assignments.length === 0) {
       getCanvasAssignments();
     } else refreshCanvasAssignments();
