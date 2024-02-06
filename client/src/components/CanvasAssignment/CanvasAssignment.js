@@ -13,7 +13,6 @@ import LoadingOverlay from 'react-loading-overlay-ts';
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material/styles';
-import { set } from 'lodash';
 
 const darkTheme = createTheme({
   palette: {
@@ -181,7 +180,11 @@ const CanvasAssign = ({
                     </h3>
                   </a>
                 )}
-                <button className="text-sm" onClick={() => setEditingName(!editingName)}>
+                <button
+                  disabled={assignment.completed || assignment.isLoading}
+                  className="text-sm"
+                  onClick={() => setEditingName(!editingName)}
+                >
                   <svg
                     className="w-6 h-6"
                     aria-hidden="true"
@@ -225,7 +228,10 @@ const CanvasAssign = ({
             </div>
           </div>
           <div className="flex justify-start space-x-2 items-center">
-            <button onClick={() => setEditingDate(!editingDate)}>
+            <button
+              disabled={assignment.completed || assignment.isLoading}
+              onClick={() => setEditingDate(!editingDate)}
+            >
               <svg
                 className={`w-4 h-4`}
                 aria-hidden="true"
