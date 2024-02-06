@@ -164,7 +164,7 @@ const Profile = ({
 
   return (
     <Layout>
-      <div className="dark:text-white w-full p-10 pt-5">
+      <div className="dark:text-white w-full p-8 md:p-10 pt-2 md:pt-5">
         <p className="text-3xl font-bold text-center mb-6">
           Profile: {isLoading ? '' : profile.name}
         </p>

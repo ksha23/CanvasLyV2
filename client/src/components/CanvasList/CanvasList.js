@@ -1,4 +1,5 @@
 import React, { useState, useLayoutEffect } from 'react';
+import { isMobile } from 'react-device-detect';
 import Loader from '../Loader/Loader';
 import { connect } from 'react-redux';
 import { getCanvasAssignments, refreshCanvasAssignments } from '../../store/actions/canvasActions';
@@ -45,7 +46,7 @@ const CanvasList = ({
 
       <div>
         {!isLoading && (
-          <div className="py-5">
+          <div className="pt-5 pb-8">
             {/*select all checkbox*/}
             <label className="">
               <input
@@ -61,18 +62,24 @@ const CanvasList = ({
               />
               {' Select All'}
             </label>
-            {assignments.map((assignmentGroup, index) => (
-              <div key={index}>
-                <label className="">
-                  <input
-                    type="checkbox"
-                    checked={selectedGroups.includes(assignmentGroup.course)}
-                    onChange={() => handleGroupSelection(assignmentGroup.course)}
-                  />
-                  {' ' + assignmentGroup.course}
-                </label>
-              </div>
-            ))}
+            {assignments.map((assignmentGroup, index) => {
+              let name = ' ' + assignmentGroup.course;
+              if (name.length > 40 && isMobile) {
+                name = name.substring(0, 40) + '...';
+              }
+              return (
+                <div key={index}>
+                  <label className="text-sm md:text-base">
+                    <input
+                      type="checkbox"
+                      checked={selectedGroups.includes(assignmentGroup.course)}
+                      onChange={() => handleGroupSelection(assignmentGroup.course)}
+                    />
+                    {name}
+                  </label>
+                </div>
+              );
+            })}
           </div>
         )}
 
@@ -83,7 +90,7 @@ const CanvasList = ({
             if (selectedGroups.includes(assignmentGroup.course)) {
               return (
                 <div key={index}>
-                  <p className="text-2xl font-bold mb-2">{assignmentGroup.course}</p>
+                  <p className="text-xl font-bold mb-2">{assignmentGroup.course}</p>
                   {assignmentGroup.assignments.map((assignment, index) => {
                     if (assignment.completed === false && assignment.confirmedCompleted === false) {
                       return <CanvasAssign assignment={assignment} key={index} />;
