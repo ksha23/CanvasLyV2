@@ -168,7 +168,7 @@ const CanvasAssign = ({
                     href={
                       isMobile
                         ? assignment.link.replace('https', 'canvas-courses')
-                        : assignment.link.replace('https', 'canvas-courses')
+                        : assignment.link
                     }
                     target="_blank"
                     rel="noreferrer"
