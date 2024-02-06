@@ -131,6 +131,14 @@ const CanvasAssign = ({
     });
   };
 
+  const toInputFriendlyTime = (date) => {
+    let dateObj = new Date(date);
+    let offset = dateObj.getTimezoneOffset();
+    dateObj = new Date(dateObj.getTime() - offset * 60 * 1000);
+    date = dateObj.toISOString().slice(0, 16);
+    return date;
+  };
+
   return (
     <LoadingOverlay active={assignment.isLoading} spinner={<Loader />} className="rounded-md">
       <div
@@ -251,7 +259,7 @@ const CanvasAssign = ({
                 className="w-full md:w-auto md:max-w-full bg-transparent p-0 rounded-md border-zinc-300 dark:border-zinc-700 dark:[color-scheme:dark]"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={toDateTimeString(formik.values.dueDate)}
+                value={toInputFriendlyTime(formik.values.dueDate)}
                 disabled={assignment.isLoading || assignment.completed}
               />
             ) : (
