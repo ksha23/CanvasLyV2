@@ -18,10 +18,6 @@ import {
   CONFIRM_CANVAS_ASSIGNMENT_FAIL,
 } from '../types';
 
-export const test = () => {
-  console.log('test');
-};
-
 export const getCanvasAssignments = () => async (dispatch, getState) => {
   dispatch({
     type: GET_CANVAS_ASSIGNMENTS_LOADING,

@@ -51,6 +51,11 @@ const marks = [
   },
 ];
 
+const convertToUTC = (date) => {
+  if (date == 'Unspecified' || date == 'Invalid Date') return date;
+  return new Date(date).toISOString();
+};
+
 const CanvasAssign = ({
   assignment,
   completeCanvasAssignment,
@@ -60,8 +65,9 @@ const CanvasAssign = ({
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
+      editing: false,
       name: assignment.name,
-      dueDate: assignment.dueDate,
+      dueDate: convertToUTC(assignment.dueDate),
       type: assignment.type,
       difficulty: parseInt(assignment.difficulty),
       reminders: [...assignment.reminders],
@@ -69,6 +75,8 @@ const CanvasAssign = ({
     validationSchema: assignmentFormSchema,
     onSubmit: (values) => {
       updateCanvasAssignment(assignment._id, values);
+      formik.setFieldValue('editing', false);
+      setEditingDate(false);
     },
   });
 
@@ -103,21 +111,26 @@ const CanvasAssign = ({
     formik.setFieldValue('reminders', updatedReminders);
   };
 
+  const [editingDate, setEditingDate] = useState(false);
+
   // dont reset form if there is an error
   useEffect(() => {
     if (!assignment.error && !assignment.isLoading) formik.resetForm();
   }, [assignment.error, assignment.isLoading]);
 
   const dateObject = new Date(assignment.dueDate);
-  const dateTime = dateObject.toLocaleString('en-US', {
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    hour12: true,
-  });
+
+  const toDateTimeString = (date) => {
+    return date.toLocaleString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true,
+    });
+  };
 
   return (
     <LoadingOverlay active={assignment.isLoading} spinner={<Loader />} className="rounded-md">
@@ -138,22 +151,57 @@ const CanvasAssign = ({
           }
         >
           <div className="flex justify-between items-center space-x-2 mb-2">
-            <a href={assignment.link} target="_blank" rel="noreferrer">
-              <h3
-                className={
-                  dateObject < new Date() && !assignment.completed
-                    ? 'text-red-600 text-xl md:text-2xl font-bold underline'
-                    : dateObject.toDateString() === new Date().toDateString() &&
-                      !assignment.completed
-                    ? 'text-yellow-600 text-xl md:text-2xl font-bold underline'
-                    : assignment.completed
-                    ? 'text-zinc-300 dark:text-zinc-700 text-xl md:text-2xl font-bold'
-                    : 'text-xl md:text-2xl font-bold underline'
-                }
-              >
-                {assignment.name}
-              </h3>
-            </a>
+            <div className="flex justify-center items-center space-x-4 w-full">
+              <div className="flex space-x-4 w-full">
+                {formik.values.editing ? (
+                  <TextareaAutosize
+                    name="name"
+                    className="bg-transparent text-2xl font-bold p-0 w-full rounded-md border-zinc-300 dark:border-zinc-700"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.name}
+                    disabled={assignment.isLoading || assignment.completed}
+                  />
+                ) : (
+                  <a href={assignment.link} target="_blank" rel="noreferrer">
+                    <h3
+                      className={
+                        dateObject < new Date() && !assignment.completed
+                          ? 'text-red-600 text-xl md:text-2xl font-bold underline'
+                          : dateObject.toDateString() === new Date().toDateString() &&
+                            !assignment.completed
+                          ? 'text-yellow-600 text-xl md:text-2xl font-bold underline'
+                          : assignment.completed
+                          ? 'text-zinc-300 dark:text-zinc-700 text-xl md:text-2xl font-bold'
+                          : 'text-xl md:text-2xl font-bold underline'
+                      }
+                    >
+                      {assignment.name}
+                    </h3>
+                  </a>
+                )}
+                <button
+                  className="text-sm"
+                  onClick={() => formik.setFieldValue('editing', !formik.values.editing)}
+                >
+                  <svg
+                    className="w-6 h-6"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m14.3 4.8 2.9 2.9M7 7H4a1 1 0 0 0-1 1v10c0 .6.4 1 1 1h11c.6 0 1-.4 1-1v-4.5m2.4-10a2 2 0 0 1 0 3l-6.8 6.8L8 14l.7-3.6 6.9-6.8a2 2 0 0 1 2.8 0Z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
             <div className="flex">
               <button
                 className={`px-4 bg-gradient-to-bl from-emerald-500 to-lime-700 font-semibold text-white rounded-md py-1 ml-2`}
@@ -179,16 +227,30 @@ const CanvasAssign = ({
             </div>
           </div>
           <div className="flex justify-start space-x-2 items-center">
-            <svg
-              className={`w-4 h-4`}
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path d="M0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm14-7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z" />
-            </svg>
-            <p className="w-full text-default">{dateTime}</p>
+            <button onClick={() => setEditingDate(!editingDate)}>
+              <svg
+                className={`w-4 h-4`}
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm14-7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z" />
+              </svg>
+            </button>
+            {editingDate ? (
+              <input
+                type="datetime-local"
+                name="dueDate"
+                className="max-w-full bg-transparent p-0 rounded-md border-zinc-300 dark:border-zinc-700"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={toDateTimeString(formik.values.dueDate)}
+                disabled={assignment.isLoading || assignment.completed}
+              />
+            ) : (
+              <p className="w-full text-default">{toDateTimeString(dateObject)}</p>
+            )}
           </div>
           <div>
             <p>

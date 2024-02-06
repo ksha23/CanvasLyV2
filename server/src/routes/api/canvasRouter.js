@@ -267,16 +267,16 @@ router.get('/assignments', requireJwtAuth, async (req, res) => {
           await existingCourse.save();
         } else {
           // check every field and update if necessary
-          assignment.name = courseAssignments[j].name;
-          assignment.isQuiz = courseAssignments[j].isQuiz;
-          assignment.dueDate = courseAssignments[j].dueDate || 'Unspecified';
-          assignment.pointsPossible = courseAssignments[j].pointsPossible;
-          assignment.description =
-            courseAssignments[j].description != '' && courseAssignments[j].description != null
-              ? courseAssignments[j].description.substring(0, 250) +
-                (courseAssignments[j].description.length > 250 ? '...' : '')
-              : '';
-          await assignment.save();
+          // assignment.name = courseAssignments[j].name;
+          // assignment.isQuiz = courseAssignments[j].isQuiz;
+          // assignment.dueDate = courseAssignments[j].dueDate || 'Unspecified';
+          // assignment.pointsPossible = courseAssignments[j].pointsPossible;
+          // assignment.description =
+          //   courseAssignments[j].description != '' && courseAssignments[j].description != null
+          //     ? courseAssignments[j].description.substring(0, 250) +
+          //       (courseAssignments[j].description.length > 250 ? '...' : '')
+          //     : '';
+          // await assignment.save();
         }
       }
     }
