@@ -75,8 +75,7 @@ const CanvasAssign = ({
     validationSchema: assignmentFormSchema,
     onSubmit: (values) => {
       updateCanvasAssignment(assignment._id, values);
-      setEditingDate(false);
-      setEditingName(false);
+      setEditing(false);
     },
   });
 
@@ -111,8 +110,7 @@ const CanvasAssign = ({
     formik.setFieldValue('reminders', updatedReminders);
   };
 
-  const [editingDate, setEditingDate] = useState(false);
-  const [editingName, setEditingName] = useState(false);
+  const [editing, setEditing] = useState(false);
 
   // dont reset form if there is an error
   useEffect(() => {
@@ -153,8 +151,29 @@ const CanvasAssign = ({
         >
           <div className="flex justify-between items-center space-x-2 mb-2">
             <div className="flex justify-center items-center space-x-4 w-full">
-              <div className="flex space-x-4 w-full">
-                {editingName ? (
+              <div className="flex space-x-1 w-full">
+                <button
+                  disabled={assignment.completed || assignment.isLoading}
+                  className="text-sm"
+                  onClick={() => setEditing(!editing)}
+                >
+                  <svg
+                    className="w-6 h-6"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m14.3 4.8 2.9 2.9M7 7H4a1 1 0 0 0-1 1v10c0 .6.4 1 1 1h11c.6 0 1-.4 1-1v-4.5m2.4-10a2 2 0 0 1 0 3l-6.8 6.8L8 14l.7-3.6 6.9-6.8a2 2 0 0 1 2.8 0Z"
+                    />
+                  </svg>
+                </button>
+                {editing ? (
                   <TextareaAutosize
                     name="name"
                     className="bg-transparent text-2xl font-bold p-0 w-full rounded-md border-zinc-300 dark:border-zinc-700"
@@ -189,27 +208,6 @@ const CanvasAssign = ({
                     </h3>
                   </a>
                 )}
-                <button
-                  disabled={assignment.completed || assignment.isLoading}
-                  className="text-sm"
-                  onClick={() => setEditingName(!editingName)}
-                >
-                  <svg
-                    className="w-6 h-6"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="m14.3 4.8 2.9 2.9M7 7H4a1 1 0 0 0-1 1v10c0 .6.4 1 1 1h11c.6 0 1-.4 1-1v-4.5m2.4-10a2 2 0 0 1 0 3l-6.8 6.8L8 14l.7-3.6 6.9-6.8a2 2 0 0 1 2.8 0Z"
-                    />
-                  </svg>
-                </button>
               </div>
             </div>
             <div className="flex">
@@ -236,26 +234,21 @@ const CanvasAssign = ({
               )}
             </div>
           </div>
-          <div className="flex justify-start space-x-2 items-center">
-            <button
-              disabled={assignment.completed || assignment.isLoading}
-              onClick={() => setEditingDate(!editingDate)}
+          <div className="flex justify-start space-x-2 items-center w-full">
+            <svg
+              className={`w-4 h-4`}
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 20 20"
             >
-              <svg
-                className={`w-4 h-4`}
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path d="M0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm14-7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z" />
-              </svg>
-            </button>
-            {editingDate ? (
+              <path d="M0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm14-7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z" />
+            </svg>
+            {editing ? (
               <input
                 type="datetime-local"
                 name="dueDate"
-                className="max-w-full bg-transparent p-0 rounded-md border-zinc-300 dark:border-zinc-700 dark:[color-scheme:dark]"
+                className="w-full md:w-auto md:max-w-full bg-transparent p-0 rounded-md border-zinc-300 dark:border-zinc-700 dark:[color-scheme:dark]"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={toDateTimeString(formik.values.dueDate)}
@@ -380,8 +373,7 @@ const CanvasAssign = ({
                   <button
                     onClick={() => {
                       formik.resetForm();
-                      setEditingDate(false);
-                      setEditingName(false);
+                      setEditing(false);
                     }}
                     type="button"
                     className="mt-2 px-4 mr-4 bg-gradient-to-bl from-rose-500 to-red-700 text-white rounded-md py-2"

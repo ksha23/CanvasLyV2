@@ -90,7 +90,7 @@ const CanvasList = ({
             if (selectedGroups.includes(assignmentGroup.course)) {
               return (
                 <div key={index}>
-                  <p className="text-xl font-bold mb-2">{assignmentGroup.course}</p>
+                  <p className="text-xl md:text-2xl font-bold mb-2">{assignmentGroup.course}</p>
                   {assignmentGroup.assignments.map((assignment, index) => {
                     if (assignment.completed === false && assignment.confirmedCompleted === false) {
                       return <CanvasAssign assignment={assignment} key={index} />;
