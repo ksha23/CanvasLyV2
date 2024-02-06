@@ -13,6 +13,7 @@ import LoadingOverlay from 'react-loading-overlay-ts';
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material/styles';
+import { set } from 'lodash';
 
 const darkTheme = createTheme({
   palette: {
@@ -65,7 +66,6 @@ const CanvasAssign = ({
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      editing: false,
       name: assignment.name,
       dueDate: convertToUTC(assignment.dueDate),
       type: assignment.type,
@@ -75,8 +75,8 @@ const CanvasAssign = ({
     validationSchema: assignmentFormSchema,
     onSubmit: (values) => {
       updateCanvasAssignment(assignment._id, values);
-      formik.setFieldValue('editing', false);
       setEditingDate(false);
+      setEditingName(false);
     },
   });
 
@@ -112,6 +112,7 @@ const CanvasAssign = ({
   };
 
   const [editingDate, setEditingDate] = useState(false);
+  const [editingName, setEditingName] = useState(false);
 
   // dont reset form if there is an error
   useEffect(() => {
@@ -153,7 +154,7 @@ const CanvasAssign = ({
           <div className="flex justify-between items-center space-x-2 mb-2">
             <div className="flex justify-center items-center space-x-4 w-full">
               <div className="flex space-x-4 w-full">
-                {formik.values.editing ? (
+                {editingName ? (
                   <TextareaAutosize
                     name="name"
                     className="bg-transparent text-2xl font-bold p-0 w-full rounded-md border-zinc-300 dark:border-zinc-700"
@@ -180,10 +181,7 @@ const CanvasAssign = ({
                     </h3>
                   </a>
                 )}
-                <button
-                  className="text-sm"
-                  onClick={() => formik.setFieldValue('editing', !formik.values.editing)}
-                >
+                <button className="text-sm" onClick={() => setEditingName(!editingName)}>
                   <svg
                     className="w-6 h-6"
                     aria-hidden="true"
@@ -242,7 +240,7 @@ const CanvasAssign = ({
               <input
                 type="datetime-local"
                 name="dueDate"
-                className="max-w-full bg-transparent p-0 rounded-md border-zinc-300 dark:border-zinc-700"
+                className="max-w-full bg-transparent p-0 rounded-md border-zinc-300 dark:border-zinc-700 dark:[color-scheme:dark]"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={toDateTimeString(formik.values.dueDate)}
@@ -367,6 +365,8 @@ const CanvasAssign = ({
                   <button
                     onClick={() => {
                       formik.resetForm();
+                      setEditingDate(false);
+                      setEditingName(false);
                     }}
                     type="button"
                     className="mt-2 px-4 mr-4 bg-gradient-to-bl from-rose-500 to-red-700 text-white rounded-md py-2"
