@@ -183,7 +183,7 @@ router.get('/assignments', requireJwtAuth, async (req, res) => {
   for (let i = 0; i < courses.length; i++) {
     // first look for course in existingCourses
     let existingCourse = existingCourses.courses.find((course) => course.canvasCourseId === courses[i].id);
-    console.log('Getting assingments for course', courses[i].name);
+    // console.log('Getting assingments for course', courses[i].name);
     const courseAssignments = await getAssignmentsLimited(courses[i].id, canvasApiUrl, canvasApiToken);
     if (!existingCourse) {
       const newCourse = new Course({

@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useFormik } from 'formik';
-
-import { clearAssignmentError } from '../../store/actions/assignmentActions';
-
 import {
   completeCanvasAssignment,
   confirmComplete,
@@ -54,12 +51,10 @@ const marks = [
   },
 ];
 
-// auth is not used here
 const CanvasAssign = ({
   assignment,
   completeCanvasAssignment,
   updateCanvasAssignment,
-  clearAssignmentError,
   confirmComplete,
 }) => {
   const formik = useFormik({
@@ -72,15 +67,12 @@ const CanvasAssign = ({
       reminders: [...assignment.reminders],
     },
     validationSchema: assignmentFormSchema,
-    onSubmit: ({ resetForm }) => {
-      submitAction(assignment);
+    onSubmit: (values) => {
+      updateCanvasAssignment(assignment._id, values);
     },
   });
 
-  const submitAction = async (assignment) => {
-    await updateCanvasAssignment(assignment._id, formik.values);
-  };
-
+  window.addEventListener('themeChange', handleThemeChange);
   const [theme, setTheme] = useState(
     assignment.completed
       ? (localStorage.getItem('theme') || 'light') === 'light'
@@ -88,8 +80,6 @@ const CanvasAssign = ({
         : 'light'
       : localStorage.getItem('theme') || 'light',
   );
-  window.addEventListener('themeChange', handleThemeChange);
-
   function handleThemeChange() {
     if (assignment.completed) {
       const currentTheme = localStorage.getItem('theme') || 'light';
@@ -100,19 +90,14 @@ const CanvasAssign = ({
     setTheme(currentTheme);
   }
 
-  const handleDelete = (e, id) => {
+  const handleToggleDone = (e, id) => {
     e.preventDefault();
     completeCanvasAssignment(id);
-  };
-
-  const fillOriginalValues = () => {
-    formik.resetForm();
   };
 
   const addReminder = () => {
     formik.setFieldValue('reminders', [...formik.values.reminders, '']); // Append an empty reminder
   };
-
   const deleteReminder = (indexToDelete) => {
     const updatedReminders = formik.values.reminders.filter((_, index) => index !== indexToDelete);
     formik.setFieldValue('reminders', updatedReminders);
@@ -131,7 +116,6 @@ const CanvasAssign = ({
     year: 'numeric',
     hour: 'numeric',
     minute: 'numeric',
-    timeZoneName: 'short',
     hour12: true,
   });
 
@@ -172,12 +156,8 @@ const CanvasAssign = ({
             </a>
             <div className="flex">
               <button
-                className={`px-4 ${
-                  assignment.completed
-                    ? 'bg-gradient-to-bl from-emerald-500 to-lime-700 font-semibold'
-                    : 'bg-gradient-to-bl from-emerald-500 to-lime-700 font-semibold'
-                } text-white rounded-md px-3 py-1 ml-2`}
-                onClick={(e) => handleDelete(e, assignment._id)}
+                className={`px-4 bg-gradient-to-bl from-emerald-500 to-lime-700 font-semibold text-white rounded-md py-1 ml-2`}
+                onClick={(e) => handleToggleDone(e, assignment._id)}
                 type="button"
               >
                 {assignment.completed ? '⇧' : '✓'}
@@ -208,7 +188,7 @@ const CanvasAssign = ({
             >
               <path d="M0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm14-7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z" />
             </svg>
-            <p className="w-full text-sm md:text-lg">{dateTime}</p>
+            <p className="w-full text-default">{dateTime}</p>
           </div>
           <div>
             <p>
@@ -324,8 +304,7 @@ const CanvasAssign = ({
                   </button>
                   <button
                     onClick={() => {
-                      clearAssignmentError(assignment._id);
-                      fillOriginalValues();
+                      formik.resetForm();
                     }}
                     type="button"
                     className="mt-2 px-4 mr-4 bg-gradient-to-bl from-rose-500 to-red-700 text-white rounded-md py-2"
@@ -350,6 +329,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   completeCanvasAssignment,
   updateCanvasAssignment,
-  clearAssignmentError,
   confirmComplete,
 })(CanvasAssign);
