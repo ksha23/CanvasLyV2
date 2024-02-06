@@ -126,7 +126,6 @@ export const confirmComplete = (id) => async (dispatch, getState) => {
 
 // UPDATED
 export const updateCanvasAssignment = (id, formData) => async (dispatch, getState) => {
-  console.log('updateCanvasAssignment');
   dispatch({
     type: UPDATE_CANVAS_ASSIGNMENT_LOADING,
     payload: { id },

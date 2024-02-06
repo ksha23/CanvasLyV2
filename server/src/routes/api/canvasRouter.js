@@ -98,9 +98,8 @@ router.put('/confirm/:id', requireJwtAuth, async (req, res) => {
 });
 
 router.put('/update/:id', requireJwtAuth, async (req, res) => {
-  console.log('update assignment');
   const id = req.params.id;
-  const { newData } = req.body;
+  const newData = req.body;
 
   try {
     const assignment = await CanvasAssignment.findById(id);
@@ -117,6 +116,7 @@ router.put('/update/:id', requireJwtAuth, async (req, res) => {
       res.status(200).json(assignment);
     }
   } catch (error) {
+    console.error(error);
     res.status(400).json(error);
   }
 });

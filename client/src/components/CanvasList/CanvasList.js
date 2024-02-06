@@ -2,7 +2,7 @@ import React, { useState, useLayoutEffect } from 'react';
 import Loader from '../Loader/Loader';
 import { connect } from 'react-redux';
 import { getCanvasAssignments, refreshCanvasAssignments } from '../../store/actions/canvasActions';
-import CanvasAssign from '../CanvasAssignment/CanvasAssign';
+import CanvasAssign from '../CanvasAssignment/CanvasAssignment';
 
 const CanvasList = ({
   assignments,
