@@ -37,7 +37,7 @@ const Weather = ({ weatherData, isLoading, error, fetchWeather }) => {
             <p>Humidity: {weatherData?.main.humidity || 'Loading'}%</p>
           </div>
           <div className="flex justify-between">
-            <p className="flex mb-1">
+            <div className="flex mb-1">
               <div className="w-5 h-5">
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
@@ -57,8 +57,8 @@ const Weather = ({ weatherData, isLoading, error, fetchWeather }) => {
                 hour: '2-digit',
                 minute: '2-digit',
               }) || 'Loading'}
-            </p>
-            <p className="flex">
+            </div>
+            <div className="flex">
               <div className="w-5 h-5">
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
@@ -79,7 +79,7 @@ const Weather = ({ weatherData, isLoading, error, fetchWeather }) => {
                 hour: '2-digit',
                 minute: '2-digit',
               }) || 'Loading'}
-            </p>
+            </div>
           </div>
         </div>
       </div>

@@ -12,7 +12,6 @@ import { createTheme } from '@mui/material/styles';
 import Slider from '@mui/material/Slider';
 import Loader from '../../components/Loader/Loader';
 import { getAssignments, refreshAssignments } from '../../store/actions/assignmentActions';
-import { set } from 'lodash';
 
 const marks = [
   {

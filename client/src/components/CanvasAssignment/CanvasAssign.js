@@ -77,9 +77,7 @@ const CanvasAssign = ({
   });
 
   const submitAction = async (assignment) => {
-    console.log('submitAction');
     await updateCanvasAssignment(assignment._id, formik.values);
-    // set dirty to false
   };
 
   const [theme, setTheme] = useState(
