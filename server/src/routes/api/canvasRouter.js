@@ -97,7 +97,8 @@ router.put('/confirm/:id', requireJwtAuth, async (req, res) => {
   }
 });
 
-router.put('/updateAssignment/:id', requireJwtAuth, async (req, res) => {
+router.put('/update/:id', requireJwtAuth, async (req, res) => {
+  console.log('update assignment');
   const id = req.params.id;
   const { newData } = req.body;
 
@@ -111,7 +112,6 @@ router.put('/updateAssignment/:id', requireJwtAuth, async (req, res) => {
       assignment.dueDate = newData.dueDate;
       assignment.type = newData.type;
       assignment.difficulty = newData.difficulty;
-      assignment.description = newData.description;
       assignment.reminders = newData.reminders;
       assignment.save();
       res.status(200).json(assignment);

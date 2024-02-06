@@ -110,7 +110,7 @@ export const confirmComplete = (id) => async (dispatch, getState) => {
     payload: { id },
   });
   try {
-    const response = await axios.put(`/api/assignments/confirm/${id}`);
+    const response = await axios.put(`/api/canvas/confirm/${id}`);
 
     dispatch({
       type: CONFIRM_CANVAS_ASSIGNMENT_SUCCESS,
@@ -126,12 +126,13 @@ export const confirmComplete = (id) => async (dispatch, getState) => {
 
 // UPDATED
 export const updateCanvasAssignment = (id, formData) => async (dispatch, getState) => {
+  console.log('updateCanvasAssignment');
   dispatch({
     type: UPDATE_CANVAS_ASSIGNMENT_LOADING,
     payload: { id },
   });
   try {
-    const response = await axios.put(`/api/canvas/updateAssignment/${id}`, formData);
+    const response = await axios.put(`/api/canvas/update/${id}`, formData);
 
     dispatch({
       type: UPDATE_CANVAS_ASSIGNMENT_SUCCESS,

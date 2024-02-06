@@ -18,7 +18,7 @@ const CanvasList = ({
       getCanvasAssignments();
     } else refreshCanvasAssignments();
 
-    // refresh data every every 30 seconds
+    // refresh data every every 60 seconds
 
     const interval = setInterval(() => {
       refreshCanvasAssignments();

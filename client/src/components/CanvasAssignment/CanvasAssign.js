@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useFormik } from 'formik';
 
-import {
-  editAssignment,
-  clearAssignmentError,
-  confirmComplete,
-} from '../../store/actions/assignmentActions';
+import { clearAssignmentError, confirmComplete } from '../../store/actions/assignmentActions';
 
-import { completeCanvasAssignment } from '../../store/actions/canvasActions';
+import {
+  completeCanvasAssignment,
+  updateCanvasAssignment,
+} from '../../store/actions/canvasActions';
 import { assignmentFormSchema } from './validation';
-import lodash from 'lodash';
 import Slider from '@mui/material/Slider';
 import Loader from '../Loader/Loader';
 import LoadingOverlay from 'react-loading-overlay-ts';
@@ -59,26 +57,30 @@ const marks = [
 const CanvasAssign = ({
   assignment,
   completeCanvasAssignment,
-  editAssignment,
+  updateCanvasAssignment,
   clearAssignmentError,
   confirmComplete,
 }) => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      points: assignment.points,
-      link: assignment.link,
-      difficulty: parseInt(assignment.difficulty),
+      name: assignment.name,
+      dueDate: assignment.dueDate,
       type: assignment.type,
+      difficulty: parseInt(assignment.difficulty),
       reminders: [...assignment.reminders],
     },
     validationSchema: assignmentFormSchema,
-    onSubmit: (values, { resetForm }) => {
-      editAssignment(assignment._id, { values });
-      setIsEdit(false);
-      // resetForm();
+    onSubmit: ({ resetForm }) => {
+      submitAction(assignment);
     },
   });
+
+  const submitAction = async (assignment) => {
+    console.log('submitAction');
+    await updateCanvasAssignment(assignment._id, formik.values);
+    // set dirty to false
+  };
 
   const [theme, setTheme] = useState(
     assignment.completed
@@ -99,66 +101,28 @@ const CanvasAssign = ({
     setTheme(currentTheme);
   }
 
-  const [isEdit, setIsEdit] = useState(false);
-
   const handleDelete = (e, id) => {
     e.preventDefault();
     completeCanvasAssignment(id);
   };
 
-  const handleFieldChange = (e) => {
-    formik.handleChange(e);
-    const values = formik.values;
-    const valuesCopy = { ...values };
-    valuesCopy[e.target.name] = e.target.value;
-
-    // check if any of the values are different from the original
-    if (valuesCopy.type !== assignment.type) {
-      setIsEdit(true);
-      return;
-    }
-    if (parseInt(valuesCopy.difficulty) !== assignment.difficulty) {
-      setIsEdit(true);
-      return;
-    }
-    for (let i = 0; i < Math.max(valuesCopy.reminders.length, assignment.reminders.length); i++) {
-      if (valuesCopy.reminders[i] === undefined || assignment.reminders[i] === undefined) {
-        setIsEdit(true);
-        return;
-      }
-      if (valuesCopy.reminders[i] !== assignment.reminders[i]) {
-        setIsEdit(true);
-        return;
-      }
-    }
-    setIsEdit(false);
-  };
-
   const fillOriginalValues = () => {
     formik.resetForm();
-    setIsEdit(false);
   };
 
   const addReminder = () => {
     formik.setFieldValue('reminders', [...formik.values.reminders, '']); // Append an empty reminder
-    setIsEdit(!lodash.isEqual([...formik.values.reminders, ''], [...assignment.reminders]));
   };
 
   const deleteReminder = (indexToDelete) => {
     const updatedReminders = formik.values.reminders.filter((_, index) => index !== indexToDelete);
     formik.setFieldValue('reminders', updatedReminders);
-    setIsEdit(!lodash.isEqual(updatedReminders, assignment.reminders));
   };
 
   // dont reset form if there is an error
   useEffect(() => {
     if (!assignment.error && !assignment.isLoading) formik.resetForm();
   }, [assignment.error, assignment.isLoading]);
-
-  // keep edit open if there is an error
-  useEffect(() => {
-    if (assignment.error) setIsEdit(true);
-  }, [assignment.error]);
 
   const dateObject = new Date(assignment.dueDate);
   const dateTime = dateObject.toLocaleString('en-US', {
@@ -185,7 +149,7 @@ const CanvasAssign = ({
           className={
             assignment.completed
               ? 'p-5 mb-5 rounded-md bg-zinc-100 dark:bg-zinc-900'
-              : isEdit
+              : formik.dirty
               ? 'p-5 mb-5 border-2 border-sky-600 dark:border-sky-700 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md'
               : 'p-5 mb-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md'
           }
@@ -247,7 +211,7 @@ const CanvasAssign = ({
             </svg>
             <p className="w-full text-sm md:text-lg">{dateTime}</p>
           </div>
-          <div>
+          {/* <div>
             <p>
               <strong>Points Possible: </strong>
               {assignment.pointsPossible}
@@ -255,7 +219,7 @@ const CanvasAssign = ({
           </div>
           <div className="pb-2">
             <p>{assignment.description}</p>
-          </div>
+          </div> */}
           <form onSubmit={formik.handleSubmit}>
             <div className="flex justify-between items-center">
               <select
@@ -267,7 +231,7 @@ const CanvasAssign = ({
                 }
                    dark:text-white"
                   name="type`}
-                onChange={handleFieldChange}
+                onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.type}
                 disabled={assignment.isLoading || assignment.completed}
@@ -287,7 +251,8 @@ const CanvasAssign = ({
                       assignment.completed ? 'text-zinc-300 dark:text-zinc-700' : 'text-blue-600'
                     }`}
                     value={formik.values.difficulty}
-                    onChange={handleFieldChange}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     disabled={assignment.isLoading || assignment.completed}
                     step={1}
                     marks={marks}
@@ -317,7 +282,6 @@ const CanvasAssign = ({
                         const updatedReminders = [...formik.values.reminders];
                         updatedReminders[index] = e.target.value;
                         formik.setFieldValue('reminders', updatedReminders);
-                        setIsEdit(!lodash.isEqual(updatedReminders, assignment.reminders));
                       }}
                       onBlur={formik.handleBlur}
                       placeholder="Reminder..."
@@ -350,20 +314,17 @@ const CanvasAssign = ({
             </div>
 
             <>
-              {isEdit && (
+              {formik.dirty && (
                 <>
                   <button
                     type="submit"
                     className="mt-2 px-4 mr-2 bg-gradient-to-bl from-emerald-500 to-lime-700 text-white rounded-md py-2"
-                    disabled={assignment.isLoading}
                   >
                     Update
                   </button>
                   <button
                     onClick={() => {
-                      // setIsEdit((oldIsEdit) => !oldIsEdit);
                       clearAssignmentError(assignment._id);
-                      // refill fields with original values
                       fillOriginalValues();
                     }}
                     type="button"
@@ -388,7 +349,7 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   completeCanvasAssignment,
-  editAssignment,
+  updateCanvasAssignment,
   clearAssignmentError,
   confirmComplete,
 })(CanvasAssign);
