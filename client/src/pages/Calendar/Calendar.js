@@ -6,7 +6,7 @@ import AssignmentForm from '../../components/NewAssignmentForm/AssignmentForm';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-const Assignments = ({ auth, assignment }) => {
+const Calendar = ({ auth, assignment }) => {
   const [isEdit, setIsEdit] = useState(false);
 
   const closeForm = () => {
@@ -22,7 +22,7 @@ const Assignments = ({ auth, assignment }) => {
       ) : (
         <div className="w-full p-10">
           <div className="flex justify-center">
-            <p className="text-black dark:text-white text-4xl font-bold mr-4">Assignments</p>
+            <p className="text-black dark:text-white text-4xl font-bold mr-4">Calendar</p>
             <button onClick={() => setIsEdit(true)}>
               <svg
                 className="w-7 h-7 text-black dark:text-white"
@@ -55,4 +55,4 @@ const mapStateToProps = (state) => ({
   assignment: state.assignment,
 });
 
-export default compose(requireAuth, connect(mapStateToProps))(Assignments);
+export default compose(requireAuth, connect(mapStateToProps))(Calendar);

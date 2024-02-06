@@ -8,7 +8,7 @@ import ProfilePage from './pages/Profile/ProfilePage';
 import Users from './pages/Users/Users';
 import Admin from './pages/Admin/Admin';
 import NotFound from './pages/NotFound/NotFound';
-import Assignments from './pages/Assignments/Assignments';
+import Calendar from './pages/Calendar/Calendar';
 
 import { loadMe } from './store/actions/authActions';
 import PrivacyPolicyPage from './pages/PrivacyPolicy/PrivacyPolicy';
@@ -34,7 +34,7 @@ const App = ({ auth, assignment, profile, loadMe }) => {
           <Route path="/users" component={Users} />
           <Route path="/notfound" component={NotFound} />
           <Route path="/admin" component={Admin} />
-          <Route path="/assignments" component={Assignments} />
+          <Route path="/calendar" component={Calendar} />
           <Route path="/canvas" component={CanvasAssignments} />
           <Route path="/privacy" component={PrivacyPolicyPage} />
           <Route exact path="/:username" component={ProfilePage} />

@@ -42,8 +42,8 @@ const customSort = (dueDateWeight, typeWeight, difficultyWeight) => (a, b) => {
   const daysBetweenB = (dateB - currentDate) / (1000 * 3600 * 24);
 
   // plug into function 1/1.2^x
-  const normalizedDueDateValueA = 1 / Math.pow(2, daysBetweenA);
-  const normalizedDueDateValueB = 1 / Math.pow(2, daysBetweenB);
+  const normalizedDueDateValueA = 1 / Math.pow(1.2, daysBetweenA) - 1;
+  const normalizedDueDateValueB = 1 / Math.pow(1.2, daysBetweenB) - 1;
 
   const maxTypeValue = 5;
   const maxDifficultyValue = 5;
@@ -85,7 +85,13 @@ const sortAssignments = (assignments, weights) => {
   const dueDateWeight = weight[0];
   const difficultyWeight = weight[1];
   const typeWeight = weight[2];
-  const sortedMessages = assignments.sort(customSort(dueDateWeight, typeWeight, difficultyWeight));
+  // loop through each course and sort the assignments
+  const sortedMessages = assignments.map((course) => {
+    const sortedAssignments = course.assignments.sort(
+      customSort(dueDateWeight, typeWeight, difficultyWeight),
+    );
+    return { ...course, assignments: sortedAssignments };
+  });
   return sortedMessages;
 };
 
@@ -104,7 +110,7 @@ export default function (state = initialState, { type, payload }) {
         ...state,
         isLoading: false,
         firstAssignment: null,
-        assignments: payload.assignments,
+        assignments: sortAssignments(payload.assignments, payload.weights),
       };
     case GET_CANVAS_ASSIGNMENTS_FAIL:
       return {
@@ -159,17 +165,20 @@ export default function (state = initialState, { type, payload }) {
     case CONFIRM_CANVAS_ASSIGNMENT_SUCCESS:
       return {
         ...state,
-        assignments: state.assignments.map((course) => {
-          return {
-            ...course,
-            assignments: course.assignments.map((m) => {
-              if (m._id === payload.assignment._id) {
-                return payload.assignment;
-              }
-              return m;
-            }),
-          };
-        }),
+        assignments: sortAssignments(
+          state.assignments.map((course) => {
+            return {
+              ...course,
+              assignments: course.assignments.map((m) => {
+                if (m._id === payload.assignment._id) {
+                  return payload.assignment;
+                }
+                return m;
+              }),
+            };
+          }),
+          payload.weights,
+        ),
       };
     case COMPLETE_CANVAS_ASSIGNMENT_FAIL:
     case UPDATE_CANVAS_ASSIGNMENT_FAIL:
