@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useFormik } from 'formik';
+import { isMobile } from 'react-device-detect';
 import {
   completeCanvasAssignment,
   confirmComplete,
@@ -163,7 +164,15 @@ const CanvasAssign = ({
                     disabled={assignment.isLoading || assignment.completed}
                   />
                 ) : (
-                  <a href={assignment.link} target="_blank" rel="noreferrer">
+                  <a
+                    href={
+                      isMobile
+                        ? assignment.link.replace('https', 'canvas-courses')
+                        : assignment.link.replace('https', 'canvas-courses')
+                    }
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     <h3
                       className={
                         dateObject < new Date() && !assignment.completed
