@@ -281,7 +281,7 @@ const CanvasAssign = ({
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.type}
-                disabled={assignment.isLoading || assignment.completed}
+                disabled={!editing || assignment.isLoading || assignment.completed}
               >
                 <option value="Assignment">Assignment</option>
                 <option value="Quiz">Quiz</option>
@@ -300,7 +300,7 @@ const CanvasAssign = ({
                     value={formik.values.difficulty}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    disabled={assignment.isLoading || assignment.completed}
+                    disabled={!editing || assignment.isLoading || assignment.completed}
                     step={1}
                     marks={marks}
                     min={1}
@@ -333,13 +333,13 @@ const CanvasAssign = ({
                       onBlur={formik.handleBlur}
                       placeholder="Reminder..."
                       value={formik.values.reminders[index] || ''} // Add a default value in case of undefined
-                      disabled={assignment.isLoading || assignment.completed}
+                      disabled={!editing || assignment.isLoading || assignment.completed}
                     />
 
                     <button
                       type="button"
                       onClick={() => deleteReminder(index)}
-                      disabled={assignment.isLoading || assignment.completed}
+                      disabled={!editing || assignment.isLoading || assignment.completed}
                     >
                       ⓧ
                     </button>
@@ -354,7 +354,7 @@ const CanvasAssign = ({
                 }
                 type="button"
                 onClick={addReminder}
-                disabled={assignment.isLoading || assignment.completed}
+                disabled={!editing || assignment.isLoading || assignment.completed}
               >
                 Add Reminder
               </button>
