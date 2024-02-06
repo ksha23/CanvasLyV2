@@ -182,7 +182,7 @@ const CanvasAssign = ({
                           ? 'text-yellow-600 text-xl md:text-2xl font-bold underline'
                           : assignment.completed
                           ? 'text-zinc-300 dark:text-zinc-700 text-xl md:text-2xl font-bold'
-                          : 'text-xl md:text-2xl font-bold underline'
+                          : 'text-xl md:text-2xl font-bold underline break-all'
                       }
                     >
                       {assignment.name}
