@@ -176,7 +176,7 @@ const CanvasAssign = ({
                 {editing ? (
                   <TextareaAutosize
                     name="name"
-                    className="bg-transparent text-2xl font-bold p-0 w-full rounded-md border-zinc-300 dark:border-zinc-700"
+                    className="bg-transparent text-xl md:text-2xl font-bold p-0 w-full rounded-md border-zinc-300 dark:border-zinc-700"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.name}
