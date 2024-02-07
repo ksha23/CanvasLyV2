@@ -37,6 +37,8 @@ const upload = multer({
 
 router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, next) => {
   try {
+    console.log('this was called');
+    console.log(req.body);
     const tempUser = await User.findById(req.params.id);
     if (!tempUser) return res.status(404).json({ message: 'No such user.' });
     if (!(tempUser.id === req.user.id || req.user.role === 'ADMIN'))
@@ -71,6 +73,8 @@ router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, n
       dueDateWeight: req.body.dueDateWeight,
       difficultyWeight: req.body.difficultyWeight,
       typeWeight: req.body.typeWeight,
+      canvasAPIToken: req.body.canvasAPIToken,
+      canvasAPIUrl: req.body.canvasAPIUrl,
     };
     // remove '', null, undefined
     Object.keys(updatedUser).forEach((k) => !updatedUser[k] && updatedUser[k] !== undefined && delete updatedUser[k]);

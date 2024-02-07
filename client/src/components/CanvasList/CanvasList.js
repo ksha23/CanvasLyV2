@@ -15,12 +15,16 @@ const CanvasList = ({
   const [selectedGroups, setSelectedGroups] = useState([]);
 
   useLayoutEffect(() => {
+    // select all groups by default
+    if (assignments && assignments.length > 0 && selectedGroups.length === 0) {
+      setSelectedGroups(assignments.map((assignment) => assignment.course));
+    }
+
     if (!assignments || assignments.length === 0) {
       getCanvasAssignments();
     } else refreshCanvasAssignments();
 
     // refresh data every every 60 seconds
-
     const interval = setInterval(() => {
       refreshCanvasAssignments();
     }, 60000);

@@ -166,7 +166,7 @@ const CanvasAssign = ({
                   onClick={() => setEditing(!editing)}
                 >
                   <svg
-                    className="w-6 h-6"
+                    className="w-5 h-5"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -184,7 +184,7 @@ const CanvasAssign = ({
                 {editing ? (
                   <TextareaAutosize
                     name="name"
-                    className="bg-transparent text-xl font-bold p-0 w-full rounded-md border-zinc-300 dark:border-zinc-700 underline"
+                    className="bg-transparent text-xl font-bold p-0 w-full rounded-md border-zinc-300 dark:border-zinc-700"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.name}
@@ -203,13 +203,13 @@ const CanvasAssign = ({
                     <h3
                       className={
                         dateObject < new Date() && !assignment.completed
-                          ? 'text-red-600 text-xl font-bold underline break-all'
+                          ? 'text-red-600 text-xl font-bold break-all'
                           : dateObject.toDateString() === new Date().toDateString() &&
                             !assignment.completed
-                          ? 'text-yellow-600 text-xl font-bold underline break-all'
+                          ? 'text-yellow-600 text-xl font-bold break-all'
                           : assignment.completed
                           ? 'text-zinc-300 dark:text-zinc-700 text-xl font-bold break-all'
-                          : 'text-xl font-bold underline break-all'
+                          : 'text-xl font-bold break-all'
                       }
                     >
                       {assignment.name}
@@ -244,7 +244,7 @@ const CanvasAssign = ({
           </div>
           <div className="flex justify-start space-x-2 items-center w-full">
             <svg
-              className={`w-4 h-4`}
+              className="w-3 h-3"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
@@ -320,7 +320,7 @@ const CanvasAssign = ({
             </div>
             <div>
               {formik.values.reminders && formik.values.reminders.length > 0 && (
-                <p className="text-lg font-semibold">Reminders:</p>
+                <p className="text-base font-semibold">Reminders:</p>
               )}
               {formik.values.reminders.map((reminder, index) => {
                 return (

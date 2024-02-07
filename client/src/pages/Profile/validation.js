@@ -35,4 +35,6 @@ export const profileSchema = Yup.object({
       const { dueDateWeight = 0, difficultyWeight = 0 } = this.parent;
       return dueDateWeight + difficultyWeight + value === 10;
     }),
+  canvasAPIToken: Yup.string().required(),
+  canvasAPIUrl: Yup.string().required(),
 });

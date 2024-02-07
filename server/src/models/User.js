@@ -112,6 +112,8 @@ userSchema.methods.toJSON = function () {
     updatedAt: this.updatedAt,
     weights: [this.dueDateWeight, this.difficultyWeight, this.typeWeight],
     calendarId: this.calendarId,
+    canvasAPIToken: this.canvasAPIToken,
+    canvasAPIUrl: this.canvasAPIUrl,
   };
 };
 
@@ -180,6 +182,8 @@ export const validateUser = (user) => {
     dueDateWeight: Joi.number().min(0).max(10),
     difficultyWeight: Joi.number().min(0).max(10),
     typeWeight: Joi.number().min(0).max(10),
+    canvasAPIToken: Joi.string(),
+    canvasAPIUrl: Joi.string(),
   };
 
   return Joi.validate(user, schema);

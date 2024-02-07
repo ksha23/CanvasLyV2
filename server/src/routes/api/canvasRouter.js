@@ -180,6 +180,9 @@ router.get('/assignments', requireJwtAuth, async (req, res) => {
 
   const courses = await getFilteredCourses(canvasApiUrl, canvasApiToken);
   const assignments = [];
+  // check invalid request
+  if (!courses) return res.send({ assignments: [] });
+
   for (let i = 0; i < courses.length; i++) {
     // first look for course in existingCourses
     let existingCourse = existingCourses.courses.find((course) => course.canvasCourseId === courses[i].id);

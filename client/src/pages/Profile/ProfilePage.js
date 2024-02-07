@@ -86,8 +86,6 @@ const Profile = ({
 }) => {
   const [image, setImage] = useState('');
   const [avatar, setAvatar] = useState('');
-  const [apiKey, setApiKey] = useState('');
-  const [apiUrl, setApiUrl] = useState('');
   const matchUsername = match.params.username;
 
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
@@ -99,11 +97,11 @@ const Profile = ({
   }
 
   useLayoutEffect(() => {
-    if (!profile || profile.username !== matchUsername) {
+    if (!profile || profile.id !== matchUsername) {
       getProfile(matchUsername, history);
     }
     if (matchUsername === me?.id) refreshProfile(me?.id, history);
-  }, [matchUsername]);
+  }, []);
 
   const onChange = (event) => {
     formik.setFieldValue('image', event.currentTarget.files[0]);
@@ -115,22 +113,12 @@ const Profile = ({
     }
   };
 
-  const updateAPIKey = (apiKey) => {
-    axios.post('/api/canvas/apiToken', { apiKey });
-    alert('Updated API Key');
-  };
-
-  const updateAPIUrl = (apiUrl) => {
-    axios.post('/api/canvas/APIUrl', { apiUrl });
-    alert('Updated API URL');
-  };
-
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
       image: '',
       avatar: '',
-      id: profile?.id,
+      id: profile.id,
       name: profile.name,
       username: profile.username,
       password: '',
@@ -138,6 +126,8 @@ const Profile = ({
       difficultyWeight: profile.weights ? profile.weights[1] : 0,
       typeWeight: profile.weights ? profile.weights[2] : 0,
       calendarId: profile.calendarId ? profile.calendarId : '',
+      canvasAPIToken: profile.canvasAPIToken ? profile.canvasAPIToken : '',
+      canvasAPIUrl: profile.canvasAPIUrl ? profile.canvasAPIUrl : '',
     },
     validationSchema: profileSchema,
     onSubmit: (values) => {
@@ -152,6 +142,8 @@ const Profile = ({
       if (profile.provider === 'email') {
         formData.append('password', values.password);
       }
+      formData.append('canvasAPIToken', values.canvasAPIToken);
+      formData.append('canvasAPIUrl', values.canvasAPIUrl);
       editUser(values?.id, formData, history);
       // reset form
       formik.resetForm();
@@ -229,61 +221,32 @@ const Profile = ({
 
             {matchUsername == me?.id && (
               <div className="flex flex-col justify-center w-full">
-                <div className="flex flex-col items-center justify-center mt-8 w-full">
-                  <div className="mb-2 flex w-full justify-center space-x-2 max-w-lg">
-                    <input
-                      className="bg-transparent dark:text-white w-full rounded-md border border-zinc-300 dark:border-zinc-700"
-                      type="text"
-                      placeholder="API KEY"
-                      onChange={(e) => setApiKey(e.target.value)}
-                    />
-                    <button
-                      className="bg-blue-600 text-white rounded-md px-4 py-2"
-                      onClick={() => updateAPIKey(apiKey)}
-                      type="button"
-                    >
-                      Update
-                    </button>
-                  </div>
-                  <div className="flex w-full justify-center space-x-2 max-w-lg">
-                    <input
-                      className="bg-transparent dark:text-white w-full rounded-md border border-zinc-300 dark:border-zinc-700"
-                      type="text"
-                      placeholder="API URL"
-                      onChange={(e) => setApiUrl(e.target.value)}
-                    />
-                    <button
-                      className="bg-blue-600 text-white rounded-md px-4 py-2"
-                      onClick={() => updateAPIUrl(apiUrl)}
-                      type="button"
-                    >
-                      Update
-                    </button>
-                  </div>
-                </div>
                 <form
                   onSubmit={formik.handleSubmit}
                   className="flex flex-col justify-center w-full"
                 >
                   <div className="mt-2 flex flex-col justify-center items-center w-full">
-                    <div className="max-w-xl w-full flex items-center mt-4">
-                      <label className="font-bold text-lg">
-                        <svg
-                          className="w-7 h-7"
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="currentColor"
-                          viewBox="0 0 20 18"
-                        >
-                          <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
-                        </svg>
-                      </label>
-                      <input
-                        className="ml-2 bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-md justify-center text-zinc-500 file:bg-transparent file:text-blue-600 file:dark:text-blue-500 file:font-semibold file:rounded-md file:underline file:border-none file:py-2 file:pl-4 file:pr-2  w-full max-w-xl"
-                        name="image"
-                        type="file"
-                        onChange={onChange}
-                      />
+                    <div className="max-w-xl w-full flex flex-col items-center mt-4">
+                      <p className="text-lg font-bold">Account:</p>
+                      <div className="flex items-center w-full">
+                        <label className="font-bold text-lg">
+                          <svg
+                            className="w-7 h-7"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 20 18"
+                          >
+                            <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
+                          </svg>
+                        </label>
+                        <input
+                          className="ml-2 bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-md justify-center text-zinc-500 file:bg-transparent file:text-blue-600 file:dark:text-blue-500 file:font-semibold file:rounded-md file:underline file:border-none file:py-2 file:pl-4 file:pr-2  w-full max-w-xl"
+                          name="image"
+                          type="file"
+                          onChange={onChange}
+                        />
+                      </div>
                       {image && (
                         <button
                           className="ml-2"
@@ -334,6 +297,35 @@ const Profile = ({
                       <p className="text-red-600 dark:text-red-500">{formik.errors.username}</p>
                     ) : null}
                   </div>
+
+                  <div className="mt-2 flex flex-col justify-center items-center w-full">
+                    <p className="text-lg font-bold">Canvas:</p>
+                    <div className="max-w-xl w-full flex items-center">
+                      <label className="font-bold text-lg">Token:</label>
+                      <input
+                        name="canvasAPIToken"
+                        placeholder="Canvas API Access Token"
+                        className="ml-2 bg-transparent dark:text-white w-full rounded-md border border-zinc-300 dark:border-zinc-700"
+                        type="text"
+                        value={formik.values.canvasAPIToken}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                      />
+                    </div>
+                    <div className="mt-2 max-w-xl w-full flex items-center">
+                      <label className="font-bold text-lg mb-1">API: </label>
+                      <input
+                        name="canvasAPIUrl"
+                        placeholder="Example: https://canvas.instructure.com/api/v1/"
+                        className="ml-2 bg-transparent dark:text-white w-full rounded-md border border-zinc-300 dark:border-zinc-700"
+                        type="text"
+                        value={formik.values.canvasAPIUrl}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                      />
+                    </div>
+                  </div>
+
                   <div className="mt-4 flex flex-col justify-center items-center w-full">
                     <label className="font-bold text-lg">Calendar: </label>
                     <select
