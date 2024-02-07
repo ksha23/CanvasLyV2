@@ -85,6 +85,7 @@ router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, n
     res.status(200).json({ user });
   } catch (err) {
     console.error(err);
+    console.log('error');
     res.status(500).json({ message: 'Something went wrong.' });
   }
 });
@@ -122,6 +123,7 @@ router.get('/:username', requireJwtAuth, refreshTokenMiddleware, async (req, res
     // res.json({ user: user.toJSON() });
     res.json({ user: final });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: 'Something went wrong.' });
   }
 });
@@ -156,6 +158,7 @@ router.get('/byId/:id', requireJwtAuth, async (req, res) => {
 
     res.json({ user: final });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: 'Something went wrong.' });
   }
 });
