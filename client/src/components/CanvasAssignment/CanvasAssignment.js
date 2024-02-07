@@ -184,7 +184,7 @@ const CanvasAssign = ({
                 {editing ? (
                   <TextareaAutosize
                     name="name"
-                    className="bg-transparent text-xl md:text-2xl font-bold p-0 w-full rounded-md border-zinc-300 dark:border-zinc-700"
+                    className="bg-transparent text-xl md:text-2xl font-bold p-0 w-full rounded-md border-zinc-300 dark:border-zinc-700 underline"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.name}
@@ -326,31 +326,37 @@ const CanvasAssign = ({
                 return (
                   <div key={index} className={`flex items-center w-full space-x-2 mb-1 `}>
                     <p className="text-2xl font-bold">•</p>
-                    <TextareaAutosize
-                      name={`reminders.${index}`}
-                      className={`py-1 w-full rounded-md border bg-transparent dark:bg-transparent ${
-                        assignment.completed
-                          ? 'border-zinc-200 dark:border-zinc-800'
-                          : 'border-zinc-300 dark:border-zinc-700'
-                      } `}
-                      onChange={(e) => {
-                        const updatedReminders = [...formik.values.reminders];
-                        updatedReminders[index] = e.target.value;
-                        formik.setFieldValue('reminders', updatedReminders);
-                      }}
-                      onBlur={formik.handleBlur}
-                      placeholder="Reminder..."
-                      value={formik.values.reminders[index] || ''} // Add a default value in case of undefined
-                      disabled={!editing || assignment.isLoading || assignment.completed}
-                    />
+                    {editing ? (
+                      <>
+                        <TextareaAutosize
+                          name={`reminders.${index}`}
+                          className={`p-0 w-full rounded-md border bg-transparent dark:bg-transparent ${
+                            assignment.completed
+                              ? 'border-zinc-200 dark:border-zinc-800'
+                              : 'border-zinc-300 dark:border-zinc-700'
+                          } `}
+                          onChange={(e) => {
+                            const updatedReminders = [...formik.values.reminders];
+                            updatedReminders[index] = e.target.value;
+                            formik.setFieldValue('reminders', updatedReminders);
+                          }}
+                          onBlur={formik.handleBlur}
+                          placeholder="Reminder..."
+                          value={formik.values.reminders[index] || ''} // Add a default value in case of undefined
+                          disabled={!editing || assignment.isLoading || assignment.completed}
+                        />
 
-                    <button
-                      type="button"
-                      onClick={() => deleteReminder(index)}
-                      disabled={!editing || assignment.isLoading || assignment.completed}
-                    >
-                      ⓧ
-                    </button>
+                        <button
+                          type="button"
+                          onClick={() => deleteReminder(index)}
+                          disabled={!editing || assignment.isLoading || assignment.completed}
+                        >
+                          ⓧ
+                        </button>
+                      </>
+                    ) : (
+                      <p>{formik.values.reminders[index] || ''}</p>
+                    )}
                   </div>
                 );
               })}
