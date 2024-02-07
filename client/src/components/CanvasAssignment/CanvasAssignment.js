@@ -132,6 +132,8 @@ const CanvasAssign = ({
   };
 
   const toInputFriendlyTime = (date) => {
+    console.log(date, 'date');
+    if (date == 'Unspecified' || date == 'Invalid Date') return date;
     let dateObj = new Date(date);
     let offset = dateObj.getTimezoneOffset();
     dateObj = new Date(dateObj.getTime() - offset * 60 * 1000);

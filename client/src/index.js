@@ -10,6 +10,7 @@ import { StyledEngineProvider } from '@mui/material';
 import App from './App';
 import './index.css';
 import rootReducer from './store/reducers';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const initialState = {};
 
@@ -26,14 +27,16 @@ const root = createRoot(document.getElementById('root'));
 
 root.render(
   <Provider store={store}>
-    <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}>
-      <StyledEngineProvider injectFirst>
-        <Router>
-          <Switch>
-            <Route path="/" component={App} />
-          </Switch>
-        </Router>
-      </StyledEngineProvider>
-    </GoogleOAuthProvider>
+    <ErrorBoundary>
+      <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}>
+        <StyledEngineProvider injectFirst>
+          <Router>
+            <Switch>
+              <Route path="/" component={App} />
+            </Switch>
+          </Router>
+        </StyledEngineProvider>
+      </GoogleOAuthProvider>
+    </ErrorBoundary>
   </Provider>,
 );
