@@ -191,12 +191,12 @@ const Assignment = ({
             <h3
               className={
                 dateObject < new Date() && !assignment.completed
-                  ? 'text-red-600 text-xl md:text-2xl font-bold'
+                  ? 'text-red-600 text-xl font-bold'
                   : dateObject.toDateString() === new Date().toDateString() && !assignment.completed
-                  ? 'text-yellow-600 text-xl md:text-2xl font-bold'
+                  ? 'text-yellow-600 text-xl font-bold'
                   : assignment.completed
                   ? 'text-zinc-300 dark:text-zinc-700 text-xl md:text-2xl font-bold'
-                  : 'text-xl md:text-2xl font-bold'
+                  : 'text-xl font-bold'
               }
             >
               {assignment.name}
@@ -231,7 +231,7 @@ const Assignment = ({
           </div>
           <div className="flex justify-start space-x-2 items-center">
             <svg
-              className={`w-4 h-4`}
+              className={`w-3 h-3`}
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
@@ -239,7 +239,7 @@ const Assignment = ({
             >
               <path d="M0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm14-7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z" />
             </svg>
-            <p className="w-full text-sm md:text-lg">{dateTime}</p>
+            <p className="w-full text-base">{dateTime}</p>
           </div>
           <form onSubmit={formik.handleSubmit}>
             <div className="flex justify-between items-center">
@@ -285,7 +285,7 @@ const Assignment = ({
             </div>
             <div>
               {formik.values.reminders && formik.values.reminders.length > 0 && (
-                <p className="text-lg font-semibold">Reminders:</p>
+                <p className="text-base font-semibold">Reminders:</p>
               )}
               {formik.values.reminders.map((reminder, index) => {
                 return (
