@@ -298,7 +298,7 @@ const Profile = ({
                     ) : null}
                   </div>
 
-                  <div className="mt-2 flex flex-col justify-center items-center w-full">
+                  <div className="mt-4 flex flex-col justify-center items-center w-full">
                     <p className="text-lg font-bold">Canvas:</p>
                     <div className="max-w-xl w-full flex items-center">
                       <label className="font-bold text-lg">Token:</label>
