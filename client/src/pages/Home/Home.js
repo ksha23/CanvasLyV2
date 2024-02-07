@@ -5,7 +5,6 @@ import DateTime from '../../components/DateTime';
 import { GOOGLE_AUTH_LINK } from '../../constants';
 import Weather from '../../components/Weather';
 
-import './Home.css';
 import Layout from '../../layout/Layout';
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material/styles';
@@ -323,23 +322,17 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
                 How to Get Started:
               </h2>
               <ol className="text-left list-decimal ml-6 dark:text-zinc-300">
-                <li className="text-lg">Access "Canvas Calendar" in the Canvas side menu</li>
-                <li className="text-lg">Locate "Calendar Feed" and copy the URL</li>
-                <li className="text-lg">
-                  Open Google Calendar and select "+ Other Calendars" then "From URL"
-                </li>
-                <li className="text-lg">Paste the URL and click "Add Calendar"</li>
-                <li className="text-lg">Sign in to CanvasLy using your Google account</li>
-                <li className="text-lg">
-                  Go to "Profile" and choose the imported Canvas calendar to display assignments
-                </li>
+                <li className="text-lg">Go to Profile</li>
+                <li className="text-lg">Upload your organization's Canvas API URL</li>
+                <li className="text-lg">Get an access token from your Canvas account</li>
+                <li className="text-lg">Paste the access token into the form</li>
                 <li className="text-lg">You're all set!</li>
               </ol>
             </div>
           </div>
         ) : (
           <div className="flex flex-col items-center w-full text-zinc-700 dark:text-zinc-300 text-center p-10">
-            <h1 className="text-4xl md:text-5xl font-bold mb-2 md:mb-4 text-center light:text-black dark:text-white">
+            <h1 className="text-4xl md:text-53l font-bold mb-2 md:mb-4 text-center light:text-black dark:text-white">
               Welcome, {auth.me.name}
             </h1>
             <div className="flex flex-col items-center justify-center w-full space-y-5 mb-10">
@@ -348,8 +341,8 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
             </div>
 
             <div className="flex flex-col items-center justify-center w-full mb-10">
-              <h1 className="text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-tl from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
-                Recommended Next:
+              <h1 className="text-2xl font-bold mb-2 bg-gradient-to-tl from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
+                Coming Up Next:
               </h1>
               {/*Display details of first assignment*/}
               {assignment.error ? (
@@ -360,7 +353,7 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
                 </div>
               ) : (
                 <div className="flex justify-center flex-col px-6 py-4 border border-zinc-300 dark:border-zinc-600 rounded-md">
-                  <h2 className="text-xl md:text-2xl font-semibold mb-2 pb-2 border-b border-zinc-400 dark:border-zinc-500">
+                  <h2 className="text-xl font-semibold mb-2 pb-2 border-b border-zinc-400 dark:border-zinc-500">
                     {assignment.firstAssignment.name}
                   </h2>
                   <h2 className="text-sm md:text-base">
@@ -390,7 +383,7 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
               )}
             </div>
 
-            <h2 className="text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-br from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
+            <h2 className="text-2xl font-bold mb-2 bg-gradient-to-br from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
               Need Help Getting Started?
             </h2>
             <ol className="text-left list-decimal ml-6 dark:text-zinc-300">

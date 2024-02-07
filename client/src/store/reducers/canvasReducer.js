@@ -192,20 +192,6 @@ export default function (state = initialState, { type, payload }) {
           return m;
         }),
       };
-
-    // CLEAR ASSIGNMENT ERROR
-    // case CLEAR_ASSIGNMENT_ERROR:
-    //   return {
-    //     ...state,
-    //     assignments: state.assignments.map((m) => {
-    //       if (m.id === payload.id) return { ...m, isLoading: false, error: null };
-    //       return m;
-    //     }),
-    //   };
-    case 'RESET_ASSIGNMENT_REDUCER':
-      return {
-        initialState,
-      };
     default:
       return state;
   }

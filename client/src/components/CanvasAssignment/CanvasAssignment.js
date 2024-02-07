@@ -184,7 +184,7 @@ const CanvasAssign = ({
                 {editing ? (
                   <TextareaAutosize
                     name="name"
-                    className="bg-transparent text-xl md:text-2xl font-bold p-0 w-full rounded-md border-zinc-300 dark:border-zinc-700 underline"
+                    className="bg-transparent text-xl font-bold p-0 w-full rounded-md border-zinc-300 dark:border-zinc-700 underline"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.name}
@@ -203,13 +203,13 @@ const CanvasAssign = ({
                     <h3
                       className={
                         dateObject < new Date() && !assignment.completed
-                          ? 'text-red-600 text-xl md:text-2xl font-bold underline break-all'
+                          ? 'text-red-600 text-xl font-bold underline break-all'
                           : dateObject.toDateString() === new Date().toDateString() &&
                             !assignment.completed
-                          ? 'text-yellow-600 text-xl md:text-2xl font-bold underline break-all'
+                          ? 'text-yellow-600 text-xl font-bold underline break-all'
                           : assignment.completed
-                          ? 'text-zinc-300 dark:text-zinc-700 text-xl md:text-2xl font-bold break-all'
-                          : 'text-xl md:text-2xl font-bold underline break-all'
+                          ? 'text-zinc-300 dark:text-zinc-700 text-xl font-bold break-all'
+                          : 'text-xl font-bold underline break-all'
                       }
                     >
                       {assignment.name}
@@ -355,7 +355,7 @@ const CanvasAssign = ({
                         </button>
                       </>
                     ) : (
-                      <p>{formik.values.reminders[index] || ''}</p>
+                      <p className="break-all">{formik.values.reminders[index] || ''}</p>
                     )}
                   </div>
                 );

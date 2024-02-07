@@ -140,8 +140,3 @@ export const updateCanvasAssignment = (id, formData) => async (dispatch, getStat
     });
   }
 };
-
-// export const clearAssignmentError = (id) => ({
-//   type: CLEAR_ASSIGNMENT_ERROR,
-//   payload: { id },
-// });
