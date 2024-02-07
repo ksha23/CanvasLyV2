@@ -125,7 +125,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
                     height="18px"
                     viewBox="0 0 1920 1920"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="md:mr-2"
+                    className="md:mr-1"
                   >
                     <g id="SVGRepo_bgCarrier" strokeWidth="0" />
                     <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" />
