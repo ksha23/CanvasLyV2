@@ -20,15 +20,17 @@ require('./services/jwtStrategy');
 require('./services/googleStrategy');
 require('./services/googleAuthCodeStrategy');
 
-app.use(
-  cors({
-    origin: `http://localhost:3000`,
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  }),
-);
-
 const isProduction = process.env.NODE_ENV === 'production';
+
+if (isProduction) {
+  app.use(
+    cors({
+      origin: `http://localhost:3000`,
+      credentials: true,
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    }),
+  );
+}
 
 // DB Config
 const dbConnection = isProduction ? process.env.MONGO_URI_PROD : process.env.MONGO_URI_DEV;
