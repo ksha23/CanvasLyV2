@@ -326,8 +326,8 @@ const CanvasAssign = ({
               )}
               {formik.values.reminders.map((reminder, index) => {
                 return (
-                  <div key={index} className={`flex items-center w-full space-x-2 mb-1 `}>
-                    <p className="text-2xl font-bold">•</p>
+                  <div key={index} className="flex items-center">
+                    <p className="text-default font-bold mr-2">•</p>
                     {editing ? (
                       <>
                         <TextareaAutosize
