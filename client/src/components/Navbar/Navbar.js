@@ -204,8 +204,8 @@ const Navbar = ({ auth, logOutUser, history }) => {
           {!auth.isAuthenticated && <a href={googleAuthLink}>Sign in</a>}
           {auth.isAuthenticated && (
             <>
-              <Link to={`/${auth.me.username}`} className="flex items-center space-x-3 m-0">
-                <img className="h-7 w-7 rounded-full" src={auth.me.id} alt="User Avatar" />
+              <Link to={`/${auth.me.id}`} className="flex items-center space-x-3 m-0">
+                <img className="h-7 w-7 rounded-full" src={auth.me.avatar} alt="User Avatar" />
               </Link>
               <button onClick={onLogOut}>Log out</button>
             </>
