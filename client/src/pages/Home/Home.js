@@ -359,10 +359,10 @@ const Home = ({
           </div>
         ) : (
           <div className="flex flex-col items-center w-full text-zinc-700 dark:text-zinc-300 text-center px-2">
-            <h1 className="text-4xl md:text-53l font-bold mb-2 md:mb-4 text-center light:text-black dark:text-white">
+            <h1 className="text-4xl md:text-5xl font-bold mb-2 text-center light:text-black dark:text-white">
               Welcome, {auth.me.name}
             </h1>
-            <div className="flex flex-col items-center justify-center w-full space-y-5 mb-10">
+            <div className="flex flex-col items-center justify-center w-full space-y-5 mb-5">
               <DateTime />
               <Weather />
             </div>
