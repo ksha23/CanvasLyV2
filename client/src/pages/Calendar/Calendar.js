@@ -20,7 +20,7 @@ const Calendar = ({ auth, assignment }) => {
           <AssignmentForm closeForm={closeForm} />
         </div>
       ) : (
-        <div className="w-full p-8 md:p-10 pt-2 md:pt-5">
+        <div className="w-full px-2">
           <div className="flex justify-center">
             <p className="text-black dark:text-white text-3xl font-bold mr-4">Calendar</p>
             <button onClick={() => setIsEdit(true)}>

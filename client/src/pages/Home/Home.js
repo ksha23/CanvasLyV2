@@ -5,6 +5,8 @@ import DateTime from '../../components/DateTime';
 import { GOOGLE_AUTH_LINK } from '../../constants';
 import Weather from '../../components/Weather';
 
+import { getCanvasAssignments } from '../../store/actions/canvasActions';
+import { getProfile } from '../../store/actions/userActions';
 import Layout from '../../layout/Layout';
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material/styles';
@@ -47,7 +49,16 @@ const lightTheme = createTheme({
   },
 });
 
-const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
+const Home = ({
+  auth,
+  assignment,
+  canvas,
+  profile,
+  getAssignments,
+  getCanvasAssignments,
+  refreshAssignments,
+  getProfile,
+}) => {
   let googleAuthLink;
   if (process.env.NODE_ENV === 'development') {
     googleAuthLink = GOOGLE_AUTH_LINK;
@@ -57,8 +68,15 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') === 'dark');
 
   useLayoutEffect(() => {
-    if (auth.isAuthenticated && !assignment.assignments) getAssignments();
-    else if (auth.isAuthenticated) refreshAssignments();
+    if (auth.isAuthenticated) {
+      if (!assignment.assignments) getAssignments();
+      else refreshAssignments();
+      if (canvas.assignments.length === 0) getCanvasAssignments();
+      if (!profile || !profile.id) {
+        getProfile(auth.me.id);
+      }
+    }
+
     const currentTheme = localStorage.getItem('theme') || 'light';
     setTheme(currentTheme);
   }, []);
@@ -74,11 +92,13 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
     <Layout>
       <>
         {!auth.isAuthenticated ? (
-          <div className="flex flex-col justify-center items-center w-full text-zinc-700 dark:text-zinc-300 text-center">
-            <div className="w-full py-16 px-10">
-              <h1 className="text-5xl mb-4 font-bold">Never forget an assignment again</h1>
-              <h2 className="text-2xl mb-10">
-                CanvasLy helps you organize <strong>everything</strong>
+          <div className="flex flex-col justify-center items-center w-full text-zinc-700 dark:text-zinc-300 text-center px-2 pt-5 md:pt-0">
+            <div className="w-full">
+              <h1 className="text-4xl md:text-5xl mb-4 font-bold">
+                Never doubt what to do next again
+              </h1>
+              <h2 className="text-xl md:text-2xl mb-10">
+                CanvasLy helps you prioritize your assignments
               </h2>
               <a
                 className="mb-6 py-3 px-6 text-base rounded-lg text-white bg-blue-600 hover:bg-blue-700"
@@ -87,7 +107,7 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
                 Sign in to get started &rarr;
               </a>
             </div>
-            <div className="px-10 py-16 w-full max-w-5xl text-left">
+            <div className="py-16 w-full max-w-5xl text-left">
               <h2 className="text-3xl font-bold mb-2 bg-gradient-to-bl from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
                 Why CanvasLy?
               </h2>
@@ -102,7 +122,7 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
                 <li className="text-lg">It's totally free!</li>
               </ul>
             </div>
-            <div className="w-full max-w-5xl mb-5 px-10">
+            <div className="w-full max-w-5xl mb-5">
               <div className="p-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md text-left">
                 <div className="flex justify-between items-center space-x-2 mb-2 w-full">
                   <h3 className="text-xl md:text-2xl font-bold">Problem Set 1</h3>
@@ -179,7 +199,7 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
                     Undo
                   </button> */}
             </div>
-            <div className="w-full max-w-5xl mb-5 px-10">
+            <div className="w-full max-w-5xl mb-5">
               <div className="p-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md text-left border-2 border-sky-600 dark:border-sky-700">
                 <div className="flex justify-between items-center space-x-2 mb-2 w-full">
                   <h3 className="text-xl md:text-2xl font-bold">Quiz 1</h3>
@@ -256,7 +276,7 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
                 </button>
               </div>
             </div>
-            <div className="w-full max-w-5xl px-10">
+            <div className="w-full max-w-5xl">
               <div className="p-5 bg-zinc-100 dark:bg-zinc-900 rounded-md text-left text-zinc-300 dark:text-zinc-700">
                 <div className="flex justify-between items-center space-x-2 mb-2 w-full">
                   <h3 className="text-xl md:text-2xl font-bold">Completed Assignment</h3>
@@ -317,21 +337,28 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
                 </div>
               </div>
             </div>
-            <div className="w-full max-w-5xl py-16 px-10 text-left">
+            <div className="w-full max-w-5xl py-16 text-left">
               <h2 className="text-3xl font-bold mb-2 bg-gradient-to-br from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
                 How to Get Started:
               </h2>
               <ol className="text-left list-decimal ml-6 dark:text-zinc-300">
-                <li className="text-lg">Go to Profile</li>
-                <li className="text-lg">Upload your organization's Canvas API URL</li>
-                <li className="text-lg">Get an access token from your Canvas account</li>
-                <li className="text-lg">Paste the access token into the form</li>
+                <li className="text-lg">Go to the Profile page</li>
+                <li className="text-lg">
+                  Upload your organization's Canvas API URL (This usually is your regular canvas URL
+                  with with /api/vi at the end)
+                </li>
+                <li className="text-lg">
+                  Get an access token from your Canvas account by navigating to your Canvas site,
+                  then Account and then Settings. Click "+ New Access Token" and give it a name.
+                  Copy the token.
+                </li>
+                <li className="text-lg">Paste the access token into the Profile page and upload</li>
                 <li className="text-lg">You're all set!</li>
               </ol>
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center w-full text-zinc-700 dark:text-zinc-300 text-center p-10">
+          <div className="flex flex-col items-center w-full text-zinc-700 dark:text-zinc-300 text-center px-2">
             <h1 className="text-4xl md:text-53l font-bold mb-2 md:mb-4 text-center light:text-black dark:text-white">
               Welcome, {auth.me.name}
             </h1>
@@ -382,21 +409,25 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
                 </div>
               )}
             </div>
-
-            <h2 className="text-2xl font-bold mb-2 bg-gradient-to-br from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
-              Need Help Getting Started?
-            </h2>
-            <ol className="text-left list-decimal ml-6 dark:text-zinc-300">
-              <li>Access "Canvas Calendar" in the Canvas side menu</li>
-              <li>Locate "Calendar Feed" and copy the URL</li>
-              <li>Open Google Calendar and select "+ Other Calendars" then "From URL"</li>
-              <li>Paste the URL and click "Add Calendar"</li>
-              <li>Sign in to CanvasLy using your Google account</li>
-              <li>
-                Go to "Profile" and choose the imported Canvas calendar to display assignments
-              </li>
-              <li>You're all set!</li>
-            </ol>
+            <div className="flex flex-col items-center justify-center w-full max-w-xl">
+              <h2 className="text-2xl font-bold mb-2 bg-gradient-to-br from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
+                Need Help Getting Started?
+              </h2>
+              <ol className="text-left list-decimal ml-6 dark:text-zinc-300">
+                <li className="text-lg">Go to the Profile page</li>
+                <li className="text-lg">
+                  Upload your organization's Canvas API URL (This usually is your regular canvas URL
+                  with with /api/vi at the end)
+                </li>
+                <li className="text-lg">
+                  Get an access token from your Canvas account by navigating to your Canvas site,
+                  then Account and then Settings. Click "+ New Access Token" and give it a name.
+                  Copy the token.
+                </li>
+                <li className="text-lg">Paste the access token into the Profile page and upload</li>
+                <li className="text-lg">You're all set!</li>
+              </ol>
+            </div>
           </div>
         )}
       </>
@@ -407,6 +438,15 @@ const Home = ({ auth, assignment, getAssignments, refreshAssignments }) => {
 const mapStateToProps = (state) => ({
   auth: state.auth,
   assignment: state.assignment,
+  canvas: state.canvas,
+  profile: state.user.profile,
 });
 
-export default compose(connect(mapStateToProps, { getAssignments, refreshAssignments }))(Home);
+export default compose(
+  connect(mapStateToProps, {
+    getAssignments,
+    getCanvasAssignments,
+    refreshAssignments,
+    getProfile,
+  }),
+)(Home);
