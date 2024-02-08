@@ -379,14 +379,13 @@ const Home = ({
                   <Loader width={100} height={100} />
                 </div>
               ) : (
-                <div className="flex justify-center flex-col px-6 py-4 border border-zinc-300 dark:border-zinc-600 rounded-md">
-                  <h2 className="text-2xl font-semibold mb-2 pb-2 border-b border-zinc-400 dark:border-zinc-500">
+                <div className="flex justify-center text-left flex-col px-8 py-4 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md">
+                  <h2 className="text-xl md:text-2xl font-semibold mb-2 pb-2 border-b border-zinc-400 dark:border-zinc-500">
                     {assignment.firstAssignment.name}
                   </h2>
                   <h2 className="text-sm md:text-base">
                     <strong>Due: </strong>
                     {new Date(assignment.firstAssignment.dueDate).toLocaleDateString('en-US', {
-                      weekday: 'short',
                       month: 'short',
                       day: 'numeric',
                       year: 'numeric',
@@ -396,16 +395,24 @@ const Home = ({
                       hour12: true,
                     })}
                   </h2>
-                  <div className="flex justify-center space-x-6">
-                    <h2 className="text-sm md:text-base">
-                      <strong>Type: </strong>
-                      {assignment.firstAssignment.type}
-                    </h2>
-                    <h2 className="text-sm md:text-base">
-                      <strong>Difficulty: </strong>
-                      {assignment.firstAssignment.difficulty}
-                    </h2>
-                  </div>
+                  <h2 className="text-sm md:text-base">
+                    <strong>Type: </strong>
+                    {assignment.firstAssignment.type}
+                  </h2>
+                  <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
+                    <div className="w-full px-4 pt-2">
+                      <Slider
+                        disabled={true}
+                        className="text-blue-600"
+                        value={assignment.firstAssignment.difficulty}
+                        step={1}
+                        marks={marks}
+                        min={1}
+                        max={5}
+                        valueLabelDisplay="off"
+                      />
+                    </div>
+                  </ThemeProvider>
                 </div>
               )}
             </div>
