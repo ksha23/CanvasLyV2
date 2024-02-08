@@ -344,13 +344,13 @@ const Home = ({
               <ol className="text-left list-decimal ml-6 dark:text-zinc-300">
                 <li className="text-lg">Go to the Profile page</li>
                 <li className="text-lg">
-                  Upload your organization's Canvas API URL (This usually is your regular canvas URL
+                  Upload your organization's Canvas API URL (This usually is your regular Canvas URL
                   with with /api/v1 at the end)
                 </li>
+                <li className="text-lg">Navigate to your organization's Canvas site</li>
+                <li className="text-lg">Go to Account and then Settings</li>
                 <li className="text-lg">
-                  Get an access token from your Canvas account by navigating to your Canvas site,
-                  then Account and then Settings. Click "+ New Access Token" and give it a name.
-                  Copy the token.
+                  Click "+ New Access Token" and give it a name. Copy the token.
                 </li>
                 <li className="text-lg">Paste the access token into the Profile page and upload</li>
                 <li className="text-lg">You're all set!</li>
@@ -423,18 +423,20 @@ const Home = ({
                 Need Help Getting Started?
               </h2>
               <ol className="text-left list-decimal ml-6 dark:text-zinc-300">
-                <li className="text-lg">Go to the Profile page</li>
-                <li className="text-lg">
-                  Upload your organization's Canvas API URL (This usually is your regular canvas URL
+                <li className="text-base">Go to the Profile page</li>
+                <li className="text-base">
+                  Upload your organization's Canvas API URL (This usually is your regular Canvas URL
                   with with /api/v1 at the end)
                 </li>
-                <li className="text-lg">
-                  Get an access token from your Canvas account by navigating to your Canvas site,
-                  then Account and then Settings. Click "+ New Access Token" and give it a name.
-                  Copy the token.
+                <li className="text-base">Navigate to your organization's Canvas site</li>
+                <li className="text-base">Go to Account and then Settings</li>
+                <li className="text-base">
+                  Click "+ New Access Token" and give it a name. Copy the token.
                 </li>
-                <li className="text-lg">Paste the access token into the Profile page and upload</li>
-                <li className="text-lg">You're all set!</li>
+                <li className="text-base">
+                  Paste the access token into the Profile page and upload
+                </li>
+                <li className="text-base">You're all set!</li>
               </ol>
             </div>
           </div>
