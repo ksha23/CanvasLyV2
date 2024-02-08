@@ -345,7 +345,7 @@ const Home = ({
                 <li className="text-lg">Go to the Profile page</li>
                 <li className="text-lg">
                   Upload your organization's Canvas API URL (This usually is your regular Canvas URL
-                  with with /api/v1 at the end)
+                  with /api/v1 at the end)
                 </li>
                 <li className="text-lg">Navigate to your organization's Canvas site</li>
                 <li className="text-lg">Go to Account and then Settings</li>
@@ -426,7 +426,7 @@ const Home = ({
                 <li className="text-base">Go to the Profile page</li>
                 <li className="text-base">
                   Upload your organization's Canvas API URL (This usually is your regular Canvas URL
-                  with with /api/v1 at the end)
+                  with /api/v1 at the end)
                 </li>
                 <li className="text-base">Navigate to your organization's Canvas site</li>
                 <li className="text-base">Go to Account and then Settings</li>
