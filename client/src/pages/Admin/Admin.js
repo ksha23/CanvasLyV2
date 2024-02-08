@@ -12,8 +12,9 @@ import Layout from '../../layout/Layout';
 const Admin = () => {
   return (
     <Layout>
-      <div className="dark:text-white p-10">
-        <h1 className="text-4xl font-bold">Admin Dashboard</h1>
+      <div className="dark:text-white">
+        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+        <p>Only admins can see this page!</p>
       </div>
     </Layout>
   );

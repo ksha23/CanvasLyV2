@@ -19,8 +19,8 @@ const Users = ({ getUsers, users: { users, isLoading } }) => {
 
   return (
     <Layout>
-      <div className="dark:text-white p-10">
-        <h1 className="text-center text-4xl font-bold">Users</h1>
+      <div className="dark:text-white">
+        <h1 className="text-center text-3xl font-bold">Users</h1>
         <div className="mt-4">
           {isLoading ? (
             <div className="flex justify-center w-full max-w-4xl">
