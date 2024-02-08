@@ -380,7 +380,7 @@ const Home = ({
                 </div>
               ) : (
                 <div className="flex justify-center flex-col px-6 py-4 border border-zinc-300 dark:border-zinc-600 rounded-md">
-                  <h2 className="text-xl font-semibold mb-2 pb-2 border-b border-zinc-400 dark:border-zinc-500">
+                  <h2 className="text-2xl font-semibold mb-2 pb-2 border-b border-zinc-400 dark:border-zinc-500">
                     {assignment.firstAssignment.name}
                   </h2>
                   <h2 className="text-sm md:text-base">

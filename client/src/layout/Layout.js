@@ -8,7 +8,7 @@ import Footer from '../components/Footer/Footer';
 const Layout = ({ children }) => {
   return (
     <>
-      <div className="bg-white min-h-screen dark:bg-black flex flex-col justify-between w-full">
+      <div className="bg-white min-h-screen dark:bg-slate-950 flex flex-col justify-between w-full">
         <Navbar />
         <div className="p-5 md:p-10 md:pt-8 flex justify-center flex-grow">{children}</div>
         <Footer />

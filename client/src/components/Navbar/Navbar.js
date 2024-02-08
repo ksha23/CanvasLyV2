@@ -31,7 +31,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
   };
 
   return (
-    <nav className="bg-white text-zinc-600 px-6 py-4 dark:text-zinc-300 dark:bg-black hidden md:block">
+    <nav className="bg-white text-zinc-600 px-6 py-4 dark:text-zinc-300 dark:bg-slate-950 hidden md:block">
       <div className="flex items-center justify-between">
         <div className="top-0 md:sticky left-0 flex items-center">
           <Link className="flex items-center" to="/">
