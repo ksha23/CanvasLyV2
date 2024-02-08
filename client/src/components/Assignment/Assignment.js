@@ -70,7 +70,7 @@ const Assignment = ({
       reminders: [...assignment.reminders],
     },
     validationSchema: assignmentFormSchema,
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: (values) => {
       editAssignment(assignment._id, { values });
       setIsEdit(false);
       // resetForm();
@@ -103,48 +103,13 @@ const Assignment = ({
     completeAssignment(id);
   };
 
-  const handleFieldChange = (e) => {
-    formik.handleChange(e);
-    const values = formik.values;
-    const valuesCopy = { ...values };
-    valuesCopy[e.target.name] = e.target.value;
-
-    // check if any of the values are different from the original
-    if (valuesCopy.type !== assignment.type) {
-      setIsEdit(true);
-      return;
-    }
-    if (parseInt(valuesCopy.difficulty) !== assignment.difficulty) {
-      setIsEdit(true);
-      return;
-    }
-    for (let i = 0; i < Math.max(valuesCopy.reminders.length, assignment.reminders.length); i++) {
-      if (valuesCopy.reminders[i] === undefined || assignment.reminders[i] === undefined) {
-        setIsEdit(true);
-        return;
-      }
-      if (valuesCopy.reminders[i] !== assignment.reminders[i]) {
-        setIsEdit(true);
-        return;
-      }
-    }
-    setIsEdit(false);
-  };
-
-  const fillOriginalValues = () => {
-    formik.resetForm();
-    setIsEdit(false);
-  };
-
   const addReminder = () => {
     formik.setFieldValue('reminders', [...formik.values.reminders, '']); // Append an empty reminder
-    setIsEdit(!lodash.isEqual([...formik.values.reminders, ''], [...assignment.reminders]));
   };
 
   const deleteReminder = (indexToDelete) => {
     const updatedReminders = formik.values.reminders.filter((_, index) => index !== indexToDelete);
     formik.setFieldValue('reminders', updatedReminders);
-    setIsEdit(!lodash.isEqual(updatedReminders, assignment.reminders));
   };
 
   // dont reset form if there is an error
@@ -182,25 +147,49 @@ const Assignment = ({
           className={
             assignment.completed
               ? 'p-5 mt-5 rounded-md bg-zinc-100 dark:bg-zinc-900'
-              : isEdit
+              : formik.dirty
               ? 'p-5 mt-5 border-2 border-sky-600 dark:border-sky-700 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md'
               : 'p-5 mt-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md'
           }
         >
-          <div className="flex justify-between items-center space-x-2 mb-2">
-            <h3
-              className={
-                dateObject < new Date() && !assignment.completed
-                  ? 'text-red-600 text-xl font-bold'
-                  : dateObject.toDateString() === new Date().toDateString() && !assignment.completed
-                  ? 'text-yellow-600 text-xl font-bold'
-                  : assignment.completed
-                  ? 'text-zinc-300 dark:text-zinc-700 text-xl md:text-2xl font-bold'
-                  : 'text-xl font-bold'
-              }
-            >
-              {assignment.name}
-            </h3>
+          <div className="flex justify-between items-center mb-2">
+            <div className="flex space-x-1">
+              <button
+                disabled={assignment.completed || assignment.isLoading}
+                className="text-sm"
+                onClick={() => setIsEdit(!isEdit)}
+              >
+                <svg
+                  className="w-5 h-5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m14.3 4.8 2.9 2.9M7 7H4a1 1 0 0 0-1 1v10c0 .6.4 1 1 1h11c.6 0 1-.4 1-1v-4.5m2.4-10a2 2 0 0 1 0 3l-6.8 6.8L8 14l.7-3.6 6.9-6.8a2 2 0 0 1 2.8 0Z"
+                  />
+                </svg>
+              </button>
+              <h3
+                className={
+                  dateObject < new Date() && !assignment.completed
+                    ? 'text-red-600 text-xl font-bold'
+                    : dateObject.toDateString() === new Date().toDateString() &&
+                      !assignment.completed
+                    ? 'text-yellow-600 text-xl font-bold'
+                    : assignment.completed
+                    ? 'text-zinc-300 dark:text-zinc-700 text-xl md:text-2xl font-bold'
+                    : 'text-xl font-bold'
+                }
+              >
+                {assignment.name}
+              </h3>
+            </div>
             <div className="flex">
               <button
                 className={`px-4 ${
@@ -252,10 +241,10 @@ const Assignment = ({
                 }
                    dark:text-white"
                   name="type`}
-                onChange={handleFieldChange}
+                onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.type}
-                disabled={assignment.isLoading || assignment.completed}
+                disabled={!isEdit || assignment.isLoading || assignment.completed}
               >
                 <option value="Assignment">Assignment</option>
                 <option value="Quiz">Quiz</option>
@@ -272,8 +261,8 @@ const Assignment = ({
                       assignment.completed ? 'text-zinc-300 dark:text-zinc-700' : 'text-blue-600'
                     }`}
                     value={formik.values.difficulty}
-                    onChange={handleFieldChange}
-                    disabled={assignment.isLoading || assignment.completed}
+                    onChange={formik.handleChange}
+                    disabled={!isEdit || assignment.isLoading || assignment.completed}
                     step={1}
                     marks={marks}
                     min={1}
@@ -291,32 +280,38 @@ const Assignment = ({
                 return (
                   <div key={index} className={`flex items-center w-full space-x-2 mb-1 `}>
                     <p className="text-2xl font-bold">•</p>
-                    <TextareaAutosize
-                      name={`reminders.${index}`}
-                      className={`py-1 w-full rounded-md border bg-transparent dark:bg-transparent ${
-                        assignment.completed
-                          ? 'border-zinc-200 dark:border-zinc-800'
-                          : 'border-zinc-300 dark:border-zinc-700'
-                      } `}
-                      onChange={(e) => {
-                        const updatedReminders = [...formik.values.reminders];
-                        updatedReminders[index] = e.target.value;
-                        formik.setFieldValue('reminders', updatedReminders);
-                        setIsEdit(!lodash.isEqual(updatedReminders, assignment.reminders));
-                      }}
-                      onBlur={formik.handleBlur}
-                      placeholder="Reminder..."
-                      value={formik.values.reminders[index] || ''} // Add a default value in case of undefined
-                      disabled={assignment.isLoading || assignment.completed}
-                    />
+                    {isEdit ? (
+                      <>
+                        <TextareaAutosize
+                          name={`reminders.${index}`}
+                          className={`p-0 w-full rounded-md border bg-transparent dark:bg-transparent ${
+                            assignment.completed
+                              ? 'border-zinc-200 dark:border-zinc-800'
+                              : 'border-zinc-300 dark:border-zinc-700'
+                          } `}
+                          onChange={(e) => {
+                            const updatedReminders = [...formik.values.reminders];
+                            updatedReminders[index] = e.target.value;
+                            formik.setFieldValue('reminders', updatedReminders);
+                            setIsEdit(!lodash.isEqual(updatedReminders, assignment.reminders));
+                          }}
+                          onBlur={formik.handleBlur}
+                          placeholder="Reminder..."
+                          value={formik.values.reminders[index] || ''} // Add a default value in case of undefined
+                          disabled={assignment.isLoading || assignment.completed}
+                        />
 
-                    <button
-                      type="button"
-                      onClick={() => deleteReminder(index)}
-                      disabled={assignment.isLoading || assignment.completed}
-                    >
-                      ⓧ
-                    </button>
+                        <button
+                          type="button"
+                          onClick={() => deleteReminder(index)}
+                          disabled={assignment.isLoading || assignment.completed}
+                        >
+                          ⓧ
+                        </button>
+                      </>
+                    ) : (
+                      <p>{formik.values.reminders[index] || ''}</p>
+                    )}
                   </div>
                 );
               })}
@@ -328,14 +323,14 @@ const Assignment = ({
                 }
                 type="button"
                 onClick={addReminder}
-                disabled={assignment.isLoading || assignment.completed}
+                disabled={!isEdit || assignment.isLoading || assignment.completed}
               >
                 Add Reminder
               </button>
             </div>
 
             <>
-              {isEdit && (
+              {formik.dirty && (
                 <>
                   <button
                     type="submit"
@@ -346,10 +341,9 @@ const Assignment = ({
                   </button>
                   <button
                     onClick={() => {
-                      // setIsEdit((oldIsEdit) => !oldIsEdit);
                       clearAssignmentError(assignment._id);
-                      // refill fields with original values
-                      fillOriginalValues();
+                      formik.resetForm();
+                      setIsEdit(false);
                     }}
                     type="button"
                     className="mt-2 px-4 mr-4 bg-gradient-to-bl from-rose-500 to-red-700 text-white rounded-md py-2"

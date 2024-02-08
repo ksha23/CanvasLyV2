@@ -382,9 +382,7 @@ const Home = ({
                     </div>
                   ) : (
                     <div className="flex justify-center w-full max-w-xl text-left flex-col px-6 py-4 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md">
-                      <h2 className="text-xl font-semibold mb-2">
-                        {assignment.firstAssignment.name}
-                      </h2>
+                      <h2 className="text-xl font-bold mb-2">{assignment.firstAssignment.name}</h2>
                       <h2 className="text-base">
                         <strong>Due: </strong>
                         {new Date(assignment.firstAssignment.dueDate).toLocaleDateString('en-US', {
