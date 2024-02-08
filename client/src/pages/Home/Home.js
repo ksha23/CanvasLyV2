@@ -362,56 +362,62 @@ const Home = ({
             <h1 className="text-4xl md:text-5xl font-bold mb-2 text-center light:text-black dark:text-white">
               Welcome, {auth.me.name}
             </h1>
-            <div className="flex flex-col items-center justify-center w-full space-y-5 mb-5">
+            <div className="flex flex-col items-center justify-center w-full space-y-5">
               <DateTime />
               <Weather />
             </div>
 
             <div className="flex flex-col items-center justify-center w-full mb-10">
-              <h1 className="text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-tl from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
-                Coming Up Next:
-              </h1>
               {/*Display details of first assignment*/}
-              {assignment.error ? (
-                <p className="text-red-600">{assignment?.error}</p>
-              ) : assignment.assignments.length === 0 || assignment.isLoading ? (
-                <div className="flex justify-center w-full py-5">
-                  <Loader width={140} height={140} />
-                </div>
-              ) : (
-                <div className="flex justify-center w-full max-w-xl text-left flex-col px-6 py-4 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md">
-                  <h2 className="text-xl font-semibold mb-2">{assignment.firstAssignment.name}</h2>
-                  <h2 className="text-base">
-                    <strong>Due: </strong>
-                    {new Date(assignment.firstAssignment.dueDate).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                      hour: 'numeric',
-                      minute: 'numeric',
-                      timeZoneName: 'short',
-                      hour12: true,
-                    })}
-                  </h2>
-                  <h2 className="text-base">
-                    <strong>Type: </strong>
-                    {assignment.firstAssignment.type}
-                  </h2>
-                  <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
-                    <div className="w-full px-4 pt-2">
-                      <Slider
-                        disabled={true}
-                        className="text-blue-600"
-                        value={assignment.firstAssignment.difficulty}
-                        step={1}
-                        marks={marks}
-                        min={1}
-                        max={5}
-                        valueLabelDisplay="off"
-                      />
+              {assignment.firstAssignment && (
+                <>
+                  <h1 className="text-2xl md:text-3xl font-bold mb-2 mt-5 bg-gradient-to-tl from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
+                    Coming Up Next:
+                  </h1>
+                  {assignment.error ? (
+                    <p className="text-red-600">{assignment?.error}</p>
+                  ) : assignment.assignments.length === 0 || assignment.isLoading ? (
+                    <div className="flex justify-center w-full py-5">
+                      <Loader width={140} height={140} />
                     </div>
-                  </ThemeProvider>
-                </div>
+                  ) : (
+                    <div className="flex justify-center w-full max-w-xl text-left flex-col px-6 py-4 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md">
+                      <h2 className="text-xl font-semibold mb-2">
+                        {assignment.firstAssignment.name}
+                      </h2>
+                      <h2 className="text-base">
+                        <strong>Due: </strong>
+                        {new Date(assignment.firstAssignment.dueDate).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                          hour: 'numeric',
+                          minute: 'numeric',
+                          timeZoneName: 'short',
+                          hour12: true,
+                        })}
+                      </h2>
+                      <h2 className="text-base">
+                        <strong>Type: </strong>
+                        {assignment.firstAssignment.type}
+                      </h2>
+                      <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
+                        <div className="w-full px-4 pt-2">
+                          <Slider
+                            disabled={true}
+                            className="text-blue-600"
+                            value={assignment.firstAssignment.difficulty}
+                            step={1}
+                            marks={marks}
+                            min={1}
+                            max={5}
+                            valueLabelDisplay="off"
+                          />
+                        </div>
+                      </ThemeProvider>
+                    </div>
+                  )}
+                </>
               )}
             </div>
             <div className="flex flex-col items-center justify-center w-full max-w-xl">
