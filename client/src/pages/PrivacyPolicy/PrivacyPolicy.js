@@ -8,7 +8,7 @@ const PrivacyPolicyPage = () => {
 
   return (
     <Layout>
-      <div className="flex flex-col dark:bg-black dark:text-white">
+      <div className="flex flex-col dark:bg-slate-950 dark:text-white">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-4xl font-bold mb-8 text-center">Privacy Policy</h1>
 

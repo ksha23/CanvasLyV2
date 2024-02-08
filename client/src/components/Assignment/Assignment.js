@@ -192,11 +192,8 @@ const Assignment = ({
             </div>
             <div className="flex">
               <button
-                className={`px-4 ${
-                  assignment.completed
-                    ? 'bg-gradient-to-bl from-emerald-500 to-lime-700 font-semibold'
-                    : 'bg-gradient-to-bl from-emerald-500 to-lime-700 font-semibold'
-                } text-white rounded-md px-3 py-1 ml-2`}
+                className={`bg-gradient-to-bl from-emerald-500 to-lime-700 font-semibold
+                 text-white rounded-md px-3 py-1`}
                 onClick={(e) => handleDelete(e, assignment._id)}
                 type="button"
               >
@@ -204,9 +201,9 @@ const Assignment = ({
               </button>
               {assignment.completed && (
                 <button
-                  className={`px-4 ${
+                  className={`px-3 ${
                     assignment.completed
-                      ? 'ml-2 px-4 bg-gradient-to-bl from-rose-500 to-red-700'
+                      ? 'ml-2 px-3 bg-gradient-to-bl from-rose-500 to-red-700'
                       : 'bg-green-600'
                   } text-white rounded-md py-1 font-bold`}
                   onClick={() => confirmComplete(assignment._id)}
