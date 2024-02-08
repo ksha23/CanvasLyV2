@@ -22,7 +22,7 @@ const AssignmentList = ({ getAssignments, refreshAssignments, assignments, isLoa
     <div className="justify-center w-full max-w-4xl">
       <>
         {isLoading ? (
-          <div className="flex justify-center w-full max-w-4xl">
+          <div className="flex justify-center w-full max-w-4xl pt-10">
             <Loader />
           </div>
         ) : error ? (

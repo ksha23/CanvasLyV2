@@ -375,13 +375,13 @@ const Home = ({
               {assignment.error ? (
                 <p className="text-red-600">{assignment?.error}</p>
               ) : assignment.assignments.length === 0 || assignment.isLoading ? (
-                <div className="flex justify-center w-full">
-                  <Loader width={100} height={100} />
+                <div className="flex justify-center w-full py-5">
+                  <Loader width={140} height={140} />
                 </div>
               ) : (
                 <div className="flex justify-center w-full max-w-xl text-left flex-col px-6 py-4 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md">
                   <h2 className="text-xl font-semibold mb-2">{assignment.firstAssignment.name}</h2>
-                  <h2 className="text-base md:text-lg">
+                  <h2 className="text-base">
                     <strong>Due: </strong>
                     {new Date(assignment.firstAssignment.dueDate).toLocaleDateString('en-US', {
                       month: 'short',
@@ -393,7 +393,7 @@ const Home = ({
                       hour12: true,
                     })}
                   </h2>
-                  <h2 className="text-base md:text-lg">
+                  <h2 className="text-base">
                     <strong>Type: </strong>
                     {assignment.firstAssignment.type}
                   </h2>

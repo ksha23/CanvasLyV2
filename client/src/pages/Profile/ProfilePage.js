@@ -157,17 +157,15 @@ const Profile = ({
   return (
     <Layout>
       <div className="dark:text-white w-full px-2">
-        <p className="text-3xl font-bold text-center mb-6">
-          Profile: {isLoading ? '' : profile.name}
-        </p>
+        <p className="text-3xl font-bold text-center">Profile: {isLoading ? '' : profile.name}</p>
         {error && <p className="text-center text-red-600">{error}</p>}
 
         {isLoading ? (
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center pt-10">
             <Loader />
           </div>
         ) : (
-          <div className="flex justify-center items-center flex-col w-full text-zinc-700 dark:text-zinc-300">
+          <div className="flex justify-center items-center flex-col w-full text-zinc-700 dark:text-zinc-300 pt-6">
             {me && profile.username && profile.calendarId !== null && (
               <div className="flex justify-center items-center space-x-5">
                 <img

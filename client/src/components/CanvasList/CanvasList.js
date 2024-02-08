@@ -43,7 +43,7 @@ const CanvasList = ({
   return (
     <div className="justify-center w-full max-w-4xl text-zinc-700 dark:text-zinc-300">
       {isLoading && (
-        <div>
+        <div className="pt-10">
           <Loader />
         </div>
       )}
