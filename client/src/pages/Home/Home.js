@@ -368,7 +368,7 @@ const Home = ({
             </div>
 
             <div className="flex flex-col items-center justify-center w-full mb-10">
-              <h1 className="text-2xl font-bold mb-2 bg-gradient-to-tl from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
+              <h1 className="text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-tl from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
                 Coming Up Next:
               </h1>
               {/*Display details of first assignment*/}
@@ -379,11 +379,9 @@ const Home = ({
                   <Loader width={100} height={100} />
                 </div>
               ) : (
-                <div className="flex justify-center text-left flex-col px-8 py-4 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md">
-                  <h2 className="text-xl md:text-2xl font-semibold mb-2 pb-2 border-b border-zinc-400 dark:border-zinc-500">
-                    {assignment.firstAssignment.name}
-                  </h2>
-                  <h2 className="text-sm md:text-base">
+                <div className="flex justify-center w-full max-w-xl text-left flex-col px-6 py-4 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md">
+                  <h2 className="text-xl font-semibold mb-2">{assignment.firstAssignment.name}</h2>
+                  <h2 className="text-base md:text-lg">
                     <strong>Due: </strong>
                     {new Date(assignment.firstAssignment.dueDate).toLocaleDateString('en-US', {
                       month: 'short',
@@ -395,7 +393,7 @@ const Home = ({
                       hour12: true,
                     })}
                   </h2>
-                  <h2 className="text-sm md:text-base">
+                  <h2 className="text-base md:text-lg">
                     <strong>Type: </strong>
                     {assignment.firstAssignment.type}
                   </h2>
@@ -417,7 +415,7 @@ const Home = ({
               )}
             </div>
             <div className="flex flex-col items-center justify-center w-full max-w-xl">
-              <h2 className="text-2xl font-bold mb-2 bg-gradient-to-br from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
+              <h2 className="text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-br from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
                 Need Help Getting Started?
               </h2>
               <ol className="text-left list-decimal ml-6 dark:text-zinc-300">
