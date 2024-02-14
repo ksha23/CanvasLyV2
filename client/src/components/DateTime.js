@@ -12,7 +12,7 @@ export const DateTime = () => {
 
   return (
     <div>
-      <p className="font-semibold text-2xl text-zinc-700 dark:text-zinc-300">
+      <p className="font-semibold text-xl md:text-2xl text-slate-500 dark:text-slate-400">
         {date.toLocaleDateString('en-US', {
           weekday: 'long',
           year: 'numeric',
