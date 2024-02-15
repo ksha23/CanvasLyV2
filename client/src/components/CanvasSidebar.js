@@ -7,7 +7,7 @@ import {
   sortAssignmentsByType,
 } from '../store/actions/canvasActions';
 
-const CourseSelector = ({
+const CanvasSidebar = ({
   isMobile,
   selectedGroups,
   assignments,
@@ -22,8 +22,8 @@ const CourseSelector = ({
   }, []);
 
   return (
-    <div>
-      <h2 className="text-xl font-bold mb-2">Courses</h2>
+    <div className="sticky top-0 mr-8 pt-20">
+      <h2 className="text-2xl font-bold mb-2">Courses</h2>
       <label>
         <input
           type="checkbox"
@@ -41,12 +41,12 @@ const CourseSelector = ({
       </label>
       {assignments.map((assignmentGroup, index) => {
         let name = assignmentGroup.course;
-        if (name.length > 15) {
-          name = name.substring(0, 15) + '...';
+        if (name.length > 20) {
+          name = name.substring(0, 20) + '...';
         }
         return (
           <div key={index}>
-            <label className="text-sm md:text-base w-auto">
+            <label className="text-sm md:text-base">
               <input
                 type="checkbox"
                 className="mr-2 rounded-full"
@@ -58,7 +58,7 @@ const CourseSelector = ({
           </div>
         );
       })}
-      <h2 className="text-xl font-bold mt-4 mb-2">Sort By</h2>
+      <h2 className="text-2xl font-bold mt-4 mb-2">Sort By</h2>
       <div className="text-sm">
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold my-1 mx-2 py-2 px-3 rounded-full"
@@ -87,4 +87,4 @@ export default connect(null, {
   sortAssignmentsByDueDate,
   sortAssignmentsByDifficulty,
   sortAssignmentsByType,
-})(CourseSelector);
+})(CanvasSidebar);

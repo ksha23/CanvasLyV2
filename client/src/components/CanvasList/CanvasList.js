@@ -22,11 +22,11 @@ const CanvasList = ({
     } else refreshCanvasAssignments();
 
     // refresh data every every 60 seconds
-    const interval = setInterval(() => {
-      refreshCanvasAssignments();
-    }, 60000);
+    // const interval = setInterval(() => {
+    //   refreshCanvasAssignments();
+    // }, 60000);
 
-    return () => clearInterval(interval);
+    // return () => clearInterval(interval);
   }, []);
 
   const handleGroupSelection = (group) => {
@@ -47,9 +47,9 @@ const CanvasList = ({
     </div>
   ) : (
     <>
-      <div className="pt-5 grid grid-cols-4 gap-8 w-full max-w-6xl text-zinc-700 dark:text-zinc-300">
+      <div className="pt-5 grid grid-cols-4 w-full max-w-7xl text-zinc-700 dark:text-zinc-300">
         {!isLoading && !isMobile && (
-          <div className="col-span-1">
+          <div className="col-start-1 col-end-2">
             <CanvasSidebar
               selectedGroups={selectedGroups}
               assignments={assignments}
@@ -59,7 +59,7 @@ const CanvasList = ({
           </div>
         )}
 
-        <div className={isMobile ? 'col-span-4' : 'col-span-3'}>
+        <div className={isMobile ? 'col-span-4' : 'col-start-2 col-span-3'}>
           {!isLoading && (
             <div>
               <input
@@ -67,7 +67,7 @@ const CanvasList = ({
                 placeholder="Search assignments..."
                 value={searchQuery}
                 onChange={handleSearchChange}
-                className="w-full mb-4 px-4 py-2 border border-gray-400 dark:border-gray-600 bg-transparent rounded-full"
+                className="w-full mb-4 px-4 py-2 border border-slate-400 dark:border-slate-600 bg-transparent rounded-full"
               />
               {assignments.map((assignmentGroup, index) => {
                 if (isMobile || selectedGroups.includes(assignmentGroup.course)) {
