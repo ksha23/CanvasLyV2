@@ -1,12 +1,12 @@
 import React, { useLayoutEffect } from 'react';
 import { connect } from 'react-redux';
 
-import Assignment from '../Assignment/Assignment';
+import Event from '../Event/Event';
 import Loader from '../Loader/Loader';
 
 import { getAssignments, refreshAssignments } from '../../store/actions/assignmentActions';
 
-const AssignmentList = ({ getAssignments, refreshAssignments, assignments, isLoading, error }) => {
+const EventList = ({ getAssignments, refreshAssignments, assignments, isLoading, error }) => {
   useLayoutEffect(() => {
     if (!assignments || assignments.length === 0) {
       getAssignments();
@@ -39,7 +39,7 @@ const AssignmentList = ({ getAssignments, refreshAssignments, assignments, isLoa
               assignments.length > 0 &&
               assignments.map((assignment, index) => {
                 if (assignment.completed === false && assignment.confirmedCompleted === false) {
-                  return <Assignment key={index} assignment={assignment} />;
+                  return <Event key={index} assignment={assignment} />;
                 }
               })}
             {/* map through only assignments/assignments that are completed*/}
@@ -47,7 +47,7 @@ const AssignmentList = ({ getAssignments, refreshAssignments, assignments, isLoa
               assignments.length > 0 &&
               assignments.map((assignment, index) => {
                 if (assignment.completed === true && assignment.confirmedCompleted === false) {
-                  return <Assignment key={index} assignment={assignment} />;
+                  return <Event key={index} assignment={assignment} />;
                 }
               })}
           </div>
@@ -63,4 +63,4 @@ const mapStateToProps = (state) => ({
   error: state.assignment.error,
 });
 
-export default connect(mapStateToProps, { getAssignments, refreshAssignments })(AssignmentList);
+export default connect(mapStateToProps, { getAssignments, refreshAssignments })(EventList);

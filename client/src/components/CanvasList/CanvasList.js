@@ -4,7 +4,7 @@ import Loader from '../Loader/Loader';
 import { connect } from 'react-redux';
 import { getCanvasAssignments, refreshCanvasAssignments } from '../../store/actions/canvasActions';
 import CanvasAssign from '../CanvasAssignment/CanvasAssignment';
-import CourseSelector from '../CourseSelector';
+import CanvasSidebar from '../CanvasSidebar';
 
 const CanvasList = ({
   assignments,
@@ -50,7 +50,7 @@ const CanvasList = ({
       <div className="pt-5 grid grid-cols-4 gap-8 w-full max-w-6xl text-zinc-700 dark:text-zinc-300">
         {!isLoading && !isMobile && (
           <div className="col-span-1">
-            <CourseSelector
+            <CanvasSidebar
               selectedGroups={selectedGroups}
               assignments={assignments}
               setSelectedGroups={setSelectedGroups}

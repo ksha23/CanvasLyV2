@@ -3,6 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { useFormik } from 'formik';
 import { withRouter } from 'react-router-dom';
+import axios from 'axios';
 
 import { getProfile, refreshProfile, editUser } from '../../store/actions/userActions';
 import { loadMe } from '../../store/actions/authActions';

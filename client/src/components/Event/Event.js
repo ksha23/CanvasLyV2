@@ -302,6 +302,7 @@ const Assignment = ({
                           type="button"
                           onClick={() => deleteReminder(index)}
                           disabled={assignment.isLoading || assignment.completed}
+                          className="ml-2"
                         >
                           ⓧ
                         </button>

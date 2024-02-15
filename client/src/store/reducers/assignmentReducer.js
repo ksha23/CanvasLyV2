@@ -145,7 +145,6 @@ export default function (state = initialState, { type, payload }) {
     case EDIT_ASSIGNMENT_LOADING:
       return {
         ...state,
-        isLoading: true,
         assignments: state.assignments.map((m) => {
           if (m._id === payload.id) return { ...m, isLoading: true };
           return m;
@@ -155,7 +154,6 @@ export default function (state = initialState, { type, payload }) {
     case EDIT_ASSIGNMENT_SUCCESS:
       return {
         ...state,
-        isLoading: false,
         assignments: sortAssignments(
           state.assignments.map((m) => {
             if (m._id === payload.assignment._id) return payload.assignment;
@@ -169,7 +167,6 @@ export default function (state = initialState, { type, payload }) {
       return {
         ...state,
         error: true,
-        isLoading: false,
         assignments: state.assignments.map((m) => {
           if (m._id === payload.id) return { ...m, isLoading: false, error: payload.error };
           return m;

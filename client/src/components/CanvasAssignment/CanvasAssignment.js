@@ -354,6 +354,7 @@ const CanvasAssign = ({
                           type="button"
                           onClick={() => deleteReminder(index)}
                           disabled={!editing || assignment.isLoading || assignment.completed}
+                          className="ml-2"
                         >
                           ⓧ
                         </button>

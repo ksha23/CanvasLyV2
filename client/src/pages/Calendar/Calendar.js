@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Layout from '../../layout/Layout';
 import requireAuth from '../../hoc/requireAuth';
-import AssignmentList from '../../components/AssignmentList/AssignmentList';
+import EventList from '../../components/EventList/EventList';
 import AssignmentForm from '../../components/NewAssignmentForm/AssignmentForm';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -42,7 +42,7 @@ const Calendar = ({ auth, assignment }) => {
             </button>
           </div>
           <div className="flex justify-center w-full">
-            <AssignmentList isEdit={isEdit} closeForm={closeForm} />
+            <EventList isEdit={isEdit} closeForm={closeForm} />
           </div>
         </div>
       )}

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Navbar from '../components/Navbar/Navbar';
 import MobileNavbar from '../components/Navbar/MobileNavbar';
 import Footer from '../components/Footer/Footer';
-import CourseSelector from '../components/CourseSelector';
 
 const Layout = ({ children }) => {
   const [showSidebar, setShowSidebar] = React.useState(false);
