@@ -288,7 +288,11 @@ router.get('/assignments', requireJwtAuth, async (req, res) => {
 
     //only populate assignments for existing course
     // 6. add assignments to assignments array
-    assignments.push({ course: courses[i].name, assignments: courseAssignmentsFromDatabase.assignments || [] });
+    assignments.push({
+      course: courses[i].name,
+      courseId: courses[i].id,
+      assignments: courseAssignmentsFromDatabase.assignments || [],
+    });
   }
   res.send({
     assignments,
