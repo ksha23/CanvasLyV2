@@ -14,6 +14,7 @@ const CanvasList = ({
   refreshCanvasAssignments,
 }) => {
   const [selectedGroups, setSelectedGroups] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useLayoutEffect(() => {
     if (!assignments || assignments.length === 0) {
@@ -34,6 +35,10 @@ const CanvasList = ({
     } else {
       setSelectedGroups([...selectedGroups, group]);
     }
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
   };
 
   return isLoading ? (
@@ -58,13 +63,21 @@ const CanvasList = ({
         <div className={isMobile ? 'col-span-4' : 'col-span-3'}>
           {!isLoading && (
             <div>
+              <input
+                type="text"
+                placeholder="Search assignments..."
+                value={searchQuery}
+                onChange={handleSearchChange}
+                className="w-full mb-4 p-2 border border-gray-300 dark:border-gray-700 bg-transparent rounded"
+              />
               {assignments.map((assignmentGroup, index) => {
-                if (selectedGroups.includes(assignmentGroup.course)) {
+                if (isMobile || selectedGroups.includes(assignmentGroup.course)) {
                   return (
                     <div key={index}>
                       <p className="text-xl md:text-2xl font-bold mb-2">{assignmentGroup.course}</p>
                       {assignmentGroup.assignments.map((assignment, index) => {
                         if (
+                          assignment.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
                           assignment.completed === false &&
                           assignment.confirmedCompleted === false
                         ) {
@@ -75,6 +88,7 @@ const CanvasList = ({
                       })}
                       {assignmentGroup.assignments.map((assignment, index) => {
                         if (
+                          assignment.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
                           assignment.completed === true &&
                           assignment.confirmedCompleted === false
                         ) {
