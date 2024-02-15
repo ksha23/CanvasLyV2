@@ -16,6 +16,7 @@ import {
   CONFIRM_CANVAS_ASSIGNMENT_LOADING,
   CONFIRM_CANVAS_ASSIGNMENT_SUCCESS,
   CONFIRM_CANVAS_ASSIGNMENT_FAIL,
+  SORT_ASSIGNMENTS,
 } from '../types';
 
 export const getCanvasAssignments = () => async (dispatch, getState) => {
@@ -38,6 +39,18 @@ export const getCanvasAssignments = () => async (dispatch, getState) => {
       payload: { error: err?.response.data },
     });
   }
+};
+
+export const sortAssignmentsByType = () => async (dispatch) => {
+  dispatch({ type: SORT_ASSIGNMENTS, payload: { weights: [0, 0, 10] } });
+};
+
+export const sortAssignmentsByDueDate = () => async (dispatch) => {
+  dispatch({ type: SORT_ASSIGNMENTS, payload: { weights: [10, 0, 0] } });
+};
+
+export const sortAssignmentsByDifficulty = () => async (dispatch) => {
+  dispatch({ type: SORT_ASSIGNMENTS, payload: { weights: [0, 10, 0] } });
 };
 
 export const refreshCanvasAssignments = () => async (dispatch, getState) => {

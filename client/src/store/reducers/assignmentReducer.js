@@ -91,7 +91,6 @@ const sortAssignments = (assignments, weights) => {
 
 export default function (state = initialState, { type, payload }) {
   switch (type) {
-    // GET ASSIGNMENTS
     case GET_ASSIGNMENTS_LOADING:
       return {
         ...state,
@@ -112,7 +111,6 @@ export default function (state = initialState, { type, payload }) {
         error: payload.error,
         assignments: initialState.assignments,
       };
-
     // ADD ASSIGNMENT
     case ADD_ASSIGNMENT_LOADING:
       return {
@@ -143,8 +141,6 @@ export default function (state = initialState, { type, payload }) {
         error: payload.error,
         assignments: initialState.assignments,
       };
-
-    // COMPLETE ASSIGNMENT / EDIT ASSIGNMENT
     case COMPLETE_ASSIGNMENT_LOADING:
     case EDIT_ASSIGNMENT_LOADING:
       return {

@@ -14,6 +14,7 @@ import {
   EDIT_ASSIGNMENT_SUCCESS,
   EDIT_ASSIGNMENT_FAIL,
   CLEAR_ASSIGNMENT_ERROR,
+  SORT_ASSIGNMENTS,
 } from '../types';
 
 export const getAssignments = () => async (dispatch, getState) => {

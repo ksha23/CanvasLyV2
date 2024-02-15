@@ -114,6 +114,7 @@ userSchema.methods.toJSON = function () {
     calendarId: this.calendarId,
     canvasAPIToken: this.canvasAPIToken,
     canvasAPIUrl: this.canvasAPIUrl,
+    courses: this.courses,
   };
 };
 

@@ -153,6 +153,8 @@ router.get('/byId/:id', requireJwtAuth, refreshTokenMiddleware, async (req, res)
       };
     });
 
+    await user.populate('courses').execPopulate();
+
     const final = user.toJSON();
     final.calendars = calendarData;
 

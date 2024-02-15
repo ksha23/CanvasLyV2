@@ -4,6 +4,7 @@ import Loader from '../Loader/Loader';
 import { connect } from 'react-redux';
 import { getCanvasAssignments, refreshCanvasAssignments } from '../../store/actions/canvasActions';
 import CanvasAssign from '../CanvasAssignment/CanvasAssignment';
+import CourseSelector from '../CourseSelector';
 
 const CanvasList = ({
   assignments,
@@ -15,11 +16,6 @@ const CanvasList = ({
   const [selectedGroups, setSelectedGroups] = useState([]);
 
   useLayoutEffect(() => {
-    // select all groups by default
-    if (assignments && assignments.length > 0 && selectedGroups.length === 0) {
-      setSelectedGroups(assignments.map((assignment) => assignment.course));
-    }
-
     if (!assignments || assignments.length === 0) {
       getCanvasAssignments();
     } else refreshCanvasAssignments();
@@ -40,83 +36,64 @@ const CanvasList = ({
     }
   };
 
-  return (
-    <div className="justify-center w-full max-w-4xl text-zinc-700 dark:text-zinc-300">
-      {isLoading && (
-        <div className="pt-10">
-          <Loader />
-        </div>
-      )}
-
-      <div>
-        {!isLoading && (
-          <div className="pt-5 pb-8">
-            {/*select all checkbox*/}
-            <label className="">
-              <input
-                type="checkbox"
-                checked={selectedGroups.length === assignments.length}
-                onChange={() => {
-                  if (selectedGroups.length === assignments.length) {
-                    setSelectedGroups([]);
-                  } else {
-                    setSelectedGroups(assignments.map((assignment) => assignment.course));
-                  }
-                }}
-              />
-              {' Select All'}
-            </label>
-            {assignments.map((assignmentGroup, index) => {
-              let name = ' ' + assignmentGroup.course;
-              if (name.length > 40 && isMobile) {
-                name = name.substring(0, 40) + '...';
-              }
-              return (
-                <div key={index}>
-                  <label className="text-sm md:text-base">
-                    <input
-                      type="checkbox"
-                      checked={selectedGroups.includes(assignmentGroup.course)}
-                      onChange={() => handleGroupSelection(assignmentGroup.course)}
-                    />
-                    {name}
-                  </label>
-                </div>
-              );
-            })}
+  return isLoading ? (
+    <div className="flex justify-center items-center mt-10">
+      <Loader />
+    </div>
+  ) : (
+    <>
+      <div className="pt-5 grid grid-cols-4 gap-8 w-full max-w-6xl text-zinc-700 dark:text-zinc-300">
+        {!isLoading && !isMobile && (
+          <div className="col-span-1">
+            {/* Sidebar takes up 1/4 of the width */}
+            <CourseSelector
+              selectedGroups={selectedGroups}
+              assignments={assignments}
+              setSelectedGroups={setSelectedGroups}
+              handleGroupSelection={handleGroupSelection}
+            />
           </div>
         )}
 
-        {!isLoading &&
-          assignments &&
-          assignments.length > 0 &&
-          assignments.map((assignmentGroup, index) => {
-            if (selectedGroups.includes(assignmentGroup.course)) {
-              return (
-                <div key={index}>
-                  <p className="text-xl md:text-2xl font-bold mb-2">{assignmentGroup.course}</p>
-                  {assignmentGroup.assignments.map((assignment, index) => {
-                    if (assignment.completed === false && assignment.confirmedCompleted === false) {
-                      return <CanvasAssign assignment={assignment} key={index} />;
-                    } else {
-                      return null;
-                    }
-                  })}
-                  {assignmentGroup.assignments.map((assignment, index) => {
-                    if (assignment.completed === true && assignment.confirmedCompleted === false) {
-                      return <CanvasAssign assignment={assignment} key={index} />;
-                    } else {
-                      return null;
-                    }
-                  })}
-                </div>
-              );
-            } else {
-              return null;
-            }
-          })}
+        <div className={isMobile ? 'col-span-4' : 'col-span-3'}>
+          {!isLoading && (
+            <div>
+              {assignments.map((assignmentGroup, index) => {
+                if (selectedGroups.includes(assignmentGroup.course)) {
+                  return (
+                    <div key={index}>
+                      <p className="text-xl md:text-2xl font-bold mb-2">{assignmentGroup.course}</p>
+                      {assignmentGroup.assignments.map((assignment, index) => {
+                        if (
+                          assignment.completed === false &&
+                          assignment.confirmedCompleted === false
+                        ) {
+                          return <CanvasAssign assignment={assignment} key={index} />;
+                        } else {
+                          return null;
+                        }
+                      })}
+                      {assignmentGroup.assignments.map((assignment, index) => {
+                        if (
+                          assignment.completed === true &&
+                          assignment.confirmedCompleted === false
+                        ) {
+                          return <CanvasAssign assignment={assignment} key={index} />;
+                        } else {
+                          return null;
+                        }
+                      })}
+                    </div>
+                  );
+                } else {
+                  return null;
+                }
+              })}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

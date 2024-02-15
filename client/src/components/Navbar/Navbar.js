@@ -27,7 +27,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
   };
 
   const isActiveLink = (pathname) => {
-    return location.pathname === pathname ? 'font-bold text-black dark:text-white' : '';
+    return location.pathname === pathname ? 'font-bold text-blue-700 dark:text-blue-400' : '';
   };
 
   return (
@@ -102,7 +102,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
               >
                 <div className="flex items-center">
                   <svg
-                    className="w-6 h-6 mr-1"
+                    className="w-5 h-5 mr-1"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
@@ -121,11 +121,9 @@ const Navbar = ({ auth, logOutUser, history }) => {
                 <div className="flex items-center">
                   <svg
                     fill="currentColor"
-                    width="18px"
-                    height="18px"
                     viewBox="0 0 1920 1920"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="md:mr-1"
+                    className="mr-1 w-4 h-4"
                   >
                     <g id="SVGRepo_bgCarrier" strokeWidth="0" />
                     <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" />
@@ -145,7 +143,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
               >
                 <div className="flex items-center">
                   <svg
-                    className="w-5 h-5 mr-2"
+                    className="w-4 h-4 mr-2"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
@@ -162,7 +160,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
                   <Link className={`ml-6 hidden md:block ${isActiveLink('/users')}`} to="/users">
                     <div className="flex items-center">
                       <svg
-                        className="flex w-5 h-5 mr-2"
+                        className="flex w-4 h-4 mr-2"
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
@@ -176,7 +174,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
                   <Link className={`ml-6 hidden md:block ${isActiveLink('/admin')}`} to="/admin">
                     <div className="flex items-center">
                       <svg
-                        className="w-5 h-5 mr-2"
+                        className="w-4 h-4 mr-2"
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"

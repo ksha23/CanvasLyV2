@@ -15,6 +15,7 @@ import {
   CONFIRM_CANVAS_ASSIGNMENT_SUCCESS,
   CONFIRM_CANVAS_ASSIGNMENT_FAIL,
   CONFIRM_CANVAS_ASSIGNMENT_LOADING,
+  SORT_ASSIGNMENTS,
 } from '../types';
 
 const initialState = {
@@ -99,6 +100,11 @@ const sortAssignments = (assignments, weights) => {
 
 export default function (state = initialState, { type, payload }) {
   switch (type) {
+    case SORT_ASSIGNMENTS:
+      return {
+        ...state,
+        assignments: sortAssignments(state.assignments, payload.weights),
+      };
     // GET ASSIGNMENTS
     case GET_CANVAS_ASSIGNMENTS_LOADING:
       return {
