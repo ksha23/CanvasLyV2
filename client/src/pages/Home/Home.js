@@ -94,14 +94,12 @@ const Home = ({
         {!auth.isAuthenticated ? (
           <div className="flex flex-col justify-center items-center w-full text-zinc-700 dark:text-zinc-300 text-center px-2 pt-5 md:pt-0">
             <div className="w-full">
-              <h1 className="text-4xl md:text-5xl mb-4 font-bold">
-                Never doubt what to do next again
-              </h1>
+              <h1 className="text-4xl md:text-5xl mb-4 font-bold">Ever wonder, what next?</h1>
               <h2 className="text-xl md:text-2xl mb-10">
-                CanvasLy helps you prioritize your assignments
+                CanvasLy helps you prioritize assignments <em>fast</em>
               </h2>
               <a
-                className="mb-6 py-3 px-6 text-base rounded-lg text-white bg-blue-600 hover:bg-blue-700"
+                className="mb-6 py-3 px-6 text-base rounded-lg text-white bg-gradient-to-tr from-cyan-500 dark:from-cyan-700 to-blue-700 dark:to-blue-800"
                 href={googleAuthLink}
               >
                 Sign in to get started &rarr;

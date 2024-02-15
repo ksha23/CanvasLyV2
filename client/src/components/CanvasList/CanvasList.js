@@ -50,7 +50,6 @@ const CanvasList = ({
       <div className="pt-5 grid grid-cols-4 gap-8 w-full max-w-6xl text-zinc-700 dark:text-zinc-300">
         {!isLoading && !isMobile && (
           <div className="col-span-1">
-            {/* Sidebar takes up 1/4 of the width */}
             <CourseSelector
               selectedGroups={selectedGroups}
               assignments={assignments}
@@ -68,7 +67,7 @@ const CanvasList = ({
                 placeholder="Search assignments..."
                 value={searchQuery}
                 onChange={handleSearchChange}
-                className="w-full mb-4 p-2 border border-gray-300 dark:border-gray-700 bg-transparent rounded"
+                className="w-full mb-4 px-4 py-2 border border-gray-400 dark:border-gray-600 bg-transparent rounded-full"
               />
               {assignments.map((assignmentGroup, index) => {
                 if (isMobile || selectedGroups.includes(assignmentGroup.course)) {
