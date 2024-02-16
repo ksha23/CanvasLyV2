@@ -83,7 +83,9 @@ const CanvasList = ({
                       <div className="mb-2">
                         {courseLink !== '' ? (
                           <a
-                            href={isMobile ? courseLink.replace('https', 'canvas') : courseLink}
+                            href={
+                              isMobile ? courseLink.replace('https', 'canvas-courses') : courseLink
+                            }
                             target="_blank"
                             rel="noreferrer"
                             className="text-xl text-blue-500 font-bold"
