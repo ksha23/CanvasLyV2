@@ -207,13 +207,13 @@ const CanvasAssign = ({
                     <h3
                       className={
                         dateObject < new Date() && !assignment.completed
-                          ? 'text-red-600 text-xl font-bold break-all'
+                          ? 'text-red-600 text-xl font-bold break-words'
                           : dateObject.toDateString() === new Date().toDateString() &&
                             !assignment.completed
-                          ? 'text-yellow-600 text-xl font-bold break-all'
+                          ? 'text-yellow-600 text-xl font-bold break-words'
                           : assignment.completed
-                          ? 'text-zinc-300 dark:text-zinc-700 text-xl font-bold break-all'
-                          : 'text-xl font-bold break-all'
+                          ? 'text-zinc-300 dark:text-zinc-700 text-xl font-bold break-words'
+                          : 'text-xl font-bold break-words'
                       }
                     >
                       {assignment.name}
@@ -277,7 +277,7 @@ const CanvasAssign = ({
             </p>
           </div>
           <div className="pb-2">
-            <p>{assignment.description}</p>
+            <p className="break-words">{assignment.description}</p>
           </div>
           <form onSubmit={formik.handleSubmit}>
             <div className="flex justify-between items-center">
