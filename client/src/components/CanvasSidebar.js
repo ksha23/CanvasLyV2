@@ -22,7 +22,7 @@ const CanvasSidebar = ({
   }, []);
 
   return (
-    <div className="sticky top-32 mr-8">
+    <div className="sticky top-40 mr-8">
       <h2 className="text-2xl font-bold mb-2">Courses</h2>
       <label>
         <input
