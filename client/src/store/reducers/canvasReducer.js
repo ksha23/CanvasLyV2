@@ -148,6 +148,7 @@ export default function (state = initialState, { type, payload }) {
         assignments: sortAssignments([payload.assignment, ...state.assignments], payload.weights),
       };
     case CREATE_CANVAS_ASSIGNMENT_FAIL:
+      console.log('error', payload.error);
       return {
         ...state,
         isLoading: false,

@@ -36,7 +36,7 @@ export const getCanvasAssignments = () => async (dispatch, getState) => {
   } catch (err) {
     dispatch({
       type: GET_CANVAS_ASSIGNMENTS_FAIL,
-      payload: { error: err?.response.data },
+      payload: { error: err?.response?.data },
     });
   }
 };
@@ -71,25 +71,6 @@ export const refreshCanvasAssignments = () => async (dispatch, getState) => {
     });
   }
 };
-
-// export const addCanvasAssignment = (data) => async (dispatch, getState) => {
-//   dispatch({
-//     type: ADD_CANVAS_ASSIGNMENT_LOADING,
-//     payload: { me: { ...getState().auth.me } },
-//   });
-//   try {
-//     const response = await axios.post('/api/canvas/add', data.formData);
-//     dispatch({
-//       type: ADD_CANVAS_ASSIGNMENT_SUCCESS,
-//       payload: { assignment: response.data, weights: getState().auth.me.weights },
-//     });
-//   } catch (err) {
-//     dispatch({
-//       type: ADD_ASSIGNMENT_FAIL,
-//       payload: { error: err?.response?.data.assignment || err.assignment },
-//     });
-//   }
-// };
 
 // UPDATED: really is complete/uncomplete assignment
 export const completeCanvasAssignment = (id) => async (dispatch, getState) => {

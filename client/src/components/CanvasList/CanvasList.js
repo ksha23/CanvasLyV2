@@ -10,7 +10,7 @@ const CanvasList = ({
   assignments,
   isLoading,
   error,
-  canvasURL,
+  me,
   getCanvasAssignments,
   refreshCanvasAssignments,
 }) => {
@@ -71,17 +71,30 @@ const CanvasList = ({
                 className="w-full mb-4 px-4 py-2 border border-slate-400 dark:border-slate-600 bg-transparent rounded-full"
               />
               {assignments.map((assignmentGroup, index) => {
-                let courseLink = `${canvasURL.replace('/api/v1', '')}/courses/${
-                  assignmentGroup.courseId
-                }`;
+                let courseLink = '';
+                if (me && me.canvasAPIUrl.includes('/api/v1')) {
+                  courseLink = `${me.canvasAPIUrl.replace('/api/v1', '')}/courses/${
+                    assignmentGroup.courseId
+                  }`;
+                }
                 if (isMobile || selectedGroups.includes(assignmentGroup.course)) {
                   return (
                     <div key={index}>
-                      <a href={courseLink} target="_blank" rel="noreferrer">
+                      {courseLink !== '' ? (
+                        <a
+                          href={courseLink}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-xl md:text-2xl font-bold mb-2"
+                        >
+                          {assignmentGroup.course}
+                        </a>
+                      ) : (
                         <p className="text-xl md:text-2xl font-bold mb-2">
                           {assignmentGroup.course}
                         </p>
-                      </a>
+                      )}
+
                       {assignmentGroup.assignments.map((assignment, index) => {
                         if (
                           assignment.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
@@ -122,7 +135,7 @@ const mapStateToProps = (state) => ({
   assignments: state.canvas.assignments,
   isLoading: state.canvas.isLoading,
   error: state.canvas.error,
-  canvasURL: state.auth.me.canvasAPIUrl,
+  me: state.auth.me,
 });
 
 export default connect(mapStateToProps, { getCanvasAssignments, refreshCanvasAssignments })(
