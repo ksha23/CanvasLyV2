@@ -74,13 +74,6 @@ const customSort = (dueDateWeight, typeWeight, difficultyWeight) => (a, b) => {
   return 0;
 };
 
-const getFirstAssignment = (assignments) => {
-  // get first assignment that is not completed
-  if (!assignments.length) return null;
-  const firstAssignment = first(assignments.filter((a) => !a.completed));
-  return firstAssignment;
-};
-
 const sortAssignments = (assignments, weights) => {
   const weight = weights;
   const dueDateWeight = weight[0];

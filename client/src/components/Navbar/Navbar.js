@@ -27,7 +27,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
   };
 
   const isActiveLink = (pathname) => {
-    return location.pathname === pathname ? 'font-bold text-blue-700 dark:text-blue-400' : '';
+    return location.pathname === pathname ? 'font-bold text-black dark:text-white' : '';
   };
 
   return (

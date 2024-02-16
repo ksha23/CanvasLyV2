@@ -80,20 +80,20 @@ const CanvasList = ({
                 if (isMobile || selectedGroups.includes(assignmentGroup.course)) {
                   return (
                     <div key={index}>
-                      {courseLink !== '' ? (
-                        <a
-                          href={courseLink}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-xl md:text-2xl font-bold mb-2"
-                        >
-                          {assignmentGroup.course}
-                        </a>
-                      ) : (
-                        <p className="text-xl md:text-2xl font-bold mb-2">
-                          {assignmentGroup.course}
-                        </p>
-                      )}
+                      <div className="mb-2">
+                        {courseLink !== '' ? (
+                          <a
+                            href={courseLink}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-xl text-blue-500 font-bold"
+                          >
+                            {assignmentGroup.course}
+                          </a>
+                        ) : (
+                          <p className="text-xl font-bold">{assignmentGroup.course}</p>
+                        )}
+                      </div>
 
                       {assignmentGroup.assignments.map((assignment, index) => {
                         if (
