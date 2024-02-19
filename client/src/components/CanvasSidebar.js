@@ -6,6 +6,7 @@ import {
   sortAssignmentsByDueDate,
   sortAssignmentsByType,
 } from '../store/actions/canvasActions';
+import { assign } from 'lodash';
 
 const CanvasSidebar = ({
   isMobile,
@@ -43,6 +44,9 @@ const CanvasSidebar = ({
         let name = assignmentGroup.course;
         if (name.length > 20) {
           name = name.substring(0, 20) + '...';
+        }
+        if (assignmentGroup.assignments.length === 0) {
+          return null;
         }
         return (
           <div key={index}>

@@ -72,7 +72,11 @@ const CanvasList = ({
                     assignmentGroup.courseId
                   }`;
                 }
-                if (isMobile || selectedGroups.includes(assignmentGroup.course)) {
+                if (
+                  isMobile ||
+                  (selectedGroups.includes(assignmentGroup.course) &&
+                    assignmentGroup.assignments.length > 0)
+                ) {
                   return (
                     <div key={index}>
                       <div className="mb-2">
