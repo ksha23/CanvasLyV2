@@ -18,16 +18,11 @@ const CanvasList = ({
   const [searchQuery, setSearchQuery] = useState('');
 
   useLayoutEffect(() => {
+    // display the canvas assignments (these are pulled from the database, not the canvas API)
     if (!assignments || assignments.length === 0) {
       getCanvasAssignments();
-    } else refreshCanvasAssignments();
-
-    // refresh data every every 60 seconds
-    // const interval = setInterval(() => {
-    //   refreshCanvasAssignments();
-    // }, 60000);
-
-    // return () => clearInterval(interval);
+    }
+    refreshCanvasAssignments(); // this is the real refresh from the canvas API
   }, []);
 
   const handleGroupSelection = (group) => {

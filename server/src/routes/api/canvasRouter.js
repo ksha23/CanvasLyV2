@@ -171,22 +171,52 @@ router.put('/update/:id', requireJwtAuth, async (req, res) => {
 router.get('/assignments', requireJwtAuth, async (req, res) => {
   const canvasApiUrl = req.user.canvasAPIUrl;
   const canvasApiToken = req.user.canvasAPIToken;
+  const courses = await getFilteredCourses(canvasApiUrl, canvasApiToken);
+  let needtoRefresh = false;
+  let assignments = [];
+  for (let i = 0; i < courses.length; i++) {
+    const courseId = courses[i].id;
+    const course = await Course.findOne({ canvasCourseId: courseId });
+    if (!course) {
+      needtoRefresh = true;
+      break;
+    }
+  }
+  if (needtoRefresh) {
+    assignments = await refreshAssignments(req, res);
+  } else {
+    for (let i = 0; i < courses.length; i++) {
+      const courseId = courses[i].id;
+      const course = await Course.findOne({ canvasCourseId: courseId });
+      const courseAssignments = await course.populate('assignments').execPopulate();
+      assignments.push({
+        course: courses[i].name,
+        courseId: courses[i].id,
+        assignments: courseAssignments.assignments || [],
+      });
+    }
+  }
+  res.send({
+    assignments,
+  });
+});
 
-  // get user object first
-  const user = await User.findOne({ _id: req.user._id });
+const refreshAssignments = async (req, res) => {
+  const canvasApiUrl = req.user.canvasAPIUrl;
+  const canvasApiToken = req.user.canvasAPIToken;
+
+  let user = await User.findOne({ _id: req.user._id });
 
   // get courses in db under user
-  const existingCourses = await user.populate('courses').execPopulate();
-
+  user = await user.populate('courses').execPopulate();
+  let existingCourses = user.courses;
   const courses = await getFilteredCourses(canvasApiUrl, canvasApiToken);
   const assignments = [];
   // check invalid request
-  if (!courses) return res.send({ assignments: [] });
+  if (!courses) return res.send({ message: 'No courses' });
 
   for (let i = 0; i < courses.length; i++) {
-    // first look for course in existingCourses
-    let existingCourse = existingCourses.courses.find((course) => course.canvasCourseId === courses[i].id);
-    // console.log('Getting assingments for course', courses[i].name);
+    let existingCourse = existingCourses.find((course) => course.canvasCourseId === courses[i].id);
     const courseAssignments = await getAssignmentsLimited(courses[i].id, canvasApiUrl, canvasApiToken);
     if (!existingCourse) {
       const newCourse = new Course({
@@ -305,6 +335,11 @@ router.get('/assignments', requireJwtAuth, async (req, res) => {
       assignments: courseAssignmentsFromDatabase.assignments || [],
     });
   }
+  return assignments;
+};
+
+router.get('/refreshAssignments', requireJwtAuth, async (req, res) => {
+  const assignments = await refreshAssignments(req, res);
   res.send({
     assignments,
   });

@@ -55,7 +55,7 @@ export const sortAssignmentsByDifficulty = () => async (dispatch) => {
 
 export const refreshCanvasAssignments = () => async (dispatch, getState) => {
   try {
-    const response = await axios.get('/api/canvas/assignments');
+    const response = await axios.get('/api/canvas/refreshAssignments');
 
     const user = getState().auth.me;
     const weights = user.weights;
