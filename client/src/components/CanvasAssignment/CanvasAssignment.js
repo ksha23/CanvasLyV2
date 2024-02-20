@@ -158,7 +158,7 @@ const CanvasAssign = ({
               ? 'p-5 mb-5 border-2 border-red-600 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md'
               : editing
               ? 'p-5 mb-5 border-2 border-sky-600 dark:border-sky-700 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md'
-              : 'p-5 mb-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md'
+              : 'p-5 mb-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-900 rounded-md border border-slate-300 dark:border-slate-700'
           }
         >
           <div className="flex justify-between items-center space-x-2 mb-2">

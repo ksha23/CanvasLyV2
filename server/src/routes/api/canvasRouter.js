@@ -171,6 +171,9 @@ router.put('/update/:id', requireJwtAuth, async (req, res) => {
 router.get('/assignments', requireJwtAuth, async (req, res) => {
   const canvasApiUrl = req.user.canvasAPIUrl;
   const canvasApiToken = req.user.canvasAPIToken;
+  if (!canvasApiUrl || !canvasApiToken) {
+    return res.status(400).json({ error: 'Canvas API URL or token not found' });
+  }
   const courses = await getFilteredCourses(canvasApiUrl, canvasApiToken);
   let needtoRefresh = false;
   let assignments = [];
@@ -204,6 +207,10 @@ router.get('/assignments', requireJwtAuth, async (req, res) => {
 const refreshAssignments = async (req, res) => {
   const canvasApiUrl = req.user.canvasAPIUrl;
   const canvasApiToken = req.user.canvasAPIToken;
+
+  if (!canvasApiUrl || !canvasApiToken) {
+    return res.status(400).json({ error: 'Canvas API URL or token not found' });
+  }
 
   let user = await User.findOne({ _id: req.user._id });
 
