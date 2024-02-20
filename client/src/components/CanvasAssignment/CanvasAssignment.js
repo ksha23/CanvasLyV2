@@ -161,7 +161,7 @@ const CanvasAssign = ({
               : 'p-5 mb-5 rounded-lg border border-slate-300 dark:border-slate-700'
           }
         >
-          <div className="flex justify-between items-center space-x-2 mb-2">
+          <div className="flex justify-between items-center space-x-2 mb-2 pb-2 border-b border-zinc-400 dark:border-zinc-600">
             <div className="flex justify-center items-center space-x-4 w-full">
               <div className="flex space-x-1 w-full">
                 <button
