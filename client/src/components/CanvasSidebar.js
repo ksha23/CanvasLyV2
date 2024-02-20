@@ -62,19 +62,20 @@ const CanvasSidebar = ({
       <h2 className="text-2xl font-bold mt-4 mb-2">Sort By</h2>
       <div className="text-sm">
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold my-1 mx-2 py-2 px-3 rounded-full"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-semibold my-1 mx-2 py-2 px-4
+           rounded-full"
           onClick={() => sortAssignmentsByDueDate()}
         >
           Due Date
         </button>
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold my-1 mx-2 py-2 px-3 rounded-full"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-semibold my-1 mx-2 py-2 px-4 rounded-full"
           onClick={() => sortAssignmentsByDifficulty()}
         >
           Difficulty
         </button>
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold my-1 mx-2 py-2 px-3 rounded-full"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-semibold my-1 mx-2 py-2 px-4 rounded-full"
           onClick={() => sortAssignmentsByType()}
         >
           Type

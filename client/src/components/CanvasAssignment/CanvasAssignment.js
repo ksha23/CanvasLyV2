@@ -365,20 +365,24 @@ const CanvasAssign = ({
                   </div>
                 );
               })}
-              <button
-                className={
-                  assignment.completed
-                    ? 'text-xs text-zinc-300 dark:text-zinc-700'
-                    : 'text-xs underline text-zinc-400 dark:text-zinc-500'
-                }
-                type="button"
-                onClick={addReminder}
-                disabled={!editing || assignment.isLoading || assignment.completed}
-              >
-                Add Reminder
-              </button>
+
+              {editing && (
+                <button
+                  className={
+                    assignment.completed
+                      ? 'text-xs text-zinc-300 dark:text-zinc-700'
+                      : 'text-xs underline text-zinc-400 dark:text-zinc-500'
+                  }
+                  type="button"
+                  onClick={addReminder}
+                  disabled={!editing || assignment.isLoading || assignment.completed}
+                >
+                  Add Reminder
+                </button>
+              )}
             </div>
 
+            {/* Update and Undo Buttons */}
             <>
               {formik.dirty && (
                 <>

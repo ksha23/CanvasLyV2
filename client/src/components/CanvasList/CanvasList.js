@@ -87,7 +87,7 @@ const CanvasList = ({
                             }
                             target="_blank"
                             rel="noreferrer"
-                            className="text-xl text-blue-500 font-bold"
+                            className="text-xl text-blue-500 font-bold line-clamp-1"
                           >
                             {assignmentGroup.course}
                           </a>
