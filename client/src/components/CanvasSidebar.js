@@ -6,7 +6,7 @@ import {
   sortAssignmentsByDueDate,
   sortAssignmentsByType,
 } from '../store/actions/canvasActions';
-import { assign } from 'lodash';
+import { toInteger } from 'lodash';
 
 const CanvasSidebar = ({
   isMobile,
@@ -17,13 +17,15 @@ const CanvasSidebar = ({
   sortAssignmentsByDifficulty,
   sortAssignmentsByDueDate,
   sortAssignmentsByType,
+  setTypeFilter,
+  setDifficultyFilter,
 }) => {
   useLayoutEffect(() => {
     setSelectedGroups(assignments.map((assignment) => assignment.course));
   }, []);
 
   return (
-    <div className="sticky top-[150px] mr-8">
+    <div className="sticky top-[115px] mr-8">
       <h2 className="text-2xl font-bold mb-2">Courses</h2>
       <label>
         <input
@@ -62,24 +64,57 @@ const CanvasSidebar = ({
       <h2 className="text-2xl font-bold mt-4 mb-2">Sort By</h2>
       <div className="text-sm">
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-semibold my-1 mx-2 py-2 px-4
+          className="border border-blue-600 my-1 mx-2 py-2 px-4
            rounded-full"
           onClick={() => sortAssignmentsByDueDate()}
         >
           Due Date
         </button>
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-semibold my-1 mx-2 py-2 px-4 rounded-full"
+          className="border border-blue-600 my-1 mx-2 py-2 px-4 rounded-full"
           onClick={() => sortAssignmentsByDifficulty()}
         >
           Difficulty
         </button>
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-semibold my-1 mx-2 py-2 px-4 rounded-full"
+          className="border border-blue-600 my-1 mx-2 py-2 px-4 rounded-full"
           onClick={() => sortAssignmentsByType()}
         >
           Type
         </button>
+      </div>
+      <h2 className="text-2xl font-bold mt-4 mb-2">Filter</h2>
+      <div className="">
+        <p className="pb-1">Filter By Type</p>
+        <select
+          className="w-full rounded-md border-zinc-300 dark:border-zinc-700 bg-transparent"
+          name="type"
+          id="type"
+          onChange={(e) => setTypeFilter(toInteger(e.target.value))}
+        >
+          <option value="All">All</option>
+          <option value="Assignment">Assignment</option>
+          <option value="Quiz">Quiz</option>
+          <option value="Project">Project</option>
+          <option value="Exam">Exam</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div className="mt-2">
+        <p className="pb-1">Filter By Difficulty</p>
+        <select
+          className="w-full rounded-md border-zinc-300 dark:border-zinc-700 bg-transparent"
+          name="difficulty"
+          id="difficulty"
+          onChange={(e) => setDifficultyFilter(toInteger(e.target.value))}
+        >
+          <option value="0">All</option>
+          <option value="1">Easy</option>
+          <option value="2">Medium</option>
+          <option value="3">Normal</option>
+          <option value="4">Challenging</option>
+          <option value="5">Hard</option>
+        </select>
       </div>
     </div>
   );

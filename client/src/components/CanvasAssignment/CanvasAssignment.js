@@ -147,7 +147,7 @@ const CanvasAssign = ({
         className={`w-full ${
           assignment.completed
             ? 'text-zinc-300 dark:text-zinc-700'
-            : 'text-zinc-700 dark:text-zinc-300'
+            : 'text-zinc-600 dark:text-zinc-300'
         }`}
       >
         <div
@@ -155,10 +155,10 @@ const CanvasAssign = ({
             assignment.completed
               ? 'p-5 mb-5 rounded-md bg-zinc-100 dark:bg-zinc-900'
               : formik.dirty
-              ? 'p-5 mb-5 border-2 border-red-600 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md'
+              ? 'p-5 mb-5 border-2 border-red-600'
               : editing
-              ? 'p-5 mb-5 border-2 border-sky-600 dark:border-sky-700 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md'
-              : 'p-5 mb-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-900 rounded-md border border-slate-300 dark:border-slate-700'
+              ? 'p-5 mb-5 border-2 border-sky-600 dark:border-sky-700 rounded-lg'
+              : 'p-5 mb-5 rounded-lg border border-slate-300 dark:border-slate-700'
           }
         >
           <div className="flex justify-between items-center space-x-2 mb-2">
@@ -213,7 +213,7 @@ const CanvasAssign = ({
                           ? 'text-yellow-600 text-xl font-bold line-clamp-1'
                           : assignment.completed
                           ? 'text-zinc-300 dark:text-zinc-700 text-xl font-bold line-clamp-1'
-                          : 'text-xl font-bold line-clamp-1'
+                          : 'text-zinc-700 dark:text-zinc-300 text-xl font-bold line-clamp-1'
                       }
                     >
                       {assignment.name}
@@ -276,7 +276,7 @@ const CanvasAssign = ({
               {assignment.pointsPossible}
             </p>
           </div>
-          <div className="pb-2">
+          <div className="py-2">
             <p className="break-words">{assignment.description}</p>
           </div>
           <form onSubmit={formik.handleSubmit}>

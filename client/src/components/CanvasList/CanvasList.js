@@ -16,13 +16,14 @@ const CanvasList = ({
 }) => {
   const [selectedGroups, setSelectedGroups] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [tyepFilter, setTypeFilter] = useState('All');
+  const [difficultyFilter, setDifficultyFilter] = useState(0);
 
   useLayoutEffect(() => {
-    // display the canvas assignments (these are pulled from the database, not the canvas API)
     if (!assignments || assignments.length === 0) {
       getCanvasAssignments();
     }
-    refreshCanvasAssignments(); // this is the real refresh from the canvas API
+    refreshCanvasAssignments();
   }, []);
 
   const handleGroupSelection = (group) => {
@@ -51,6 +52,8 @@ const CanvasList = ({
               assignments={assignments}
               setSelectedGroups={setSelectedGroups}
               handleGroupSelection={handleGroupSelection}
+              setDifficultyFilter={setDifficultyFilter}
+              setTypeFilter={setTypeFilter}
             />
           </div>
         )}
@@ -100,7 +103,9 @@ const CanvasList = ({
                         if (
                           assignment.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
                           assignment.completed === false &&
-                          assignment.confirmedCompleted === false
+                          assignment.confirmedCompleted === false &&
+                          (tyepFilter === 'All' || assignment.type === tyepFilter) &&
+                          (difficultyFilter === 0 || assignment.difficulty === difficultyFilter)
                         ) {
                           return <CanvasAssign assignment={assignment} key={index} />;
                         } else {
@@ -111,7 +116,9 @@ const CanvasList = ({
                         if (
                           assignment.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
                           assignment.completed === true &&
-                          assignment.confirmedCompleted === false
+                          assignment.confirmedCompleted === false &&
+                          (tyepFilter === 'All' || assignment.type === tyepFilter) &&
+                          (difficultyFilter === 0 || assignment.difficulty === difficultyFilter)
                         ) {
                           return <CanvasAssign assignment={assignment} key={index} />;
                         } else {

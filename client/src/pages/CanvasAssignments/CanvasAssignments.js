@@ -6,9 +6,6 @@ const CanvasAssignments = () => {
     <Layout>
       <div className="w-full px-2">
         <div className="flex justify-center w-full">
-          <p className="text-black dark:text-white text-3xl font-bold">Assignments</p>
-        </div>
-        <div className="flex justify-center w-full">
           <CanvasList />
         </div>
       </div>
