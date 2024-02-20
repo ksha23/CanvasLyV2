@@ -315,18 +315,20 @@ const Assignment = ({
                   </div>
                 );
               })}
-              <button
-                className={
-                  assignment.completed
-                    ? 'text-xs text-zinc-300 dark:text-zinc-700'
-                    : 'text-xs underline text-zinc-400 dark:text-zinc-500'
-                }
-                type="button"
-                onClick={addReminder}
-                disabled={!isEdit || assignment.isLoading || assignment.completed}
-              >
-                Add Reminder
-              </button>
+              {isEdit && (
+                <button
+                  className={
+                    assignment.completed
+                      ? 'text-xs text-zinc-300 dark:text-zinc-700'
+                      : 'text-xs underline text-zinc-400 dark:text-zinc-500'
+                  }
+                  type="button"
+                  onClick={addReminder}
+                  disabled={!isEdit || assignment.isLoading || assignment.completed}
+                >
+                  Add Reminder
+                </button>
+              )}
             </div>
 
             <>
