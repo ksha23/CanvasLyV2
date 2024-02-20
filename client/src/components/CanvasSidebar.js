@@ -28,7 +28,7 @@ const CanvasSidebar = ({
       <label>
         <input
           type="checkbox"
-          className="mr-2 rounded-full"
+          className="m-1 mr-2 rounded-full"
           checked={selectedGroups.length === assignments.length}
           onChange={() => {
             if (selectedGroups.length === assignments.length) {
@@ -42,18 +42,15 @@ const CanvasSidebar = ({
       </label>
       {assignments.map((assignmentGroup, index) => {
         let name = assignmentGroup.course;
-        if (name.length > 20) {
-          name = name.substring(0, 20) + '...';
-        }
         if (assignmentGroup.assignments.length === 0) {
           return null;
         }
         return (
-          <div key={index}>
-            <label className="text-sm md:text-base">
+          <div key={index} className="flex items-center">
+            <label className="text-base line-clamp-1">
               <input
                 type="checkbox"
-                className="mr-2 rounded-full"
+                className="m-1 mr-2 rounded-full "
                 checked={selectedGroups.includes(assignmentGroup.course)}
                 onChange={() => handleGroupSelection(assignmentGroup.course)}
               />

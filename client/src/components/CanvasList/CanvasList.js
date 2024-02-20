@@ -45,7 +45,7 @@ const CanvasList = ({
     <>
       <div className="pt-5 grid grid-cols-4 w-full max-w-7xl text-zinc-700 dark:text-zinc-300">
         {!isLoading && !isMobile && (
-          <div className="col-start-1 col-end-2">
+          <div className="col-span-1">
             <CanvasSidebar
               selectedGroups={selectedGroups}
               assignments={assignments}

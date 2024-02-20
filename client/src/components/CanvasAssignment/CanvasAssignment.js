@@ -207,13 +207,13 @@ const CanvasAssign = ({
                     <h3
                       className={
                         dateObject < new Date() && !assignment.completed
-                          ? 'text-red-600 text-xl font-bold break-words'
+                          ? 'text-red-600 text-xl font-bold line-clamp-1'
                           : dateObject.toDateString() === new Date().toDateString() &&
                             !assignment.completed
-                          ? 'text-yellow-600 text-xl font-bold break-words'
+                          ? 'text-yellow-600 text-xl font-bold line-clamp-1'
                           : assignment.completed
-                          ? 'text-zinc-300 dark:text-zinc-700 text-xl font-bold break-words'
-                          : 'text-xl font-bold break-words'
+                          ? 'text-zinc-300 dark:text-zinc-700 text-xl font-bold line-clamp-1'
+                          : 'text-xl font-bold line-clamp-1'
                       }
                     >
                       {assignment.name}
