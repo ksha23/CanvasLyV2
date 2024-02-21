@@ -62,35 +62,46 @@ const CanvasSidebar = ({
         );
       })}
       <h2 className="text-2xl font-bold mt-4 mb-2">Sort By</h2>
-      <div className="text-sm">
-        <button
-          className="border border-blue-600 my-1 mx-2 py-2 px-4
-           rounded-full"
-          onClick={() => sortAssignmentsByDueDate()}
-        >
+      <div className="flex flex-col">
+        <label className="w-full">
+          <input
+            type="radio"
+            name="sort"
+            value="dueDate"
+            className="ml-1 mr-2"
+            onChange={() => sortAssignmentsByDueDate()}
+          />
           Due Date
-        </button>
-        <button
-          className="border border-blue-600 my-1 mx-2 py-2 px-4 rounded-full"
-          onClick={() => sortAssignmentsByDifficulty()}
-        >
+        </label>
+        <label className="w-full">
+          <input
+            type="radio"
+            name="sort"
+            value="difficulty"
+            className="ml-1 mr-2"
+            onChange={() => sortAssignmentsByDifficulty()}
+          />
           Difficulty
-        </button>
-        <button
-          className="border border-blue-600 my-1 mx-2 py-2 px-4 rounded-full"
-          onClick={() => sortAssignmentsByType()}
-        >
+        </label>
+        <label className="w-full">
+          <input
+            type="radio"
+            name="sort"
+            value="type"
+            className="ml-1 mr-2"
+            onChange={() => sortAssignmentsByType()}
+          />
           Type
-        </button>
+        </label>
       </div>
       <h2 className="text-2xl font-bold mt-4 mb-2">Filter</h2>
-      <div className="">
-        <p className="pb-1">Filter By Type</p>
+      <div>
+        <p className="pb-1 text-sm">Filter By Type</p>
         <select
-          className="w-full rounded-md border-zinc-300 dark:border-zinc-700 bg-transparent"
+          className="w-full rounded-lg border-zinc-300 dark:border-zinc-700 bg-transparent"
           name="type"
           id="type"
-          onChange={(e) => setTypeFilter(toInteger(e.target.value))}
+          onChange={(e) => setTypeFilter(e.target.value)}
         >
           <option value="All">All</option>
           <option value="Assignment">Assignment</option>
@@ -101,9 +112,9 @@ const CanvasSidebar = ({
         </select>
       </div>
       <div className="mt-2">
-        <p className="pb-1">Filter By Difficulty</p>
+        <p className="pb-1 text-sm">Filter By Difficulty</p>
         <select
-          className="w-full rounded-md border-zinc-300 dark:border-zinc-700 bg-transparent"
+          className="w-full rounded-lg border-zinc-300 dark:border-zinc-700 bg-transparent"
           name="difficulty"
           id="difficulty"
           onChange={(e) => setDifficultyFilter(toInteger(e.target.value))}

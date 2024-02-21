@@ -153,15 +153,15 @@ const CanvasAssign = ({
         <div
           className={
             assignment.completed
-              ? 'p-5 mb-5 rounded-md bg-zinc-100 dark:bg-zinc-900'
+              ? 'p-5 mb-5 rounded-lg border border-zinc-300 dark:border-zinc-700'
               : formik.dirty
-              ? 'p-5 mb-5 border-2 border-red-600'
+              ? 'p-5 mb-5 rounded-lg border border-red-600'
               : editing
               ? 'p-5 mb-5 border-2 border-sky-600 dark:border-sky-700 rounded-lg'
               : 'p-5 mb-5 rounded-lg border border-slate-300 dark:border-slate-700'
           }
         >
-          <div className="flex justify-between items-center space-x-2 mb-2 pb-2 border-b border-zinc-400 dark:border-zinc-600">
+          <div className="flex justify-between items-center space-x-2 mb-2 pb-2 border-b border-zinc-300 dark:border-zinc-600">
             <div className="flex justify-center items-center space-x-4 w-full">
               <div className="flex space-x-1 w-full">
                 <button
