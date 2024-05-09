@@ -169,7 +169,7 @@ async function getUpcomingEvents(canvasURL, canvasToken) {
 async function getAssignments(courseId, canvasURL, canvasToken) {
   try {
     const canvas = new Canvas(canvasURL, canvasToken);
-    const assignments = canvas.listItems(`courses/${courseId}/assignments?order_by=due_at`);
+    const assignments = canvas.listItems(`courses/${courseId}/assignments?order_by=due_at&bucket=future`);
     let assignmentsArray = [];
     for await (const assignment of assignments) {
       let descriptionText = '';
@@ -202,7 +202,7 @@ async function getAssignments(courseId, canvasURL, canvasToken) {
 async function getAssignmentsLimited(courseId, canvasURL, canvasToken) {
   try {
     const canvas = new Canvas(canvasURL, canvasToken);
-    let pages = canvas.listPages(`courses/${courseId}/assignments?order_by=due_at`);
+    let pages = canvas.listPages(`courses/${courseId}/assignments?order_by=due_at&bucket=future`);
     let assignmentsArray = [];
     let finalAssignmentsArray = [];
     // only use first page

@@ -92,7 +92,7 @@ const Home = ({
     <Layout>
       <>
         {!auth.isAuthenticated ? (
-          <div className="flex flex-col justify-center items-center w-full text-zinc-700 dark:text-zinc-300 text-center px-2 pt-5 md:pt-0">
+          <div className="flex flex-col justify-center items-center w-full text-slate-700 dark:text-slate-300 text-center px-2 pt-5 md:pt-0">
             <div className="w-full">
               <h1 className="text-4xl md:text-5xl mb-4 font-bold">Ever wonder, what next?</h1>
               <h2 className="text-xl md:text-2xl mb-10">
@@ -109,7 +109,7 @@ const Home = ({
               <h2 className="text-3xl font-bold mb-2 bg-gradient-to-bl from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
                 Why CanvasLy?
               </h2>
-              <ul className="text-left list-disc ml-6 dark:text-zinc-300 why-canvasly-list">
+              <ul className="text-left list-disc ml-6 dark:text-slate-300 why-canvasly-list">
                 <li className="text-lg">
                   Effortlessly manage upcoming assignments, quizzes, projects, and exams
                 </li>
@@ -121,7 +121,7 @@ const Home = ({
               </ul>
             </div>
             <div className="w-full max-w-5xl mb-5">
-              <div className="p-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md text-left">
+              <div className="p-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-slate-50 dark:to-slate-800 rounded-md text-left">
                 <div className="flex justify-between items-center space-x-2 mb-2 w-full">
                   <h3 className="text-xl md:text-2xl font-bold">Problem Set 1</h3>
                   <div className="flex">
@@ -150,7 +150,7 @@ const Home = ({
                 <div className="flex justify-between items-center">
                   <select
                     name="type"
-                    className="w-1/2 rounded-md bg-transparent border-zinc-300 dark:border-zinc-700 dark:text-zinc-300"
+                    className="w-1/2 rounded-md bg-transparent border-slate-300 dark:border-slate-700 dark:text-slate-300"
                   >
                     <option value="Assignment">Assignment</option>
                   </select>
@@ -177,13 +177,13 @@ const Home = ({
                   <p className="text-lg font-semibold">Reminders:</p>
                   <div className="flex items-center w-full space-x-2 mb-1">
                     <p className="text-2xl font-bold">•</p>
-                    <div className="px-2 py-1 w-full rounded-md border bg-transparent dark:bg-transparent border-zinc-300 dark:border-zinc-700">
+                    <div className="px-2 py-1 w-full rounded-md border bg-transparent dark:bg-transparent border-slate-300 dark:border-slate-700">
                       Review question 3
                     </div>
                     <button type="button">ⓧ</button>
                   </div>
                   <button
-                    className="text-xs underline text-zinc-400 dark:text-zinc-500"
+                    className="text-xs underline text-slate-400 dark:text-slate-500"
                     type="button"
                   >
                     Add Reminder
@@ -198,7 +198,7 @@ const Home = ({
                   </button> */}
             </div>
             <div className="w-full max-w-5xl mb-5">
-              <div className="p-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md text-left border-2 border-sky-600 dark:border-sky-700">
+              <div className="p-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-slate-50 dark:to-slate-800 rounded-md text-left border-2 border-sky-600 dark:border-sky-700">
                 <div className="flex justify-between items-center space-x-2 mb-2 w-full">
                   <h3 className="text-xl md:text-2xl font-bold">Quiz 1</h3>
                   <div className="flex">
@@ -227,7 +227,7 @@ const Home = ({
                 <div className="flex justify-between items-center">
                   <select
                     name="type"
-                    className="w-1/2 rounded-md bg-transparent border-zinc-300 dark:border-zinc-700 dark:text-zinc-300"
+                    className="w-1/2 rounded-md bg-transparent border-slate-300 dark:border-slate-700 dark:text-slate-300"
                   >
                     <option value="Quiz">Quiz</option>
                   </select>
@@ -254,13 +254,13 @@ const Home = ({
                   <p className="text-lg font-semibold">Reminders:</p>
                   <div className="flex items-center w-full space-x-2 mb-1">
                     <p className="text-2xl font-bold">•</p>
-                    <div className="px-2 py-1 w-full rounded-md border bg-transparent dark:bg-transparent border-zinc-300 dark:border-zinc-700">
+                    <div className="px-2 py-1 w-full rounded-md border bg-transparent dark:bg-transparent border-slate-300 dark:border-slate-700">
                       Research more ways of solving Lagrange multipliers
                     </div>
                     <button type="button">ⓧ</button>
                   </div>
                   <button
-                    className="text-xs underline text-zinc-400 dark:text-zinc-500"
+                    className="text-xs underline text-slate-400 dark:text-slate-500"
                     type="button"
                   >
                     Add Reminder
@@ -275,7 +275,7 @@ const Home = ({
               </div>
             </div>
             <div className="w-full max-w-5xl">
-              <div className="p-5 bg-zinc-100 dark:bg-zinc-900 rounded-md text-left text-zinc-300 dark:text-zinc-700">
+              <div className="p-5 bg-slate-100 dark:bg-slate-900 rounded-md text-left text-slate-300 dark:text-slate-700">
                 <div className="flex justify-between items-center space-x-2 mb-2 w-full">
                   <h3 className="text-xl md:text-2xl font-bold">Completed Assignment</h3>
                   <div className="flex">
@@ -304,7 +304,7 @@ const Home = ({
                 <div className="flex justify-between items-center">
                   <select
                     name="type"
-                    className="w-1/2 rounded-md bg-transparent border-zinc-300 dark:border-zinc-700 dark:text-zinc-700"
+                    className="w-1/2 rounded-md bg-transparent border-slate-300 dark:border-slate-700 dark:text-slate-700"
                   >
                     <option value="Assignment">Assignment</option>
                   </select>
@@ -314,7 +314,7 @@ const Home = ({
                         <div className="w-full">
                           <Slider
                             name="difficulty"
-                            className="text-zinc-300 dark:text-zinc-700"
+                            className="text-slate-300 dark:text-slate-700"
                             disabled={true}
                             value={3}
                             step={1}
@@ -329,7 +329,7 @@ const Home = ({
                   </div>
                 </div>
                 <div>
-                  <button className="text-xs text-zinc-300 dark:text-zinc-700" type="button">
+                  <button className="text-xs text-slate-300 dark:text-slate-700" type="button">
                     Add Reminder
                   </button>
                 </div>
@@ -339,7 +339,7 @@ const Home = ({
               <h2 className="text-3xl font-bold mb-2 bg-gradient-to-br from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
                 How to Get Started:
               </h2>
-              <ol className="text-left list-decimal ml-6 dark:text-zinc-300">
+              <ol className="text-left list-decimal ml-6 dark:text-slate-300">
                 <li className="text-lg">Go to the Profile page</li>
                 <li className="text-lg">
                   Upload your organization's Canvas API URL (This usually is your regular Canvas URL
@@ -356,7 +356,7 @@ const Home = ({
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center w-full text-zinc-700 dark:text-zinc-300 text-center px-2">
+          <div className="flex flex-col items-center w-full text-slate-700 dark:text-slate-300 text-center px-2">
             <h1 className="text-4xl font-bold mb-2 text-center light:text-black dark:text-white">
               Welcome, {auth.me.name}
             </h1>
@@ -380,7 +380,7 @@ const Home = ({
                       <h1 className="text-2xl font-bold mb-2 mt-5 bg-gradient-to-tl from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
                         Next Calendar Event:
                       </h1>
-                      <div className="flex justify-center w-full max-w-xl text-left flex-col px-6 py-4 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md">
+                      <div className="flex justify-center w-full max-w-xl text-left flex-col px-6 py-4 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-slate-50 dark:to-slate-800 rounded-md">
                         <h2 className="text-xl font-bold mb-2">
                           {assignment.firstAssignment.name}
                         </h2>
@@ -427,7 +427,7 @@ const Home = ({
               <h2 className="text-2xl font-bold mb-2 bg-gradient-to-br from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
                 Need Help Getting Started?
               </h2>
-              <ol className="text-left list-decimal ml-6 dark:text-zinc-300">
+              <ol className="text-left list-decimal ml-6 dark:text-slate-300">
                 <li className="text-base">Go to the Profile page</li>
                 <li className="text-base">
                   Upload your organization's Canvas API URL (This usually is your regular Canvas URL

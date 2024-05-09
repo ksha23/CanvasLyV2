@@ -165,7 +165,7 @@ const Profile = ({
             <Loader />
           </div>
         ) : (
-          <div className="flex justify-center items-center flex-col w-full text-zinc-700 dark:text-zinc-300 pt-6">
+          <div className="flex justify-center items-center flex-col w-full text-slate-700 dark:text-slate-300 pt-6">
             {me && profile.username && profile.calendarId !== null && (
               <div className="flex justify-center items-center space-x-5">
                 <img
@@ -239,7 +239,7 @@ const Profile = ({
                           </svg>
                         </label>
                         <input
-                          className="ml-2 bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-md justify-center text-zinc-500 file:bg-transparent file:text-blue-600 file:dark:text-blue-500 file:font-semibold file:rounded-md file:underline file:border-none file:py-2 file:pl-4 file:pr-2  w-full max-w-xl"
+                          className="ml-2 bg-transparent border border-slate-300 dark:border-slate-700 rounded-md justify-center text-slate-500 file:bg-transparent file:text-blue-600 file:dark:text-blue-500 file:font-semibold file:rounded-md file:underline file:border-none file:py-2 file:pl-4 file:pr-2  w-full max-w-xl"
                           name="image"
                           type="file"
                           onChange={onChange}
@@ -266,7 +266,7 @@ const Profile = ({
                       <input
                         placeholder="Name"
                         name="name"
-                        className="ml-2 rounded-md border bg-transparent border-zinc-300 dark:border-zinc-700 w-full max-w-xl"
+                        className="ml-2 rounded-md border bg-transparent border-slate-300 dark:border-slate-700 w-full max-w-xl"
                         type="text"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -284,7 +284,7 @@ const Profile = ({
                       <input
                         placeholder="Username"
                         name="username"
-                        className="px-4 ml-2 rounded-md bg-transparent border border-zinc-300 dark:border-zinc-700 w-full max-w-xl"
+                        className="px-4 ml-2 rounded-md bg-transparent border border-slate-300 dark:border-slate-700 w-full max-w-xl"
                         type="text"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -303,7 +303,7 @@ const Profile = ({
                       <input
                         name="canvasAPIToken"
                         placeholder="Canvas API Access Token"
-                        className="ml-2 bg-transparent dark:text-white w-full rounded-md border border-zinc-300 dark:border-zinc-700"
+                        className="ml-2 bg-transparent dark:text-white w-full rounded-md border border-slate-300 dark:border-slate-700"
                         type="text"
                         value={formik.values.canvasAPIToken}
                         onChange={formik.handleChange}
@@ -315,7 +315,7 @@ const Profile = ({
                       <input
                         name="canvasAPIUrl"
                         placeholder="Example: https://canvas.instructure.com/api/v1/"
-                        className="ml-2 bg-transparent dark:text-white w-full rounded-md border border-zinc-300 dark:border-zinc-700"
+                        className="ml-2 bg-transparent dark:text-white w-full rounded-md border border-slate-300 dark:border-slate-700"
                         type="text"
                         value={formik.values.canvasAPIUrl}
                         onChange={formik.handleChange}
@@ -327,7 +327,7 @@ const Profile = ({
                   <div className="mt-4 flex flex-col justify-center items-center w-full">
                     <label className="font-bold text-lg">Calendar: </label>
                     <select
-                      className="rounded-md bg-transparent border border-zinc-300 dark:border-zinc-700  w-full max-w-xl"
+                      className="rounded-md bg-transparent border border-slate-300 dark:border-slate-700  w-full max-w-xl"
                       name="calendarId"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}

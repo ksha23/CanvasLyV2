@@ -78,11 +78,11 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
 
   return (
     <div className="mt-2 dark:text-white max-w-2xl w-full">
-      <div className="p-6 pt-3 md:pt-6 rounded-md bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800">
+      <div className="p-6 pt-3 md:pt-6 rounded-md bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-slate-50 dark:to-slate-800">
         <div className="flex justify-between items-center mb-2">
           <h1 className="text-2xl md:text-3xl font-bold">New Assignment</h1>
           <button
-            className="px-3 py-1 text-2xl md:text-lg rounded-full text-zinc-700 dark:text-zinc-400"
+            className="px-3 py-1 text-2xl md:text-lg rounded-full text-slate-700 dark:text-slate-400"
             onClick={closeForm}
             disabled={isSubmiting}
           >
@@ -94,7 +94,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
             <label htmlFor="name">Name:</label>
             <TextareaAutosize
               name="name"
-              className="bg-transparent rounded-md w-full border border-zinc-300 dark:border-zinc-600"
+              className="bg-transparent rounded-md w-full border border-slate-300 dark:border-slate-600"
               placeholder="Assignment name..."
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -113,7 +113,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
                   type="datetime-local"
                   name="dueDate"
                   id="dueDate"
-                  className="bg-transparent w-full rounded-md dark:[color-scheme:dark] border border-zinc-300 dark:border-zinc-600"
+                  className="bg-transparent w-full rounded-md dark:[color-scheme:dark] border border-slate-300 dark:border-slate-600"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.dueDate}
@@ -128,7 +128,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
               <label htmlFor="type">Type:</label>
               <select
                 name="type"
-                className="w-full rounded-md bg-transparent border border-zinc-300 dark:border-zinc-700"
+                className="w-full rounded-md bg-transparent border border-slate-300 dark:border-slate-700"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.type}
@@ -171,7 +171,7 @@ const NewAssignmentForm = ({ addAssignment, assignment: { assignments }, closeFo
             <label htmlFor="reminders">Reminder:</label>
             <TextareaAutosize
               name="reminders"
-              className="bg-transparent rounded-md w-full border border-zinc-300 dark:border-zinc-700"
+              className="bg-transparent rounded-md w-full border border-slate-300 dark:border-slate-700"
               type="text"
               placeholder="Reminder (optional)..."
               onChange={formik.handleChange}

@@ -31,7 +31,7 @@ const Navbar = ({ setter, auth, logOutUser, history }) => {
   };
 
   return (
-    <div className="fixed bottom-0 bg-slate-300 dark:bg-slate-700 text-zinc-600 px-6 py-4 dark:text-zinc-300 md:hidden w-full">
+    <div className="fixed bottom-0 bg-slate-300 dark:bg-slate-700 text-slate-600 px-6 py-4 dark:text-slate-300 md:hidden w-full">
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center">
           <Link className={`flex items-center ${isActiveLink('/')}`} to="/">

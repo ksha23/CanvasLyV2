@@ -139,19 +139,19 @@ const Assignment = ({
       <div
         className={`w-full ${
           assignment.completed
-            ? 'text-zinc-300 dark:text-zinc-700'
-            : 'text-zinc-700 dark:text-zinc-300'
+            ? 'text-slate-300 dark:text-slate-700'
+            : 'text-slate-700 dark:text-slate-300'
         }`}
       >
         <div
           className={
             assignment.completed
-              ? 'p-5 mt-5 rounded-md bg-zinc-100 dark:bg-zinc-900'
+              ? 'p-5 mt-5 rounded-md bg-slate-100 dark:bg-slate-900'
               : formik.dirty
-              ? 'p-5 mt-5 border-2 border-red-600 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md'
+              ? 'p-5 mt-5 border-2 border-red-600 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-slate-50 dark:to-slate-800 rounded-md'
               : isEdit
-              ? 'p-5 mt-5 border-2 border-sky-600 dark:border-sky-700 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md'
-              : 'p-5 mt-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-zinc-50 dark:to-zinc-800 rounded-md'
+              ? 'p-5 mt-5 border-2 border-sky-600 dark:border-sky-700 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-slate-50 dark:to-slate-800 rounded-md'
+              : 'p-5 mt-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-slate-50 dark:to-slate-800 rounded-md'
           }
         >
           <div className="flex justify-between items-center mb-2">
@@ -185,7 +185,7 @@ const Assignment = ({
                       !assignment.completed
                     ? 'text-yellow-600 text-xl font-bold'
                     : assignment.completed
-                    ? 'text-zinc-300 dark:text-zinc-700 text-xl font-bold'
+                    ? 'text-slate-300 dark:text-slate-700 text-xl font-bold'
                     : 'text-xl font-bold'
                 }
               >
@@ -235,8 +235,8 @@ const Assignment = ({
                 name="type"
                 className={`w-1/2 rounded-md ${
                   assignment.completed
-                    ? 'bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700'
-                    : 'bg-transparent border-zinc-300 dark:border-zinc-700'
+                    ? 'bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-700'
+                    : 'bg-transparent border-slate-300 dark:border-slate-700'
                 }
                    dark:text-white"
                   name="type`}
@@ -257,7 +257,7 @@ const Assignment = ({
                   <Slider
                     name="difficulty"
                     className={`${
-                      assignment.completed ? 'text-zinc-300 dark:text-zinc-700' : 'text-blue-600'
+                      assignment.completed ? 'text-slate-300 dark:text-slate-700' : 'text-blue-600'
                     }`}
                     value={formik.values.difficulty}
                     onChange={formik.handleChange}
@@ -285,8 +285,8 @@ const Assignment = ({
                           name={`reminders.${index}`}
                           className={`p-0 w-full rounded-md border bg-transparent dark:bg-transparent ${
                             assignment.completed
-                              ? 'border-zinc-200 dark:border-zinc-800'
-                              : 'border-zinc-300 dark:border-zinc-700'
+                              ? 'border-slate-200 dark:border-slate-800'
+                              : 'border-slate-300 dark:border-slate-700'
                           } `}
                           onChange={(e) => {
                             const updatedReminders = [...formik.values.reminders];
@@ -319,8 +319,8 @@ const Assignment = ({
                 <button
                   className={
                     assignment.completed
-                      ? 'text-xs text-zinc-300 dark:text-zinc-700'
-                      : 'text-xs underline text-zinc-400 dark:text-zinc-500'
+                      ? 'text-xs text-slate-300 dark:text-slate-700'
+                      : 'text-xs underline text-slate-400 dark:text-slate-500'
                   }
                   type="button"
                   onClick={addReminder}

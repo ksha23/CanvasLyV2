@@ -26,7 +26,7 @@ const CanvasSidebar = ({
 
   return (
     <div className="sticky top-[115px] mr-8">
-      <h2 className="text-2xl font-bold mb-2">Courses</h2>
+      <h2 className="text-xl font-bold mb-2">Courses</h2>
       <label>
         <input
           type="checkbox"
@@ -61,7 +61,7 @@ const CanvasSidebar = ({
           </div>
         );
       })}
-      <h2 className="text-2xl font-bold mt-4 mb-2">Sort By</h2>
+      <h2 className="text-xl font-bold mt-4 mb-2">Sort By</h2>
       <div className="flex flex-col">
         <label className="w-full">
           <input
@@ -94,11 +94,11 @@ const CanvasSidebar = ({
           Type
         </label>
       </div>
-      <h2 className="text-2xl font-bold mt-4 mb-2">Filter</h2>
+      <h2 className="text-xl font-bold mt-4 mb-2">Filter By</h2>
       <div>
-        <p className="pb-1 text-sm">Filter By Type</p>
+        <p className="pb-1 text-sm">Type</p>
         <select
-          className="w-full rounded-lg border-zinc-300 dark:border-zinc-700 bg-transparent"
+          className="w-full rounded-lg border-slate-300 dark:border-slate-700 bg-transparent"
           name="type"
           id="type"
           onChange={(e) => setTypeFilter(e.target.value)}
@@ -112,9 +112,9 @@ const CanvasSidebar = ({
         </select>
       </div>
       <div className="mt-2">
-        <p className="pb-1 text-sm">Filter By Difficulty</p>
+        <p className="pb-1 text-sm">Difficulty</p>
         <select
-          className="w-full rounded-lg border-zinc-300 dark:border-zinc-700 bg-transparent"
+          className="w-full rounded-lg border-slate-300 dark:border-slate-700 bg-transparent"
           name="difficulty"
           id="difficulty"
           onChange={(e) => setDifficultyFilter(toInteger(e.target.value))}

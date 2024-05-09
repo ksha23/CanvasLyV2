@@ -146,14 +146,14 @@ const CanvasAssign = ({
       <div
         className={`w-full ${
           assignment.completed
-            ? 'text-zinc-300 dark:text-zinc-700'
-            : 'text-zinc-600 dark:text-zinc-300'
+            ? 'text-slate-300 dark:text-slate-700'
+            : 'text-slate-600 dark:text-slate-300'
         }`}
       >
         <div
           className={
             assignment.completed
-              ? 'p-5 mb-5 rounded-lg border border-zinc-300 dark:border-zinc-700'
+              ? 'p-5 mb-5 rounded-lg border border-slate-300 dark:border-slate-700'
               : formik.dirty
               ? 'p-5 mb-5 rounded-lg border border-red-600'
               : editing
@@ -161,7 +161,7 @@ const CanvasAssign = ({
               : 'p-5 mb-5 rounded-lg border border-slate-300 dark:border-slate-700'
           }
         >
-          <div className="flex justify-between items-center space-x-2 mb-2 pb-2 border-b border-zinc-300 dark:border-zinc-600">
+          <div className="flex justify-between items-center space-x-2 mb-2 pb-2 border-b border-slate-300 dark:border-slate-600">
             <div className="flex justify-center items-center space-x-4 w-full">
               <div className="flex space-x-1 w-full">
                 <button
@@ -188,7 +188,7 @@ const CanvasAssign = ({
                 {editing ? (
                   <TextareaAutosize
                     name="name"
-                    className="bg-transparent text-xl font-bold p-0 w-full rounded-md border-zinc-300 dark:border-zinc-700"
+                    className="bg-transparent text-xl font-bold p-0 w-full rounded-md border-slate-300 dark:border-slate-700"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.name}
@@ -212,8 +212,8 @@ const CanvasAssign = ({
                             !assignment.completed
                           ? 'text-yellow-600 text-xl font-bold line-clamp-1'
                           : assignment.completed
-                          ? 'text-zinc-300 dark:text-zinc-700 text-xl font-bold line-clamp-1'
-                          : 'text-zinc-700 dark:text-zinc-300 text-xl font-bold line-clamp-1'
+                          ? 'text-slate-300 dark:text-slate-700 text-xl font-bold line-clamp-1'
+                          : 'text-slate-700 dark:text-slate-300 text-xl font-bold line-clamp-1'
                       }
                     >
                       {assignment.name}
@@ -260,7 +260,7 @@ const CanvasAssign = ({
               <input
                 type="datetime-local"
                 name="dueDate"
-                className="w-full md:w-auto md:max-w-full bg-transparent p-0 rounded-md border-zinc-300 dark:border-zinc-700 dark:[color-scheme:dark]"
+                className="w-full md:w-auto md:max-w-full bg-transparent p-0 rounded-md border-slate-300 dark:border-slate-700 dark:[color-scheme:dark]"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={toInputFriendlyTime(formik.values.dueDate)}
@@ -285,8 +285,8 @@ const CanvasAssign = ({
                 name="type"
                 className={`w-1/2 rounded-md ${
                   assignment.completed
-                    ? 'bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700'
-                    : 'bg-transparent border-zinc-300 dark:border-zinc-700'
+                    ? 'bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-700'
+                    : 'bg-transparent border-slate-300 dark:border-slate-700'
                 }
                    dark:text-white"
                   name="type`}
@@ -307,7 +307,7 @@ const CanvasAssign = ({
                   <Slider
                     name="difficulty"
                     className={`${
-                      assignment.completed ? 'text-zinc-300 dark:text-zinc-700' : 'text-blue-600'
+                      assignment.completed ? 'text-slate-300 dark:text-slate-700' : 'text-blue-600'
                     }`}
                     value={formik.values.difficulty}
                     onChange={formik.handleChange}
@@ -336,8 +336,8 @@ const CanvasAssign = ({
                           name={`reminders.${index}`}
                           className={`p-0 w-full rounded-md border bg-transparent dark:bg-transparent ${
                             assignment.completed
-                              ? 'border-zinc-200 dark:border-zinc-800'
-                              : 'border-zinc-300 dark:border-zinc-700'
+                              ? 'border-slate-200 dark:border-slate-800'
+                              : 'border-slate-300 dark:border-slate-700'
                           } `}
                           onChange={(e) => {
                             const updatedReminders = [...formik.values.reminders];
@@ -370,8 +370,8 @@ const CanvasAssign = ({
                 <button
                   className={
                     assignment.completed
-                      ? 'text-xs text-zinc-300 dark:text-zinc-700'
-                      : 'text-xs underline text-zinc-400 dark:text-zinc-500'
+                      ? 'text-xs text-slate-300 dark:text-slate-700'
+                      : 'text-xs underline text-slate-400 dark:text-slate-500'
                   }
                   type="button"
                   onClick={addReminder}

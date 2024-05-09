@@ -44,7 +44,7 @@ const CanvasList = ({
     </div>
   ) : (
     <>
-      <div className="pt-5 grid grid-cols-4 w-full max-w-7xl text-zinc-700 dark:text-zinc-300">
+      <div className="pt-5 grid grid-cols-4 w-full max-w-7xl text-slate-700 dark:text-slate-300">
         {!isLoading && !isMobile && (
           <div className="col-span-1">
             <CanvasSidebar
@@ -66,7 +66,7 @@ const CanvasList = ({
                 placeholder="Search assignments..."
                 value={searchQuery}
                 onChange={handleSearchChange}
-                className="w-full mb-4 px-4 py-2 border border-slate-400 dark:border-slate-600 bg-transparent rounded-full"
+                className="z-50 sticky top-[115px] w-full mb-4 px-4 py-2 rounded-full border-zinc-300 dark:border-zinc-700 bg-slate-100 dark:bg-slate-900 text-white"
               />
               {assignments.map((assignmentGroup, index) => {
                 let courseLink = '';
