@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import {
@@ -19,6 +19,7 @@ const CanvasSidebar = ({
   sortAssignmentsByType,
   setTypeFilter,
   setDifficultyFilter,
+  handleSearchChange,
 }) => {
   useLayoutEffect(() => {
     setSelectedGroups(assignments.map((assignment) => assignment.course));
@@ -26,6 +27,13 @@ const CanvasSidebar = ({
 
   return (
     <div className="sticky top-[115px] mr-8">
+      <h2 className="text-xl font-bold mb-2">Search</h2>
+      <input
+        type="text"
+        placeholder="Name..."
+        onChange={handleSearchChange}
+        className="z-50 w-full mb-4 px-4 py-2 rounded-md border-zinc-300 dark:border-slate-700 bg-transparent text-white"
+      />
       <h2 className="text-xl font-bold mb-2">Courses</h2>
       <label>
         <input

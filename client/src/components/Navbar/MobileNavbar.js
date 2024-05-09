@@ -52,7 +52,7 @@ const Navbar = ({ setter, auth, logOutUser, history }) => {
 
           {auth.isAuthenticated && (
             <>
-              <Link
+              {/* <Link
                 to="/calendar"
                 className={`ml-8 text-s md:text-base ${isActiveLink('/calendar')}`}
               >
@@ -69,7 +69,7 @@ const Navbar = ({ setter, auth, logOutUser, history }) => {
                     clipRule="evenodd"
                   />
                 </svg>
-              </Link>
+              </Link> */}
               <Link className={`ml-8 text-s md:text-base ${isActiveLink('/canvas')}`} to="/canvas">
                 <svg
                   fill="currentColor"

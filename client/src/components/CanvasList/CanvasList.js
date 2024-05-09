@@ -54,6 +54,7 @@ const CanvasList = ({
               handleGroupSelection={handleGroupSelection}
               setDifficultyFilter={setDifficultyFilter}
               setTypeFilter={setTypeFilter}
+              handleSearchChange={handleSearchChange}
             />
           </div>
         )}
@@ -61,13 +62,6 @@ const CanvasList = ({
         <div className={isMobile ? 'col-span-4' : 'col-start-2 col-span-3'}>
           {!isLoading && (
             <div>
-              <input
-                type="text"
-                placeholder="Search assignments..."
-                value={searchQuery}
-                onChange={handleSearchChange}
-                className="z-50 sticky top-[115px] w-full mb-4 px-4 py-2 rounded-full border-zinc-300 dark:border-zinc-700 bg-slate-100 dark:bg-slate-900 text-white"
-              />
               {assignments.map((assignmentGroup, index) => {
                 let courseLink = '';
                 if (me && me.canvasAPIUrl.includes('/api/v1')) {

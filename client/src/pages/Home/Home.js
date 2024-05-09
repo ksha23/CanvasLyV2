@@ -128,9 +128,6 @@ const Home = ({
                     <button className="px-4 bg-gradient-to-bl from-emerald-500 to-lime-700 font-semibold text-white rounded-md py-1 ml-2">
                       ✓
                     </button>
-                    {/* <button className="px-4 ml-2 px-4 bg-gradient-to-bl from-rose-500 to-red-700 text-white rounded-md py-1 font-bold">
-                        ✕
-                      </button> */}
                   </div>
                 </div>
                 <div className="flex justify-start space-x-2 items-center">
@@ -190,12 +187,6 @@ const Home = ({
                   </button>
                 </div>
               </div>
-              {/* <button className="mt-2 px-4 mr-2 bg-gradient-to-bl from-emerald-500 to-lime-700 text-white rounded-md py-2">
-                    Update
-                  </button>
-                  <button className="mt-2 px-4 mr-4 bg-gradient-to-bl from-rose-500 to-red-700 text-white rounded-md py-2">
-                    Undo
-                  </button> */}
             </div>
             <div className="w-full max-w-5xl mb-5">
               <div className="p-5 bg-gradient-to-bl from-slate-200 dark:from-slate-900 to-slate-50 dark:to-slate-800 rounded-md text-left border-2 border-sky-600 dark:border-sky-700">
@@ -205,9 +196,6 @@ const Home = ({
                     <button className="px-4 bg-gradient-to-bl from-emerald-500 to-lime-700 font-semibold text-white rounded-md py-1 ml-2">
                       ✓
                     </button>
-                    {/* <button className="px-4 ml-2 px-4 bg-gradient-to-bl from-rose-500 to-red-700 text-white rounded-md py-1 font-bold">
-                        ✕
-                      </button> */}
                   </div>
                 </div>
                 <div className="flex justify-start space-x-2 items-center">
@@ -365,8 +353,7 @@ const Home = ({
               <Weather />
             </div>
 
-            <div className="flex flex-col items-center justify-center w-full mb-10">
-              {/*Display details of first assignment*/}
+            {/* <div className="flex flex-col items-center justify-center w-full mb-10">
               <>
                 {assignment.error && <p className="text-red-600">{assignment?.error}</p>}
                 {assignment.isLoading ? (
@@ -422,8 +409,8 @@ const Home = ({
                   )
                 )}
               </>
-            </div>
-            <div className="flex flex-col items-center justify-center w-full max-w-xl">
+            </div> */}
+            <div className="mt-5 flex flex-col items-center justify-center w-full max-w-xl">
               <h2 className="text-2xl font-bold mb-2 bg-gradient-to-br from-sky-400 to-indigo-800 inline-block text-transparent bg-clip-text">
                 Need Help Getting Started?
               </h2>

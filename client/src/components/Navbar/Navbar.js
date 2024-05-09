@@ -96,7 +96,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
 
           {auth.isAuthenticated && (
             <>
-              <Link
+              {/* <Link
                 to="/calendar"
                 className={`ml-6 text-s md:text-base ${isActiveLink('/calendar')}`}
               >
@@ -116,7 +116,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
                   </svg>
                   <p className="hidden md:block">Calendar</p>
                 </div>
-              </Link>
+              </Link> */}
               <Link className={`ml-6 text-s md:text-base ${isActiveLink('/canvas')}`} to="/canvas">
                 <div className="flex items-center">
                   <svg
